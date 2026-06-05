@@ -10,7 +10,7 @@ const keyBytes = new Uint8Array([
 async function getX_Token() {
     const time = Date.now();
     const deviceId = device_id(); // Xác minh thiết bị requests
-    const raw = `${time}@${deviceId}`;
+    const raw = `${time}|${deviceId}`;
     const sign = await AES(`${raw}`, keyBytes);
     const xToken = `${sign.cipher}.${sign.nonce}`;
     return xToken;

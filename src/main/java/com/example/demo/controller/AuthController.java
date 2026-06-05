@@ -1,13 +1,12 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+
 import com.example.demo.dto.SendTokenRequest;
 import com.example.demo.service.AuthService;
 import com.example.demo.dto.GoogleRequest;
 import com.example.demo.service.oauth.GoogleOAuthService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private GoogleOAuthService googleOAuthService;
+
 
     @PostMapping("/register")
     public String register(
@@ -33,24 +36,12 @@ public class AuthController {
     }
 
     @PostMapping("/send-token")
-    public ResponseEntity<?> sendToken(
-        @Valid @RequestBody SendTokenRequest request,
-        @RequestHeader HttpHeaders headers,
-        HttpServletRequest httpRequest
-    ) {
-        
-        String xToken = headers.getFirst("X-Token");
-
-        return authService.handleSendToken(request, xToken, httpRequest);
+    public ResponseEntity<?> sendToken(@Valid @RequestBody SendTokenRequest request) {
+        return authService.handleSendToken(request);
     }
 
     @PostMapping("/google")
-    public String google(@Valid @RequestBody GoogleRequest request, @RequestHeader HttpHeaders headers){
-        String auth = request.getAuth();
-        String recaptchaToken = request.getRecaptchaToken();
-        String xToken = headers.getFirst("X-Token");
-        GoogleOAuthService.verifyToken(auth);
-
-        return "ok";
+    public ResponseEntity<?> google(@Valid @RequestBody GoogleRequest request){
+        return googleOAuthService.verifyToken(request);
     }
 }

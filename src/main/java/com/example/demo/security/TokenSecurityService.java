@@ -8,8 +8,8 @@ import com.example.demo.util.TokenStore;
 // Nhận công việc check x-token
 @Service
 public class TokenSecurityService {
-    public String[] checkXToken(String x_token) throws Exception {
-         if (x_token == null || x_token.isEmpty()) {
+    public String[] checkXToken(String x_token, byte[] key) throws Exception {
+        if (x_token == null || x_token.isEmpty()) {
             throw new RuntimeException("Missing X-Token");
         }
 
@@ -30,10 +30,10 @@ public class TokenSecurityService {
         }
 
         try {
-            AESGCMDecrypt aes = new AESGCMDecrypt(parts[1], parts[0]);
+            AESGCMDecrypt aes = new AESGCMDecrypt(parts[1], parts[0], key);
             String result = aes.decrypt();
             
-            String[] check = result.split("\\@");
+            String[] check = result.split("\\|");
             if (check.length != 2){
                 throw new RuntimeException("Invalid token");
             }

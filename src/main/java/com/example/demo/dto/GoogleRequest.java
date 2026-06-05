@@ -1,7 +1,13 @@
 package com.example.demo.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class GoogleRequest {
+
+    @NotBlank(message = "Trường token không được để trống!!")
     private String auth;
+
+    @NotBlank(message = "Trường reCaptcha không được để trống !!")
     private String recaptchaToken;
 
     public GoogleRequest(){}

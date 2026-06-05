@@ -1,6 +1,5 @@
 import {headers} from "./get-headers.js";
 import {AES} from "./signature.js"
-import {device_id} from "./get-devices.js";
 
 const keyBytes = new Uint8Array([
     0xbf, 0x58, 0x73, 0x25, 0xc9, 0x2b, 0x11, 0xd1, 
@@ -33,7 +32,7 @@ window.onload = function () {
 async function handleCredentialResponse(response) {
     try {
         const idToken = response.credential;
-        const raw = `${Date.now()}@${device_id()}|${idToken}`;
+        const raw = `${Date.now()}|${idToken}`;
         const sign = await AES(`${raw}`, keyBytes);
         const authBody = `${sign.cipher}.${sign.nonce}`;
         const token = await new Promise((resolve) => {
