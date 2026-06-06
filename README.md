@@ -12,3 +12,50 @@
 </p>
 
 ---
+
+## 🔐 AES-GCM Decryption Utility
+
+Class này dùng để **giải mã dữ liệu đã được mã hoá bằng thuật toán AES-GCM (Advanced Encryption Standard - Galois/Counter Mode)**.
+
+---
+
+### 📌 Chức năng
+
+- Chuyển dữ liệu dạng Hex (nonce + ciphertext) sang byte[]
+- Giải mã dữ liệu bằng thuật toán `AES/GCM/NoPadding`
+- Xác thực tính toàn vẹn dữ liệu (integrity check)
+- Trả về dữ liệu gốc (plaintext)
+
+---
+
+### 📥 Input
+
+- `nonceHex`: Nonce / IV (Initialization Vector) dạng Hex -> 24 ký tự / 2 = 12 bytes (96-bit)
+- `cipherHex`: Dữ liệu đã mã hoá dạng Hex
+- `key`: Khoá bí mật AES (byte[]) -> 32 bytes (256-bit)
+
+---
+
+### 📤 Output
+
+- Chuỗi dữ liệu gốc (plaintext - String)
+
+---
+
+### 🚀 Cách sử dụng
+
+```java
+AESGCMDecrypt decryptor = new AESGCMDecrypt(nonceHex, cipherHex, key);
+String result = decryptor.decrypt();
+
+System.out.println("Plain text: " + result);
+```
+
+## Cấu hình Otp Email
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=your_email@gmail.com 
+spring.mail.password=app_password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+

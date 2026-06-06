@@ -28,7 +28,8 @@ public class RequestValidationInterceptor implements HandlerInterceptor{
             try {
                 // GET X-TOKEN
                 String xToken = httpRequest.getHeader("X-Token");
-
+                System.out.println(xToken);
+                
                 // GET IP
                 String ip = httpRequest.getHeader("X-Forwarded-For");
                 if (ip == null || ip.isEmpty()){

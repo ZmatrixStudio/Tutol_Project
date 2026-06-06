@@ -15,6 +15,9 @@ public class AuthService {
     @Autowired
     private RecaptchaService recaptchaService;
 
+    @Autowired
+    private EmailService emailService;
+
     public ResponseEntity<?> handleSendToken(SendTokenRequest request) {
         try{
             String recaptchaToken = request.getRecaptchaToken();
@@ -29,11 +32,15 @@ public class AuthService {
             // 7. generate JWT
             String jwt = JwtUtil.generateToken(email, username);
 
+            // Send email
+            emailService.sendOtpEmail(email);
+
             return ResponseEntity.ok(
                     Map.of(
                             "status", 200,
                             "msg", "Lấy Token Cache Thành Công !!",
                             "t-token", jwt,
+                            "time_token", 120,
                             "reCAPTCHA", true
                     )
             );
