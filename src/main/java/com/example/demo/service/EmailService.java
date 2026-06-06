@@ -7,6 +7,7 @@ import com.example.demo.util.OtpGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 // GỬI MÃ OTP
@@ -15,11 +16,12 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendOtpEmail(String email){
+    @Async
+    public void sendOtpEmail(String email, String username, String password){
         String otp = OtpGenerator.generateOtp();
         long expireTime = System.currentTimeMillis() + 120_000; 
         // Lưu OTP
-        OtpStore.otpMap.put(email, new OtpData(otp, expireTime));
+        OtpStore.otpMap.put(email, new OtpData(otp, expireTime, username, password));
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("TutolApplication <tutolapplication@gmail.com>");// Tên xuất hiện trước khi bấm vào nhận Otp
@@ -33,3 +35,6 @@ public class EmailService {
         System.out.println("[DEVBUG] -> "+otp);
     }
 }
+
+// Luồng xử lí lưu email, otp, thời gian otp live, password, username
+// Khi user gửi veri lên thì sẽ kiểm tra username , password, email và otp rồi trả về token

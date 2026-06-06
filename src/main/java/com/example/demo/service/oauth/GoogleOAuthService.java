@@ -1,6 +1,7 @@
 package com.example.demo.service.oauth;
 
 import com.example.demo.dto.GoogleRequest;
+import com.example.demo.security.RecaptchaService;
 import com.example.demo.security.TokenSecurityService;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -24,8 +25,16 @@ public class GoogleOAuthService {
     @Autowired
     private TokenSecurityService tokenSecurityService;
 
+    @Autowired
+    private RecaptchaService recaptchaService;
+
     public  ResponseEntity<?> verifyToken(GoogleRequest request){
         try {
+            String recaptchaToken = request.getRecaptchaToken();
+            if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
+                return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
+            }
+            
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
             .setAudience(Collections.singleton(CLIENT_ID)).build();
 

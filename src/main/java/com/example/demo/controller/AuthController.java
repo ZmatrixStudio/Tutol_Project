@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://127.0.0.1:3000")
+@CrossOrigin(origins = "http://127.0.0.1:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -38,6 +38,11 @@ public class AuthController {
     @PostMapping("/send-token")
     public ResponseEntity<?> sendToken(@Valid @RequestBody SendTokenRequest request) {
         return authService.handleSendToken(request);
+    }
+
+    @PostMapping("/check-token")
+    public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String Tauth){
+        return authService.checkToken(Tauth);
     }
 
     @PostMapping("/google")
