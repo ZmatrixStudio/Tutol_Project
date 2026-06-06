@@ -26,6 +26,9 @@ public class RequestValidationInterceptor implements HandlerInterceptor{
         Object handler){
 
             try {
+                if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
+                    return true; // bỏ qua CORS preflight
+                }
                 // GET X-TOKEN
                 String xToken = httpRequest.getHeader("X-Token");
                 System.out.println(xToken);
