@@ -12,7 +12,7 @@ public class JwtUtil {
 
     private static final long EXPIRATION = 60 * 1000; 
 
-    public static String generateToken(String email, String username) {
+    public static String generateTAuth(String email, String username) {
 
         return Jwts.builder()
                 .setSubject(email)
@@ -23,7 +23,7 @@ public class JwtUtil {
                 .compact();
     }
     
-    public static Claims parseToken(String token) {
+    public static Claims parseTAuth(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

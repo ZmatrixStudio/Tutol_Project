@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.OtpData;
 import com.example.demo.dto.SendTokenRequest;
+import com.example.demo.dto.VeriOtpRequests;
 import com.example.demo.util.JwtUtil;
 
 import io.jsonwebtoken.Claims;
 
 import com.example.demo.security.RecaptchaService;
+import com.example.demo.store.OtpStore;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +38,7 @@ public class AuthService {
             String password = request.getPassword();
 
             // 7. generate JWT
-            String jwt = JwtUtil.generateToken(email, username);
+            String jwt = JwtUtil.generateTAuth(email, username);
 
             // Send email
             emailService.sendOtpEmail(email, username, password);
@@ -67,7 +71,7 @@ public class AuthService {
             String token = authHeader.replace("Bearer ", "");
 
             // parse JWT (check signature + exp)
-            Claims claims = JwtUtil.parseToken(token);
+            Claims claims = JwtUtil.parseTAuth(token);
 
             String email = claims.getSubject();
             String username = claims.get("username", String.class);
@@ -94,6 +98,88 @@ public class AuthService {
             return ResponseEntity.status(401).body(
                     Map.of("valid", false, "msg", "Invalid token")
             );
+        }
+    }
+
+    public ResponseEntity<?> veriOtp(VeriOtpRequests requestBody, String authHeader){
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(401).body(
+                        Map.of("valid", false, "msg", "Missing token")
+                );
+            }
+
+            String token = authHeader.replace("Bearer ", "");
+
+            // parse JWT (check signature + exp)
+            Claims claims = JwtUtil.parseTAuth(token);
+
+            String email = claims.getSubject();
+            String username = claims.get("username", String.class);
+
+            Date exp = claims.getExpiration();
+            long expiresIn = (exp.getTime() - System.currentTimeMillis()) / 1000;
+
+            if (expiresIn <= 0) {
+                return ResponseEntity.status(401).body(
+                        Map.of("valid", false, "msg", "Token expired")
+                );
+            }
+
+            OtpData otpData = OtpStore.otpMap.get(email);
+            // KIỂM TRA EMAIL
+            if (otpData == null){
+                return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Otp không tồn tại !!", "success", false, "errol", 1));
+            }
+
+            // KIỂM TRA USERNAME
+            if (!otpData.getUsername().trim().equals(username.trim())){
+                return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Thống số không đúng !!", "success", false, "errol", 1));
+            }
+
+            // KIỂM TRA MÃ OTP
+            if (!otpData.getOtp().equals(requestBody.getOtp())) {
+                return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Xác thực OTP thất bại !!", "success", false, "errol", 1));
+            }
+
+            // LƯU USERNAME, PASSWORD, EMAIL, TIME, REFRESH VÀO DATABASE 
+
+            // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
+            return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
+                                        "data", Map.of(
+                                            "accessToken", "",
+                                            "refreshToken", ""
+                                        ),"success", true,"error", 0));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(401).body(
+                    Map.of("valid", false, "msg", "Invalid token")
+            );
+        }
+    }
+
+    public ResponseEntity<?> login(LoginRequest request){
+        try {
+            String recaptchaToken = request.getReCaptcha();
+            if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
+                return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
+            }
+
+            //String email = request.getEmail();
+            //String password = request.getPassword();
+
+            // Lấy password ở db ra kiểm tra
+
+            // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
+            return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
+                                        "data", Map.of(
+                                            "accessToken", "",
+                                            "refreshToken", ""
+                                        ),"success", true,"error", 0));
+        } catch (Exception e) {
+            System.out.println("[AuthService:login] -> "+e.getMessage());
+            return ResponseEntity.status(500).body(Map.of("status", 500, "msg", "Server gặp lỗi, chờ vài phút và thử lại!!", "success", false, "errol", 1));
         }
     }
 }

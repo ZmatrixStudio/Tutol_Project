@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.dto.SendTokenRequest;
+import com.example.demo.dto.VeriOtpRequests;
 import com.example.demo.service.AuthService;
 import com.example.demo.dto.GoogleRequest;
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.service.oauth.GoogleOAuthService;
 
 import jakarta.validation.Valid;
@@ -40,13 +42,23 @@ public class AuthController {
         return authService.handleSendToken(request);
     }
 
+    @PostMapping("/veri-otp")
+    public ResponseEntity<?> veriOtp(@Valid @RequestBody VeriOtpRequests requestBody, @RequestHeader("T-Auth") String Tauth){
+        return authService.veriOtp(requestBody, Tauth);
+    }
+
     @PostMapping("/check-token")
-    public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String Tauth){
+    public ResponseEntity<?> checkToken(@RequestHeader("T-Auth") String Tauth){
         return authService.checkToken(Tauth);
     }
 
     @PostMapping("/google")
     public ResponseEntity<?> google(@Valid @RequestBody GoogleRequest request){
         return googleOAuthService.verifyToken(request);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request){
+        return authService.login(request);
     }
 }

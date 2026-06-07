@@ -1,6 +1,6 @@
 let countdownInterval; 
 
-function showOTPModal(email, initTime) {
+window.showOTPModal = function(email, initTime) {
     window.location.hash = "otp";
     
     if (document.getElementById('otp-modal')) {
@@ -151,7 +151,7 @@ window.closeOTPModal = function() {
 };
 
 // Hàm xử lý đếm ngược thời gian
-function startOTPCountdown(durationInSeconds) {
+window.startOTPCountdown = function(durationInSeconds) {
     let timer = durationInSeconds;
     const countdownEl = document.getElementById('otp-countdown');
     const countdownWrapper = document.getElementById('countdown-wrapper');
@@ -208,7 +208,7 @@ window.resendOTP = function(email) {
     }, 1000);
 };
 
-window.verifyOTP = function() {
+window.verifyOTP = async () => {
     const inputs = document.querySelectorAll('.otp-box');
     let otp = '';
     inputs.forEach(input => otp += input.value);
@@ -220,8 +220,32 @@ window.verifyOTP = function() {
         return;
     }
 
-    if (otp === "1234") {
+    // VERI OTP
+    const { headers } =  await import("./get-headers.js");
+    const token = localStorage.getItem("T-Auth");
+
+    if (token == null){
+        const modal = document.getElementById("otp-modal");
+        if (modal) modal.remove();
+    }
+
+    const res = await fetch("http://localhost:8080/api/v1/auth/veri-otp", {
+        method: "POST",
+        headers: {
+            ...(await headers()),
+            "T-Auth": "Bearer " + token
+        },
+        body: JSON.stringify({
+            "otp": otp,
+        })
+    })
+
+    const data = await res.json();
+
+    if (data.success) {
+        localStorage.removeItem("T-Auth");
         clearInterval(countdownInterval);
+        
         inputs.forEach(input => {
             input.style.borderColor = '#22C55E';
             input.style.backgroundColor = '#F0FDF4';
@@ -232,6 +256,7 @@ window.verifyOTP = function() {
             const modal = document.getElementById('otp-modal');
             if (modal) modal.remove();
         }, 1500);
+        // MỞ TRANG HOME LOGIN THÀNH CÔNG 
         return true;
     } else {
         inputs.forEach(input => {

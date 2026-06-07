@@ -74,7 +74,14 @@ public class GoogleOAuthService {
                 System.out.println("Picture URL    : " + pictureUrl);
                 System.out.println("====================================");
                 
-                return ResponseEntity.ok(Map.of("status", 200, "msg", "true"));
+                // LƯU USERNAME, PASSWORD, EMAIL, TIME, REFRESH VÀO DATABASE 
+
+                // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
+                return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
+                                            "data", Map.of(
+                                                "accessToken", "",
+                                                "refreshToken", ""
+                                            ),"success", true,"error", 0));
             } else {
                 return ResponseEntity.badRequest()
                      .body(Map.of("status", 400, "msg", "Dữ liệu không chính xác!!"));
