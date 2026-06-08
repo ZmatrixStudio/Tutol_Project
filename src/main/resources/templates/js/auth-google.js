@@ -37,11 +37,11 @@ async function handleCredentialResponse(response) {
         const authBody = `${sign.cipher}.${sign.nonce}`;
         const token = await new Promise((resolve) => {
             grecaptcha.ready(() => {
-                grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'google_auth'}).then(resolve);
+                grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'google_oauth'}).then(resolve);
             });
         });
         // Requests về backend
-        const res =  await fetch("http://localhost:8080/api/v1/auth/google", {
+        const res =  await fetch("http://localhost:8080/api/v1/oauth/google", {
             method: "POST", 
             headers: await headers(),
             body: JSON.stringify({

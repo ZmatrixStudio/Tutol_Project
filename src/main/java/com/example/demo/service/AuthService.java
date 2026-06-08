@@ -37,11 +37,11 @@ public class AuthService {
             String username = request.getUsername();
             String password = request.getPassword();
 
-            // 7. generate JWT
-            String jwt = JwtUtil.generateTAuth(email, username);
-
             // Send email
             emailService.sendOtpEmail(email, username, password);
+
+            // Generate JWT
+            String jwt = JwtUtil.generateTAuth(email, username);
 
             return ResponseEntity.ok(
                     Map.of(
@@ -118,6 +118,7 @@ public class AuthService {
             String username = claims.get("username", String.class);
 
             Date exp = claims.getExpiration();
+            System.out.println(exp);
             long expiresIn = (exp.getTime() - System.currentTimeMillis()) / 1000;
 
             if (expiresIn <= 0) {

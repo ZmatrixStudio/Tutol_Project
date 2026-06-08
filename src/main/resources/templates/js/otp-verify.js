@@ -131,21 +131,23 @@ window.showOTPModal = function(email, initTime) {
 }
 
 window.closeOTPModal = function() {
-    const confirmExit = confirm("Bạn có chắc chắn muốn thoát? Mã OTP hiện tại sẽ bị hủy.");
-    if (confirmExit) {
-        localStorage.removeItem("T-Auth");
-        
-        if (typeof countdownInterval !== 'undefined') {
-            clearInterval(countdownInterval);
-        }
-        
-        const modal = document.getElementById('otp-modal');
-        if (modal) {
-            modal.remove();
-        }
-        
-        if (window.location.hash === "#otp") {
-            window.location.hash = ""; 
+    if (localStorage.getItem("T-Auth")){
+        const confirmExit = confirm("Bạn có chắc chắn muốn thoát? Mã OTP hiện tại sẽ bị hủy.");
+        if (confirmExit) {
+            localStorage.removeItem("T-Auth");
+            
+            if (typeof countdownInterval !== 'undefined') {
+                clearInterval(countdownInterval);
+            }
+            
+            const modal = document.getElementById('otp-modal');
+            if (modal) {
+                modal.remove();
+            }
+            
+            if (window.location.hash === "#otp") {
+                window.location.hash = ""; 
+            }
         }
     }
 };

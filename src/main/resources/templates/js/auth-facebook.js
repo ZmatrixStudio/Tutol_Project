@@ -1,3 +1,9 @@
+import {headers} from "./get-headers.js";
+
+document.getElementById("facebook-btn").addEventListener("click", function() {
+    handleFb();
+});
+
 window.fbAsyncInit = function () {
     FB.init({
         appId: "3940751182724418",
@@ -13,15 +19,19 @@ function loginWithFacebook() {
             console.log("FB.login response:", response);
             
             if (response.authResponse) {
-                FB.api("/me",{locale: "en_US",fields: "id,name,email,first_name,last_name"},
+                const accessToken = response.authResponse.accessToken;
+                FB.api("/me",{locale: "en_US",fields: "id,name,email,picture"},
                     function (userInfo) {
-                        resolve(userInfo); 
+                        resolve({
+                            ...userInfo,
+                            accessToken: accessToken
+                        }); 
                     }
                 );
             } else {
                 resolve(null); 
             }
-        }, { scope: 'email' }); 
+        }, { scope: 'email, public_profile' }); 
     });
 }
 
@@ -36,17 +46,30 @@ function loginWithFacebook() {
     js.id = id;
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
+})(document, "script", "facebook-jssdk");
 
-// ĐƯA DỮ LIỆU LÊN SERVER
+
+// ĐƯA DỮ LIỆU ACCESS TOKEN LÊN SERVER
 async function handleFb() {
     try {
         const userData = await loginWithFacebook();
         
         if (userData) {
-            // Dữ liệu đã được return và lưu vào biến userData
             console.log("Dữ liệu nhận được:", userData);
-            
+            const token = await new Promise((resolve) => {
+                grecaptcha.ready(() => {
+                    grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'facebook_oauth'}).then(resolve);
+                });
+            });
+            // ĐẨY DỮ LIỆU LÊN SERVER
+            const res = await fetch("http://localhost:8080/api/v1/oauth/facebook",{
+                method: "POST",
+                headers: await headers(),
+                body:JSON.stringify({
+                    "accessToken": userData.accessToken,
+                    "recaptchaToken": token
+                })
+            })
             // Render ra giao diện như code cũ của bạn
             document.getElementById("profile").innerHTML = `
                 <h3>User Profile</h3>
