@@ -152,7 +152,7 @@
                 </button>
 
                 <!-- FACEBOOK -->
-                <button class="flex-1 h-[42px] rounded-xl bg-[#f6e6b8] flex items-center justify-center gap-2 text-[13px] font-semibold text-[#745f5f] social-btn">
+                <button onclick="handleFb()" class="flex-1 h-[42px] rounded-xl bg-[#f6e6b8] flex items-center justify-center gap-2 text-[13px] font-semibold text-[#745f5f] social-btn">
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M25.0015 12.5769C25.0015 5.63086 19.4047 0 12.5007 0C5.59676 0 0 5.63086 0 12.5769C0 18.8544 4.57134 24.0575 10.5475 25.001V16.2124H7.37348V12.5769H10.5475V9.80604C10.5475 6.65396 12.4138 4.91285 15.2692 4.91285C16.6369 4.91285 18.0675 5.15849 18.0675 5.15849V8.25358H16.4912C14.9383 8.25358 14.454 9.22306 14.454 10.2177V12.5769H17.921L17.3667 16.2124H14.454V25.001C20.4301 24.0575 25.0015 18.8544 25.0015 12.5769Z" fill="#5C8BCA" />
                     </svg>
@@ -173,6 +173,7 @@
     <script src="js/password-toggle.js"></script>
     <script src="js/notification.js"></script>
     <script type="module" src="js/auth-google.js"></script>
+    <script src="js/auth-facebook.js"></script>
 
     <script type="module">
         document.getElementById("btnRegister").addEventListener("click", register);
