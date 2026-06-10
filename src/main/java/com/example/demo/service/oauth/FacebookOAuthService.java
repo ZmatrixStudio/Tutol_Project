@@ -2,6 +2,7 @@ package com.example.demo.service.oauth;
 
 import com.example.demo.dto.FacebookRequest;
 import com.example.demo.security.RecaptchaService;
+import com.example.demo.service.OAuth2Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,6 +21,10 @@ public class FacebookOAuthService {
     
     @Autowired
     private RecaptchaService recaptchaService;
+
+    @Autowired
+    private OAuth2Service oAuth2Service;
+
     public ResponseEntity<?> verifyToken(FacebookRequest request){
         try {
             // CHECK CAPTCHA
@@ -56,12 +61,13 @@ public class FacebookOAuthService {
                 String email = infoData.has("email")
                                 ? infoData.get("email").asText()
                                 : null;
-                String avatar = infoData.path("picture")
-                                    .path("data")
-                                    .path("url")
-                                    .asText();
+                String avatarUrl ="https://graph.facebook.com/" + facebookId + "/picture?type=large";
                 
                 if (facebookId.trim().equals(userId.trim())){
+
+                    // DATABASE
+                    oAuth2Service.facebook(facebookId, email, name, avatarUrl);
+
                     // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
                     return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
                                             "data", Map.of(

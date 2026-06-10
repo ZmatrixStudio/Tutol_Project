@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ public class TaiKhoan {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "mat_khau", nullable = false)
+    @Column(name = "mat_khau")
     private String matKhau;
 
     @Column(name = "role")
@@ -72,14 +73,25 @@ public class TaiKhoan {
         return createdAt;
     }
 
+    @Column(name = "last_login_at")
+    private LocalDateTime lastLoginAt;
+
     // ===== SETTERS =====
 
     public void setMaTaiKhoan(Long maTaiKhoan) {
         this.maTaiKhoan = maTaiKhoan;
     }
 
+    public void setLastLoginAt(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
+
     public void setThongTinTaiKhoan(ThongTinTaiKhoan thongTinTaiKhoan) {
         this.thongTinTaiKhoan = thongTinTaiKhoan;
+
+        if (thongTinTaiKhoan != null) {
+            thongTinTaiKhoan.setTaiKhoan(this);
+        }
     }
 
     public void setEmail(String email) {

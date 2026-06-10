@@ -3,7 +3,7 @@ package com.example.demo.service.oauth;
 import com.example.demo.dto.GoogleRequest;
 import com.example.demo.security.RecaptchaService;
 import com.example.demo.security.TokenSecurityService;
-
+import com.example.demo.service.OAuth2Service;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -27,6 +27,11 @@ public class GoogleOAuthService {
 
     @Autowired
     private RecaptchaService recaptchaService;
+
+    @Autowired
+    private OAuth2Service oAuth2Service;
+
+
 
     public  ResponseEntity<?> verifyToken(GoogleRequest request){
         try {
@@ -58,23 +63,24 @@ public class GoogleOAuthService {
 
                 // Lấy các thông tin cá nhân khác
                 String email = payload.getEmail();
-                boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+                // boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
                 String name = (String) payload.get("name");
                 String pictureUrl = (String) payload.get("picture");
-                String familyName = (String) payload.get("family_name");
-                String givenName = (String) payload.get("given_name");
+                // String familyName = (String) payload.get("family_name");
+                // String givenName = (String) payload.get("given_name");
 
-                System.out.println("========= GOOGLE USER INFO =========");
-                System.out.println("User ID (sub)  : " + userId);
-                System.out.println("Email          : " + email);
-                System.out.println("Email Verified : " + emailVerified);
-                System.out.println("Full Name      : " + name);
-                System.out.println("Given Name     : " + givenName);
-                System.out.println("Family Name    : " + familyName);
-                System.out.println("Picture URL    : " + pictureUrl);
-                System.out.println("====================================");
+                // System.out.println("========= GOOGLE USER INFO =========");
+                // System.out.println("User ID (sub)  : " + userId);
+                // System.out.println("Email          : " + email);
+                // System.out.println("Email Verified : " + emailVerified);
+                // System.out.println("Full Name      : " + name);
+                // System.out.println("Given Name     : " + givenName);
+                // System.out.println("Family Name    : " + familyName);
+                // System.out.println("Picture URL    : " + pictureUrl);
+                // System.out.println("====================================");
                 
                 // LƯU USERNAME, PASSWORD, EMAIL, TIME, REFRESH VÀO DATABASE 
+                oAuth2Service.google(userId, email, name, pictureUrl);
 
                 // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
                 return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",

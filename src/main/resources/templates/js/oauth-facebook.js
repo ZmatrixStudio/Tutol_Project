@@ -16,7 +16,6 @@ window.fbAsyncInit = function () {
 function loginWithFacebook() {
     return new Promise((resolve, reject) => {
         FB.login(function (response) {
-            console.log("FB.login response:", response);
             
             if (response.authResponse) {
                 const accessToken = response.authResponse.accessToken;
@@ -55,7 +54,7 @@ async function handleFb() {
         const userData = await loginWithFacebook();
         
         if (userData) {
-            console.log("Dữ liệu nhận được:", userData);
+
             const token = await new Promise((resolve) => {
                 grecaptcha.ready(() => {
                     grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'facebook_oauth'}).then(resolve);
@@ -70,15 +69,15 @@ async function handleFb() {
                     "recaptchaToken": token
                 })
             })
-            // Render ra giao diện như code cũ của bạn
-            document.getElementById("profile").innerHTML = `
-                <h3>User Profile</h3>
-                <p><b>ID:</b> ${userData.id || "N/A"}</p>
-                <p><b>Name:</b> ${userData.name || "N/A"}</p>
-                <p><b>First Name:</b> ${userData.first_name || "N/A"}</p>
-                <p><b>Last Name:</b> ${userData.last_name || "N/A"}</p>
-                <p><b>Email:</b> ${userData.email || "No email permission"}</p>
-            `;
+            const data = await res.json();
+            if (data.success) {
+                localStorage.removeItem("T-Auth");
+                // MỞ TRANG HOME LOGIN THÀNH CÔNG 
+                location.href = "Home";
+                return true;
+            } else {
+                showMessage(data.msg, false);
+            }
         } else {
             alert("Đăng nhập thất bại hoặc bị hủy.");
         }

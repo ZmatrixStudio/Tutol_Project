@@ -51,7 +51,14 @@ async function handleCredentialResponse(response) {
         })
 
         const data = await res.json();
-        console.log(data);
+        if (data.success) {
+            localStorage.removeItem("T-Auth");
+            // MỞ TRANG HOME LOGIN THÀNH CÔNG 
+            location.href = "Home";
+            return true;
+        } else {
+            showMessage(data.msg, false);
+        }
     } catch (error) {
         console.error("Đã xảy ra lỗi khi giải mã Token Google:", error);
     }

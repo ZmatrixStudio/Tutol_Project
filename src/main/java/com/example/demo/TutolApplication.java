@@ -19,10 +19,9 @@ public class TutolApplication {
 	@Bean
 	public CommandLineRunner testConnect(TaiKhoanRepository accountRepository){
 		return args -> {
-			System.out.println("Check Connect Database");
 
 			try {
-				System.out.println("KHÔNG LỖI");
+				System.out.println("CONNECT DATABASE SUSSECC!");
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
