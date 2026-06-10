@@ -10,7 +10,7 @@ import java.util.Date;
 public class JwtUtil {
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    private static final long EXPIRATION = 65 * 1000; 
+    private static final long TAUTH_EXP = 65 * 1000; 
 
     public static String generateTAuth(String email, String username) {
 
@@ -18,7 +18,7 @@ public class JwtUtil {
                 .setSubject(email)
                 .claim("username", username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + TAUTH_EXP))
                 .signWith(key)
                 .compact();
     }

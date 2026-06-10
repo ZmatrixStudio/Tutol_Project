@@ -52,10 +52,11 @@ System.out.println("Plain text: " + result);
 ```
 
 ## Cấu hình Otp Email
+```properties
 spring.mail.host=smtp.gmail.com
 spring.mail.port=587
 spring.mail.username=your_email@gmail.com 
 spring.mail.password=app_password
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
-
+```

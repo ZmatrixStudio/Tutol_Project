@@ -172,8 +172,8 @@
     <script src="js/email-validation.js"></script>
     <script src="js/password-toggle.js"></script>
     <script src="js/notification.js"></script>
-    <script type="module" src="js/auth-google.js"></script>
-    <script type="module" src="js/auth-facebook.js"></script>
+    <script type="module" src="js/oauth-google.js"></script>
+    <script type="module" src="js/oauth-facebook.js"></script>
 
     <script type="module">
         document.getElementById("btnRegister").addEventListener("click", register);
@@ -187,6 +187,10 @@
             if (!usernameInput) {
                 showMessage("Vui lòng nhập tên người dùng");return;
             }
+
+            // if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+            //     showMessage("Username không hợp lệ!");return;
+            // }
             if (!password){
                 showMessage("Vui lòng nhập mặt khẩu");return;
             }
@@ -197,15 +201,13 @@
                 showMessage("Mật khẩu quá yếu !!");
                 return; 
             }
+            showLoading();
             // Gửi lấy t-auth
             const token = await new Promise((resolve) => {
                     grecaptcha.ready(() => {
                         grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'register'}).then(resolve);
                     });
                 });
-            
-            //https://www.google.com/recaptcha/admin/site/755802202/setup?hl=vi
-            showOTPModal(emailInput, null);
 
             const res = await fetch("http://localhost:8080/api/v1/auth/send-token", {
                 method: "POST",
@@ -218,11 +220,14 @@
                 })
             }) 
             const data = await res.json();
-            console.log("before");
-            startOTPCountdown(data.time_token);
-            console.log("after");
+            hideLoading();
+
             // Trả về t-auth lấy cái đó để veri otp nếu ko có ko cho veri
-            if (res.status === 200){
+            if (res.false == 2){
+                showMessage(data.msg);
+            }
+            else if (res.status === 200){
+                showOTPModal(emailInput, null);
                 localStorage.setItem("T-Auth", data.t_token);
                 startOTPCountdown(data['time_token']);
             } else {

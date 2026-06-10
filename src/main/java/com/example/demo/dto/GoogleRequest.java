@@ -3,7 +3,6 @@ package com.example.demo.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class GoogleRequest {
-
     @NotBlank(message = "Trường token không được để trống!!")
     private String auth;
 

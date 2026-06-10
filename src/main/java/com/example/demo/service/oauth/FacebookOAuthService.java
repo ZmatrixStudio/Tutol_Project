@@ -23,10 +23,10 @@ public class FacebookOAuthService {
     public ResponseEntity<?> verifyToken(FacebookRequest request){
         try {
             // CHECK CAPTCHA
-            // String recaptchaToken = request.getRecaptchaToken();
-            // if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
-            //     return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
-            // }
+            String recaptchaToken = request.getRecaptchaToken();
+            if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
+                return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
+            }
 
             // LẤY THÔNG TIN Ở RESPONSE
             String accessTokenUser = request.getAccessToken();

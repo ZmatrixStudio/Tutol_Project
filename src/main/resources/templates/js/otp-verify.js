@@ -1,5 +1,24 @@
 let countdownInterval; 
 
+window.showLoading = function() {
+    const loading = document.createElement('div');
+    loading.id = 'otp-loading';
+    loading.className = `
+        fixed inset-0 bg-black/50 flex items-center justify-center z-[99999]
+    `;
+
+    loading.innerHTML = `
+        <div class="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+    `;
+
+    document.body.appendChild(loading);
+}
+
+window.hideLoading = function() {
+    const loading = document.getElementById('otp-loading');
+    if (loading) loading.remove();
+}
+
 window.showOTPModal = function(email, initTime) {
     window.location.hash = "otp";
     
@@ -18,6 +37,7 @@ window.showOTPModal = function(email, initTime) {
                 filter: blur(8px);
             }
 
+            
             60% {
                 transform: translateY(-8px) scale(1.01);
                 opacity: 1;
@@ -149,6 +169,15 @@ window.closeOTPModal = function() {
                 window.location.hash = ""; 
             }
         }
+    } else {
+        const modal = document.getElementById('otp-modal');
+        if (modal) {
+            modal.remove();
+        }
+        
+        if (window.location.hash === "#otp") {
+            window.location.hash = ""; 
+        }
     }
 };
 
@@ -259,6 +288,7 @@ window.verifyOTP = async () => {
             if (modal) modal.remove();
         }, 1500);
         // MỞ TRANG HOME LOGIN THÀNH CÔNG 
+        location.href = "Home";
         return true;
     } else {
         inputs.forEach(input => {

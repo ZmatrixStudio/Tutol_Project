@@ -26,14 +26,24 @@ public class AuthService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private TaiKhoanService taiKhoanService;
+
     public ResponseEntity<?> handleSendToken(SendTokenRequest request) {
         try{
+
+            // CHECK DB XEM EMAIL ĐÃ TỒN TẠI CHƯA
+            String email = request.getEmail();
+            if (taiKhoanService.existsByEmail(email)) {
+                return ResponseEntity.status(401).body(Map.of("status", 400, "msg", "Email đã tồn tại!!", "success", false, "errol", 2));
+            }
+
+            // CHECK RECAPTCHA
             String recaptchaToken = request.getRecaptchaToken();
             if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
                 return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
             }
 
-            String email = request.getEmail();
             String username = request.getUsername();
             String password = request.getPassword();
 
@@ -128,6 +138,7 @@ public class AuthService {
             }
 
             OtpData otpData = OtpStore.otpMap.get(email);
+            
             // KIỂM TRA EMAIL
             if (otpData == null){
                 return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Otp không tồn tại !!", "success", false, "errol", 1));
@@ -144,6 +155,8 @@ public class AuthService {
             }
 
             // LƯU USERNAME, PASSWORD, EMAIL, TIME, REFRESH VÀO DATABASE 
+            String password = otpData.getPassword();
+            taiKhoanService.createAccount(username, email, password);
 
             // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
             return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",

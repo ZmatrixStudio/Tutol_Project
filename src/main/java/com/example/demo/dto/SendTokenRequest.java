@@ -1,11 +1,18 @@
 package com.example.demo.dto;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class SendTokenRequest {
     @NotBlank(message = "Username không được để trống")
+    @Pattern( regexp = "^[a-zA-Z0-9_]{3,20}$",message = "Username chỉ được chứa chữ cái, số và dấu gạch dưới")
+    @Size(max = 150, message = "Username quá dài")
     private String username;
 
     @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không đúng định dạng")
+    @Size(max = 150, message = "Email quá dài")
     private String email;
 
     @NotBlank(message = "Password không được để trống")
