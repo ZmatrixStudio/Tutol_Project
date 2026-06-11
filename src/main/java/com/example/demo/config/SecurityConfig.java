@@ -18,13 +18,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) 
-            
-            // Cho phép các API Auth đi qua mà không cần đăng nhập bằng mật khẩu mặc định
+            .csrf(csrf -> csrf.disable())
+
+            .formLogin(form -> form.disable())
+
+            .httpBasic(basic -> basic.disable())
+
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/oauth/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             );
 
         return http.build();

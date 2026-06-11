@@ -4,6 +4,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.OtpData;
 import com.example.demo.dto.SendTokenRequest;
 import com.example.demo.dto.VeriOtpRequests;
+import com.example.demo.entity.TaiKhoan;
 import com.example.demo.util.JwtUtil;
 
 import io.jsonwebtoken.Claims;
@@ -13,10 +14,12 @@ import com.example.demo.store.OtpStore;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -28,6 +31,9 @@ public class AuthService {
 
     @Autowired
     private TaiKhoanService taiKhoanService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public ResponseEntity<?> handleSendToken(SendTokenRequest request) {
         try{
@@ -180,10 +186,36 @@ public class AuthService {
                 return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
             }
 
-            //String email = request.getEmail();
-            //String password = request.getPassword();
+            String email = request.getEmail();
+            String password = request.getPassword();
 
-            // Lấy password ở db ra kiểm tra
+            // kiểm tra email
+            Optional<TaiKhoan> optionalTaiKhoan = taiKhoanService.findByEmail(email);
+
+            if (optionalTaiKhoan.isEmpty()) {
+                return ResponseEntity.status(401).body(
+                    Map.of(
+                        "status", 401,
+                        "msg", "Email chưa được đăng kí !",
+                        "success", false,
+                        "error", 1
+                    )
+                );
+            }
+
+            TaiKhoan taiKhoan = optionalTaiKhoan.get();
+
+            // kiểm tra mật khẩu
+            if (!passwordEncoder.matches(password, taiKhoan.getMatKhau())) {
+                return ResponseEntity.status(401).body(
+                    Map.of(
+                        "status", 401,
+                        "msg", "Sai mật khẩu !",
+                        "success", false,
+                        "error", 1
+                    )
+                );
+            }
 
             // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
             return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",

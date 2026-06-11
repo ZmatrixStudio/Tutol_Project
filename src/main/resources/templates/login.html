@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="/style/style.css">
     
 </head>
 <body class="bg-[#f6f1f1] h-screen overflow-hidden flex items-center justify-center p-3">
@@ -84,7 +84,7 @@
 
             <!-- FORGOT -->
             <div class="text-right mt-2 animate-fade-in-up" style="animation-delay: 400ms">
-                <a href="forgot-password.html" class="text-[#ff5d73] text-[13px] font-semibold hover:underline">
+                <a href="forgot-password" class="text-[#ff5d73] text-[13px] font-semibold hover:underline">
                     Quên mật khẩu >
                 </a>
             </div>
@@ -106,7 +106,7 @@
             <!-- REGISTER -->
             <div class="text-center mt-3 text-[13px] text-[#b2a4a0] animate-fade-in-up" style="animation-delay: 600ms">
                 Bạn chưa có tài khoản ?
-                <a href="register.html" class="text-[#4f6fff] font-semibold hover:underline">
+                <a href="register" class="text-[#4f6fff] font-semibold hover:underline">
                     Đăng kí >
                 </a>
             </div>
@@ -149,27 +149,16 @@
     <script type="module" src="js/oauth-facebook.js"></script>
 
     <script type="module">
-        import {headers} from "./js/get-headers";
+        import {headers} from "/js/get-headers.js";
         const emailInput = document.getElementById('email');
 
         async function login() {
             const email = emailInput.value.trim();
             const pass = passwordInput.value;
 
-            if (!email) {
-                showMessage("Vui lòng nhập email");
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showMessage("Email không đúng định dạng");
-                return;
-            }
-
-            if (!pass) {
-                showMessage("Vui lòng nhập mật khẩu");
-                return;
-            }
+            if (!email) {showMessage("Vui lòng nhập email");return;}
+            if (!isValidEmail(email)) {showMessage("Email không đúng định dạng");return;}
+            if (!pass) {showMessage("Vui lòng nhập mật khẩu");return;}
 
             try {
                 const token = await new Promise((resolve) => {

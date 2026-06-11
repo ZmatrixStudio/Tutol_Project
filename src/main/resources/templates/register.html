@@ -12,8 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style/style.css">
-    <script type="module" src="js/get-headers.js"></script>
+    <link rel="stylesheet" href="/style/style.css">
 </head>
 
 <body class="bg-[#f6f1f1] h-screen overflow-hidden flex items-center justify-center p-3">
@@ -112,7 +111,7 @@
 
             <!-- FORGOT -->
             <div class="text-right mt-2 animate-fade-in-up" style="animation-delay: 400ms">
-                <a href="forgot-password.html" class="text-[#ff5d73] text-[13px] font-semibold hover:underline">
+                <a href="forgot-password" class="text-[#ff5d73] text-[13px] font-semibold hover:underline">
                     Quên mật khẩu >
                 </a>
             </div>
@@ -134,7 +133,7 @@
             <!-- LOGIN -->
             <div class="text-center mt-3 text-[13px] text-[#b2a4a0] animate-fade-in-up" style="animation-delay: 600ms">
                 Bạn đã có tài khoản ?
-                <a href="login.html" class="text-[#4f6fff] font-semibold hover:underline">
+                <a href="login" class="text-[#4f6fff] font-semibold hover:underline">
                     Đăng nhập >
                 </a>
             </div>
@@ -168,10 +167,11 @@
     </div>
     <div id="hidden-google-container" style="display: none !important;"></div>
 
-    <script type="module" src="js/otp-verify.js"></script>
-    <script src="js/email-validation.js"></script>
-    <script src="js/password-toggle.js"></script>
-    <script src="js/notification.js"></script>
+    <script type="module" src="/js/otp-verify.js"></script>
+    <script src="/js/email-validation.js"></script>
+    <script src="/js/password-toggle.js"></script>
+    <script src="/js/notification.js"></script>
+    <script src="/js/loading.js"></script>
     <script type="module" src="js/oauth-google.js"></script>
     <script type="module" src="js/oauth-facebook.js"></script>
 
@@ -184,23 +184,11 @@
             const emailInput = document.getElementById('email').value;
             const password = passwordInput.value;
 
-            if (!usernameInput) {
-                showMessage("Vui lòng nhập tên người dùng");return;
-            }
+            if (!usernameInput) {showMessage("Vui lòng nhập tên người dùng");return;}
+            if (!password){showMessage("Vui lòng nhập mặt khẩu");return;}
+            if (!emailInput || !isValidEmail(emailInput)){showMessage ("Vui lòng nhập đúng Email");return;}
+            if (!isPasswordStrong) {showMessage("Mật khẩu quá yếu !!");return; }
 
-            // if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
-            //     showMessage("Username không hợp lệ!");return;
-            // }
-            if (!password){
-                showMessage("Vui lòng nhập mặt khẩu");return;
-            }
-            if (!emailInput || !isValidEmail(emailInput)){
-                showMessage ("Vui lòng nhập đúng Email");return;
-            }
-            if (!isPasswordStrong) {
-                showMessage("Mật khẩu quá yếu !!");
-                return; 
-            }
             showLoading();
             // Gửi lấy t-auth
             const token = await new Promise((resolve) => {
@@ -217,16 +205,14 @@
                     "username": usernameInput, 
                     "password": sha256(password),
                     "recaptchaToken": token,
+                    "purpose": "register"
                 })
             }) 
             const data = await res.json();
             hideLoading();
 
             // Trả về t-auth lấy cái đó để veri otp nếu ko có ko cho veri
-            if (res.false == 2){
-                showMessage(data.msg);
-            }
-            else if (res.status === 200){
+            if (res.status === 200 && res.false != 2){
                 showOTPModal(emailInput, null);
                 localStorage.setItem("T-Auth", data.t_token);
                 startOTPCountdown(data['time_token']);
@@ -235,6 +221,7 @@
             }
         }
     </script>
+
     <script>
         const underline = document.getElementById("password-underline");
         const strengthBox = document.getElementById("password-strength");

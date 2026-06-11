@@ -1,24 +1,5 @@
 let countdownInterval; 
 
-window.showLoading = function() {
-    const loading = document.createElement('div');
-    loading.id = 'otp-loading';
-    loading.className = `
-        fixed inset-0 bg-black/50 flex items-center justify-center z-[99999]
-    `;
-
-    loading.innerHTML = `
-        <div class="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-    `;
-
-    document.body.appendChild(loading);
-}
-
-window.hideLoading = function() {
-    const loading = document.getElementById('otp-loading');
-    if (loading) loading.remove();
-}
-
 window.showOTPModal = function(email, initTime) {
     window.location.hash = "otp";
     
@@ -341,7 +322,7 @@ window.addEventListener("load", async () => {
         method: "POST",
         headers: {
             ...(await headers()),
-            Authorization: "Bearer " + token
+            "T-Auth": "Bearer " + token
         }
     });
 
