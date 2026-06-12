@@ -1,0 +1,146 @@
+<!-- Tiêu đề trang -->
+<div class="mb-6">
+    <h2 class="text-xl md:text-2xl font-black text-[#3D3333] tracking-wide">Lịch Sử Kết Nối</h2>
+</div>
+
+<!-- Khối tổng quan thống kê (Stats Summary) -->
+<div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+        <span class="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-wider">Đã học</span>
+        <span class="text-lg md:text-2xl font-black text-[#3D3333] mt-2">12 <span class="text-xs md:text-sm font-normal text-gray-400">buổi</span></span>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+        <span class="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-wider">Tổng giờ</span>
+        <span class="text-lg md:text-2xl font-black text-[#3D3333] mt-2">24.5 <span class="text-xs md:text-sm font-normal text-gray-400">giờ</span></span>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+        <span class="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-wider">Đã chi</span>
+        <span class="text-lg md:text-2xl font-black text-[#C97474] mt-2">4.5M <span class="text-xs md:text-sm font-normal text-gray-400">đ</span></span>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- BỘ LỌC TÌM KIẾM THEO MÔN HỌC & TRẠNG THÁI -->
+    <div class="lg:col-span-3">
+        <div class="bg-white rounded-3xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100 sticky top-24 flex flex-col gap-5">
+            <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2 pb-3 border-b border-gray-50">
+                <i class="fa-solid fa-sliders text-[#C97474]"></i> Bộ Lọc Lịch Sử
+            </h3>
+            
+            <!-- Lọc theo Môn Học -->
+            <div>
+                <label class="block text-[11px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">Theo Môn Học</label>
+                <div class="relative">
+                    <select class="w-full bg-[#F6F1F1] border-2 border-transparent focus:border-[#C97474]/30 focus:bg-white text-xs font-bold rounded-xl px-4 py-3 text-[#3D3333] outline-none appearance-none transition duration-300 cursor-pointer">
+                        <option>Tất cả môn học</option>
+                        <option>Toán Học</option>
+                        <option>Vật Lý</option>
+                        <option>Hóa Học</option>
+                        <option>Tiếng Anh (IELTS)</option>
+                        <option>Ngữ Văn</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] pointer-events-none"></i>
+                </div>
+            </div>
+
+            <!-- Lọc theo Trạng Thái -->
+            <div>
+                <label class="block text-[11px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">Theo Trạng Thái</label>
+                <div class="flex flex-col gap-1.5">
+                    <button class="w-full text-left px-4 py-3 text-xs font-bold rounded-xl bg-[#C97474] text-white shadow-sm shadow-rose-100 transition">
+                        <i class="fa-solid fa-list-ul mr-2"></i> Tất cả trạng thái
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
+                        <i class="fa-solid fa-circle-play mr-2 text-emerald-500"></i> Đang diễn ra
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
+                        <i class="fa-solid fa-circle-check mr-2 text-blue-500"></i> Đã hoàn thành
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
+                        <i class="fa-solid fa-circle-xmark mr-2 text-rose-500"></i> Đã hủy lịch
+                    </button>
+                </div>
+            </div>
+
+            <button class="w-full bg-[#C97474] hover:bg-[#b56363] text-white font-bold text-xs py-3 rounded-xl shadow-md shadow-rose-500/10 transition active:scale-[0.98]">
+                Tìm kiếm
+            </button>
+        </div>
+    </div>
+
+    <!-- DANH SÁCH LỊCH SỬ (PHẢI) -->
+    <div class="lg:col-span-9 flex flex-col gap-4">
+        
+        <!-- Item 1: Đang diễn ra -->
+        <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div class="flex gap-4 items-center">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&q=80" alt="Tutor" class="w-14 h-14 rounded-2xl object-cover border border-gray-100 shadow-sm" />
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h4 class="font-extrabold text-sm md:text-base text-[#3D3333]">Trần Hoàng Bách</h4>
+                        <span class="bg-emerald-50 text-emerald-600 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Đang học</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-bold mt-0.5"><i class="fa-solid fa-book-open text-xs mr-1 text-[#C97474]"></i> Tiếng Anh (IELTS Cấp Tốc)</p>
+                    <p class="text-[11px] text-gray-400 font-medium mt-1"><i class="fa-solid fa-calendar-days mr-1"></i> Hôm nay, 19:00 - 21:00</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between sm:flex-col sm:items-end border-t sm:border-none pt-3 sm:pt-0 border-gray-50">
+                <div>
+                    <p class="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider text-left sm:text-right">Tổng thanh toán</p>
+                    <p class="text-base font-black text-[#3D3333]">600.000đ</p>
+                </div>
+                <button class="bg-[#C97474] text-white hover:bg-[#b56363] font-extrabold text-xs px-4 py-2 rounded-xl transition duration-300 shadow-sm">
+                    Vào Lớp
+                </button>
+            </div>
+        </div>
+
+        <!-- Item 2: Đã hoàn thành -->
+        <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <div class="flex gap-4 items-center">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Tutor" class="w-14 h-14 rounded-2xl object-cover border border-gray-100 shadow-sm" />
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h4 class="font-extrabold text-sm md:text-base text-[#3D3333]">Nguyễn Minh Hương</h4>
+                        <span class="bg-blue-50 text-blue-600 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Hoàn thành</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-bold mt-0.5"><i class="fa-solid fa-book-open text-xs mr-1 text-[#C97474]"></i> Toán Học (Lớp 12)</p>
+                    <p class="text-[11px] text-gray-400 font-medium mt-1"><i class="fa-solid fa-calendar-days mr-1"></i> 10 Tháng 6, 2026</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between sm:flex-col sm:items-end border-t sm:border-none pt-3 sm:pt-0 border-gray-50">
+                <div>
+                    <p class="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider text-left sm:text-right">Tổng thanh toán</p>
+                    <p class="text-base font-black text-[#3D3333]">270.000đ</p>
+                </div>
+                <button class="bg-[#F6F1F1] text-[#5A4B4A] hover:bg-[#C97474] hover:text-white font-extrabold text-xs px-4 py-2 rounded-xl transition duration-300">
+                    Đánh Giá
+                </button>
+            </div>
+        </div>
+
+        <!-- Item 3: Đã hủy lịch -->
+        <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] flex flex-col justify-between gap-4 sm:flex-row sm:items-center opacity-75">
+            <div class="flex gap-4 items-center">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" alt="Tutor" class="w-14 h-14 rounded-2xl object-cover border border-gray-100 shadow-sm grayscale" />
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h4 class="font-extrabold text-sm md:text-base text-gray-500 line-through">Lê Thị Thu Thảo</h4>
+                        <span class="bg-rose-50 text-rose-500 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Đã Hủy</span>
+                    </div>
+                    <p class="text-xs text-gray-400 font-bold mt-0.5"><i class="fa-solid fa-book-open text-xs mr-1 text-gray-400"></i> Vật Lý (Luyện Chuyên)</p>
+                    <p class="text-[11px] text-gray-400 font-medium mt-1"><i class="fa-solid fa-calendar-days mr-1"></i> 05 Tháng 6, 2026</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between sm:flex-col sm:items-end border-t sm:border-none pt-3 sm:pt-0 border-gray-50">
+                <div>
+                    <p class="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider text-left sm:text-right">Hoàn trả ví</p>
+                    <p class="text-base font-black text-gray-400">400.000đ</p>
+                </div>
+                <span class="text-[11px] text-rose-400 font-bold italic">Hệ thống đã hoàn tiền</span>
+            </div>
+        </div>
+
+    </div>
+</div>

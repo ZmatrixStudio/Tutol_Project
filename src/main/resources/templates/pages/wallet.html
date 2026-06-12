@@ -1,0 +1,182 @@
+<!-- Tiêu đề trang -->
+<div class="mb-6">
+    <h2 class="text-xl md:text-2xl font-black text-[#3D3333] tracking-wide">Quản Lý Ví Tiền</h2>
+    <p class="text-xs text-gray-400 font-medium mt-1">Nạp, rút tiền an toàn và theo dõi dòng tiền minh bạch của các buổi học.</p>
+</div>
+
+<!-- Khối tổng quan số dư (Gồm tính năng tạm giữ bảo vệ người dùng) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="bg-gradient-to-br from-[#C97474] to-[#b56363] p-5 rounded-2xl text-white shadow-md shadow-rose-900/5 flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -right-4 -bottom-4 text-white/10 text-7xl font-black transform -rotate-12 transition-transform duration-500 group-hover:scale-110">
+            <i class="fa-solid fa-wallet"></i>
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-white/80">Số dư khả dụng</span>
+        <span class="text-2xl md:text-3xl font-black mt-3">1.250.000đ</span>
+        <span class="text-[10px] text-rose-100 font-medium mt-2 flex items-center gap-1"><i class="fa-solid fa-shield-check"></i> Sẵn sàng thanh toán lớp học</span>
+    </div>
+    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between relative overflow-hidden group">
+        <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Số dư tạm giữ (Đóng băng)</span>
+        <span class="text-2xl md:text-3xl font-black text-[#3D3333] mt-3">600.000đ</span>
+        <span class="text-[10px] text-amber-500 font-bold mt-2 flex items-center gap-1" title="Hệ thống giữ để đảm bảo gia sư dạy xong mới giải ngân">
+            <i class="fa-solid fa-clock"></i> Đang giữ cho lịch học hôm nay
+        </span>
+    </div>
+    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+        <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Điểm thưởng tích lũy</span>
+        <span class="text-2xl md:text-3xl font-black text-emerald-600 mt-3">4,500 <span class="text-xs font-bold text-gray-400">Xu</span></span>
+        <span class="text-[10px] text-gray-400 font-medium mt-2">Dùng để đổi mã giảm giá học phí</span>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    
+    <!-- CỘT TRÁI: THAO TÁC TÀI CHÍNH & LIÊN KẾT -->
+    <div class="lg:col-span-4 flex flex-col gap-6">
+        
+        <!-- Khối Nạp / Rút -->
+        <div class="bg-white rounded-3xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100 flex flex-col gap-4">
+            <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2 pb-3 border-b border-gray-50">
+                <i class="fa-solid fa-money-bill-transfer text-[#C97474]"></i> Giao dịch nhanh
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button class="bg-[#C97474] text-white hover:bg-[#b56363] font-extrabold text-xs py-3.5 px-4 rounded-xl transition active:scale-[0.98] flex flex-col items-center justify-center gap-2 shadow-sm shadow-rose-100">
+                    <i class="fa-solid fa-arrow-down-long text-base"></i> Nạp Tiền Vào Ví
+                </button>
+                <button class="bg-[#F6F1F1] text-[#5A4B4A] hover:bg-gray-200 font-extrabold text-xs py-3.5 px-4 rounded-xl transition active:scale-[0.98] flex flex-col items-center justify-center gap-2">
+                    <i class="fa-solid fa-arrow-up-long text-base"></i> Rút Tiền Về Ngân Hàng
+                </button>
+            </div>
+        </div>
+
+        <!-- Khối Tài Khoản Liên Kết (Tính năng phù hợp Product thực tế) -->
+        <div class="bg-white rounded-3xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100 flex flex-col gap-4">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-50">
+                <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-building-columns text-gray-400"></i> Ngân hàng đã liên kết
+                </h3>
+                <button class="text-[11px] font-black text-[#C97474] hover:underline">+ Thêm</button>
+            </div>
+            <div class="flex items-center justify-between p-3 bg-[#F6F1F1] rounded-xl border border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-black tracking-tighter">MB</div>
+                    <div>
+                        <p class="text-xs font-black text-[#3D3333]">MB BANK</p>
+                        <p class="text-[10px] font-medium text-gray-400">**** **** 2626</p>
+                    </div>
+                </div>
+                <span class="text-[10px] font-bold text-gray-400 bg-gray-200 px-2 py-0.5 rounded">Mặc định</span>
+            </div>
+        </div>
+
+        <!-- Khối Cài đặt nâng cao (Phù hợp mô hình gia sư) -->
+        <div class="bg-white rounded-3xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100 flex flex-col gap-3">
+            <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2 pb-3 border-b border-gray-50">
+                <i class="fa-solid fa-gear text-gray-400"></i> Tiện ích thông minh
+            </h3>
+            <div class="flex items-center justify-between py-1">
+                <div>
+                    <p class="text-xs font-bold text-[#3D3333]">Tự động trả học phí</p>
+                    <p class="text-[10px] text-gray-400 font-medium">Thanh toán cho gia sư ngay khi buổi học kết thúc</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#C97474]"></div>
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CỘT PHẢI: LỊCH SỬ GIAO DỊCH -->
+    <div class="lg:col-span-8 flex flex-col gap-4">
+        
+        <!-- Bộ lọc lịch sử giao dịch -->
+        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap gap-1.5">
+                <button class="px-3 py-1.5 text-xs font-bold bg-[#C97474] text-white rounded-lg shadow-sm">Tất cả</button>
+                <button class="px-3 py-1.5 text-xs font-bold text-gray-500 hover:bg-gray-50 rounded-lg transition">Nạp tiền</button>
+                <button class="px-3 py-1.5 text-xs font-bold text-gray-500 hover:bg-gray-50 rounded-lg transition">Rút tiền</button>
+                <button class="px-3 py-1.5 text-xs font-bold text-gray-500 hover:bg-gray-50 rounded-lg transition">Học phí</button>
+            </div>
+            <span class="text-[11px] font-bold text-gray-400"><i class="fa-solid fa-calendar-days"></i> Tháng 6 / 2026</span>
+        </div>
+
+        <!-- Danh sách Logs giao dịch -->
+        <div class="flex flex-col gap-3">
+            
+            <!-- Log 1: Thanh toán học phí (Trừ tiền) -->
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.01)] flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Thanh toán học phí lớp Tiếng Anh</h4>
+                        <p class="text-[10px] font-bold text-gray-400 mt-0.5">Gia sư: Trần Hoàng Bách • Mã #GS1024</p>
+                        <p class="text-[9px] text-gray-400 font-medium mt-0.5">Hôm nay, 21:05</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs md:text-sm font-black text-[#3D3333]">-600.000đ</p>
+                    <span class="inline-block text-[9px] font-black tracking-wide text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded mt-1 uppercase">Thành công</span>
+                </div>
+            </div>
+
+            <!-- Log 2: Nạp tiền (Cộng tiền) -->
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.01)] flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Nạp tiền từ Mobile Banking</h4>
+                        <p class="text-[10px] font-bold text-gray-400 mt-0.5">Ngân hàng liên kết MB Bank</p>
+                        <p class="text-[9px] text-gray-400 font-medium mt-0.5">12 Tháng 6, 2026 • 09:15</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs md:text-sm font-black text-emerald-600">+1.000.000đ</p>
+                    <span class="inline-block text-[9px] font-black tracking-wide text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded mt-1 uppercase">Thành công</span>
+                </div>
+            </div>
+
+            <!-- Log 3: Hoàn tiền hệ thống (Cộng tiền) -->
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.01)] flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Hoàn tiền hủy lịch học Vật Lý</h4>
+                        <p class="text-[10px] font-bold text-gray-400 mt-0.5">Lớp hủy bởi gia sư Lê Thị Thu Thảo • Mã #GS0982</p>
+                        <p class="text-[9px] text-gray-400 font-medium mt-0.5">05 Tháng 6, 2026 • 14:30</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs md:text-sm font-black text-emerald-600">+400.000đ</p>
+                    <span class="inline-block text-[9px] font-black tracking-wide text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded mt-1 uppercase">Đã hoàn ví</span>
+                </div>
+            </div>
+
+            <!-- Log 4: Yêu cầu rút tiền (Đang xử lý) -->
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.01)] flex items-center justify-between gap-4 opacity-80">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Rút tiền về tài khoản ngân hàng</h4>
+                        <p class="text-[10px] font-bold text-gray-400 mt-0.5">Yêu cầu chuyển về ngân hàng MB Bank</p>
+                        <p class="text-[9px] text-gray-400 font-medium mt-0.5">01 Tháng 6, 2026 • 18:00</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs md:text-sm font-black text-gray-500">-500.000đ</p>
+                    <span class="inline-block text-[9px] font-black tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded mt-1 uppercase animate-pulse">Đang xử lý</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

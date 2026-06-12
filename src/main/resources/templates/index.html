@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Tìm Gia Sư Ngay - Nền Tảng Học Tập Hiện Đại</title>
+    <style>
+        /* NÉN CSS ĐỂ LOAD NHANH HƠN */
+        body{font-family:Montserrat,sans-serif}@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.animate-fade-in-up{animation:.6s cubic-bezier(.16,1,.3,1) forwards fadeInUp}#main-content{transition:opacity .2s ease-in-out,transform .2s ease-in-out}#main-content.loading{opacity:0;transform:translateY(8px)}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#f4efef}::-webkit-scrollbar-thumb{background:#e2c7c7;border-radius:10px;border:2px solid #f4efef}::-webkit-scrollbar-thumb:hover{background:#c97474}.dropdown-menu,.notification-menu{opacity:0;transform:scale(.95) translateY(-10px);pointer-events:none;transition:opacity .2s cubic-bezier(.16, 1, .3, 1),transform .2s cubic-bezier(.16, 1, .3, 1)}.dropdown-menu.show,.notification-menu.show{opacity:1;transform:scale(1) translateY(0);pointer-events:auto}@keyframes softWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}.animate-wiggle-loop{animation:2.5s ease-in-out infinite softWiggle;transform-origin:center bottom}.group-logo:hover .animate-wiggle-loop{animation:.5s ease-in-out infinite softWiggle}@keyframes bellSwing{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}.animate-bell-swing{animation:2s ease-in-out infinite bellSwing;transform-origin:top center}
+    </style>
+</head>
+<body class="bg-[#F6F1F1] text-[#3D3333] antialiased selection:bg-[#C97474] selection:text-white">
+
+    <div class="min-h-screen flex flex-col justify-between pb-16 md:pb-0">
+        <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.02)] border-b border-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <h1 class="group-logo text-xl md:text-2xl font-black text-[#C97474] tracking-wider cursor-pointer hover:opacity-85 transition duration-300 flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-[#C97474] flex items-center justify-center text-white shadow-sm shadow-rose-200">
+                        <i class="fa-solid fa-graduation-cap text-lg animate-wiggle-loop"></i>
+                    </div>
+                    
+                    <span class="hidden sm:inline-block font-black text-lg md:text-xl">TÌM GIA SƯ NGAY</span>
+                </h1>
+
+                <nav class="hidden md:flex items-center gap-1 text-sm font-bold text-[#5A4B4A]">
+                    <button data-page="#home" class="spa-nav-btn flex items-center gap-2 px-4 py-2 text-[#C97474] bg-[#C97474]/5 rounded-xl transition duration-300">
+                        <i class="fa-solid fa-house"></i> Trang Chủ
+                    </button>
+                    <button data-page="#history" class="spa-nav-btn flex items-center gap-2 px-4 py-2 hover:text-[#C97474] hover:bg-gray-50 rounded-xl transition-all duration-300 group">
+                        <i class="fa-solid fa-clock-rotate-left text-gray-400 group-hover:text-[#C97474] transition duration-300"></i> Lịch Sử
+                    </button>
+                    <button data-page="#discussion" class="spa-nav-btn flex items-center gap-2 px-4 py-2 hover:text-[#C97474] hover:bg-gray-50 rounded-xl transition-all duration-300 group">
+                        <i class="fa-solid fa-comments text-gray-400 group-hover:text-[#C97474] transition duration-300"></i> Thảo Luận
+                    </button>
+                    <button data-page="#wallet" class="spa-nav-btn flex items-center gap-2 px-4 py-2 hover:text-[#C97474] hover:bg-gray-50 rounded-xl transition-all duration-300 group">
+                        <i class="fa-solid fa-wallet text-gray-400 group-hover:text-[#C97474] transition duration-300"></i> Ví Tiền
+                    </button>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button id="notiBtn" class="relative w-10 h-10 flex items-center justify-center rounded-xl bg-gray-50 border border-gray-100 text-gray-500 hover:text-[#C97474] hover:bg-white transition duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#C97474]/20">
+                            <i class="fa-solid fa-bell text-lg"></i>
+                            
+                            <span id="notiBadge" class="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
+                        </button>
+
+                        <div id="notiDropdown" class="notification-menu absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-2xl border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.08)] z-50 overflow-hidden">
+                            <div class="p-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+                                <h4 class="text-xs font-black text-[#3D3333] tracking-wide uppercase">Thông báo mới nhận</h4>
+                                <button id="markAllRead" class="text-[10px] font-bold text-[#C97474] hover:underline focus:outline-none">Đánh dấu đã đọc</button>
+                            </div>
+                            
+                            <div class="max-h-80 overflow-y-auto p-2 flex flex-col gap-1">
+                                
+                                <div class="flex gap-3 p-3 rounded-xl bg-[#C97474]/5 border border-[#C97474]/10 cursor-pointer hover:bg-[#C97474]/10 transition duration-200 relative group">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 flex-shrink-0">
+                                        <i class="fa-solid fa-circle-check text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-bold text-[#3D3333] leading-snug break-words">Gia sư <span class="text-[#C97474]">Trần Hoàng Bách</span> đã chấp nhận yêu cầu kết nối học IELTS của bạn.</p>
+                                        <span class="text-[10px] font-medium text-gray-400 mt-1 block">Vừa xong</span>
+                                    </div>
+                                    <span class="w-1.5 h-1.5 bg-[#C97474] rounded-full absolute right-3 top-1/2 -translate-y-1/2"></span>
+                                </div>
+
+                                <div class="flex gap-3 p-3 rounded-xl bg-[#C97474]/5 border border-[#C97474]/10 cursor-pointer hover:bg-[#C97474]/10 transition duration-200 relative group">
+                                    <div class="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 flex-shrink-0">
+                                        <i class="fa-solid fa-wallet text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-bold text-[#3D3333] leading-snug break-words">Tài khoản của bạn đã được cộng <span class="text-emerald-600">+500.000đ</span> từ ngân hàng.</p>
+                                        <span class="text-[10px] font-medium text-gray-400 mt-1 block">25 phút trước</span>
+                                    </div>
+                                    <span class="w-1.5 h-1.5 bg-[#C97474] rounded-full absolute right-3 top-1/2 -translate-y-1/2"></span>
+                                </div>
+
+                                <div class="flex gap-3 p-3 rounded-xl bg-white hover:bg-gray-50 border border-transparent cursor-pointer transition duration-200 group">
+                                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 flex items-center justify-center text-[#C97474]/80 flex-shrink-0">
+                                        <i class="fa-solid fa-heart text-sm"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-semibold text-gray-500 leading-snug break-words">Hệ thống gợi ý 3 gia sư Vật Lý mới phù hợp với lớp học của bạn.</p>
+                                        <span class="text-[10px] font-medium text-gray-400 mt-1 block">2 giờ trước</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="p-2.5 bg-gray-50 border-t border-gray-100 text-center">
+                                <a href="#notifications" class="block w-full py-2 text-xs font-bold text-gray-500 hover:text-[#C97474] transition">Xem tất cả thông báo</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <button id="avatarBtn" class="relative group overflow-hidden rounded-xl p-0.5 focus:outline-none ring-2 ring-transparent focus:ring-[#C97474] transition duration-300 shadow-sm flex items-center">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="w-10 h-10 rounded-xl object-cover border-2 border-white group-hover:scale-105 transition duration-300">
+                        </button>
+
+                        <div id="settingsDropdown" class="dropdown-menu absolute right-0 mt-3 w-64 bg-white rounded-2xl border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.08)] z-50 overflow-hidden">
+                            <div class="p-4 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="w-9 h-9 rounded-lg object-cover">
+                                <div class="min-w-0">
+                                    <p class="text-xs font-black text-[#3D3333] truncate">Nguyễn Minh Hương</p>
+                                    <span class="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">Tài khoản Học Viên</span>
+                                </div>
+                            </div>
+                            
+                            <div class="p-2 flex flex-col gap-0.5">
+                                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-gray-500 hover:text-[#C97474] hover:bg-[#C97474]/5 rounded-xl transition duration-200">
+                                    <i class="fa-regular fa-user text-sm w-4"></i> Hồ sơ cá nhân
+                                </a>
+                                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-gray-500 hover:text-[#C97474] hover:bg-[#C97474]/5 rounded-xl transition duration-200">
+                                    <i class="fa-solid fa-sliders text-sm w-4"></i> Cài đặt tài khoản
+                                </a>
+                                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-gray-500 hover:text-[#C97474] hover:bg-[#C97474]/5 rounded-xl transition duration-200">
+                                    <i class="fa-regular fa-calendar-minus text-sm w-4"></i> Lịch học của tôi
+                                </a>
+                                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-gray-500 hover:text-[#C97474] hover:bg-[#C97474]/5 rounded-xl transition duration-200">
+                                    <i class="fa-solid fa-shield-halved text-sm w-4"></i> Bảo mật & Mật khẩu
+                                </a>
+                                <hr class="border-gray-100 my-1">
+                                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-rose-500 hover:bg-rose-50 rounded-xl transition duration-200">
+                                    <i class="fa-solid fa-arrow-right-from-bracket text-sm w-4"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </header>
+
+        <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 animate-fade-in-up">
+            <div id="main-content">
+                </div>
+        </main>
+
+        <footer class="bg-white border-t border-gray-100 mt-12 py-6 text-center text-xs font-medium text-gray-400">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 Tìm Gia Sư Ngay. Phát triển với đam mê giáo dục.</p>
+                <div class="flex gap-4 text-gray-400">
+                    <a href="#" class="hover:text-[#C97474] transition">Điều khoản</a>
+                    <a href="#" class="hover:text-[#C97474] transition">Bảo mật</a>
+                    <a href="#" class="hover:text-[#C97474] transition">Hỗ trợ</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-t border-gray-100 shadow-[0_-4px_24px_rgba(0,0,0,0.04)] md:hidden">
+        <div class="flex justify-around items-center h-16 max-w-md mx-auto px-2">
+            <button data-page="#home" class="spa-nav-btn flex flex-col items-center justify-center gap-1 text-[#C97474] flex-1 min-w-0">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[10px] font-bold tracking-wide">Trang Chủ</span>
+            </button>
+            <button data-page="#history" class="spa-nav-btn flex flex-col items-center justify-center gap-1 text-gray-400 flex-1 min-w-0 group">
+                <i class="fa-solid fa-clock-rotate-left text-base text-gray-400 group-hover:text-[#C97474] transition duration-300"></i>
+                <span class="text-[10px] font-bold tracking-wide">Lịch Sử</span>
+            </button>
+            <button data-page="#discussion" class="spa-nav-btn flex flex-col items-center justify-center gap-1 text-gray-400 flex-1 min-w-0 group">
+                <i class="fa-solid fa-comments text-base text-gray-400 group-hover:text-[#C97474] transition duration-300"></i>
+                <span class="text-[10px] font-bold tracking-wide">Thảo Luận</span>
+            </button>
+            <button data-page="#wallet" class="spa-nav-btn flex flex-col items-center justify-center gap-1 text-gray-400 flex-1 min-w-0 group">
+                <i class="fa-solid fa-wallet text-base text-gray-400 group-hover:text-[#C97474] transition duration-300"></i>
+                <span class="text-[10px] font-bold tracking-wide">Ví Tiền</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        // --- LOGIC XỬ LÝ ĐỒNG BỘ DROPDOWN & LẮC CHUÔNG THÔNG MINH ---
+        const avatarBtn = document.getElementById('avatarBtn');
+        const settingsDropdown = document.getElementById('settingsDropdown');
+        const notiBtn = document.getElementById('notiBtn');
+        const notiDropdown = document.getElementById('notiDropdown');
+        const notiBadge = document.getElementById('notiBadge');
+        const markAllRead = document.getElementById('markAllRead');
+        const bellIcon = notiBtn.querySelector('.fa-bell');
+
+        // Hàm kiểm tra: Nếu còn chấm đỏ thì cho chuông lắc, không thì thôi
+        function checkAndSwingBell() {
+            // Nếu có chấm đỏ và chấm đỏ KHÔNG bị ẩn (display không phải none)
+            if (notiBadge && notiBadge.style.display !== 'none') {
+                bellIcon.classList.add('animate-bell-swing');
+            } else {
+                bellIcon.classList.remove('animate-bell-swing');
+            }
+        }
+
+        // 1. Khi vừa tải trang xong: Kiểm tra xem có thông báo không để lắc luôn
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAndSwingBell();
+        });
+
+        // 2. Khi click vào nút Quả Chuông Thông Báo
+        notiBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsDropdown.classList.remove('show'); // Ẩn cài đặt
+            
+            // Đảo trạng thái hiển thị của dropdown thông báo
+            const isOpening = notiDropdown.classList.toggle('show');
+            
+            if (isOpening) {
+                // Bấm MỞ thông báo -> Bắt buộc DỪNG LẮC ngay lập tức
+                bellIcon.classList.remove('animate-bell-swing');
+            } else {
+                // Bấm ĐÓNG thông báo lại -> Kiểm tra nếu còn chấm đỏ thì bắt đầu lắc lại
+                checkAndSwingBell();
+            }
+        });
+
+        // 3. Khi click nút "Đánh dấu đã đọc" bên trong menu
+        markAllRead.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (notiBadge) {
+                notiBadge.style.display = 'none'; // Ẩn chấm đỏ
+            }
+            bellIcon.classList.remove('animate-bell-swing'); // Dừng lắc vĩnh viễn vì hết thông báo
+        });
+
+        // 4. Khi click vào nút Avatar Settings
+        avatarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notiDropdown.classList.remove('show'); // Ẩn thông báo đi
+            settingsDropdown.classList.toggle('show');
+            
+            // Đóng thông báo để xem settings -> Trả lại trạng thái lắc cho chuông nếu chưa đọc
+            checkAndSwingBell();
+        });
+
+        // 5. Khi click ra ngoài màn hình
+        document.addEventListener('click', (e) => {
+            if (!settingsDropdown.contains(e.target) && e.target !== avatarBtn) {
+                settingsDropdown.classList.remove('show');
+            }
+            if (!notiDropdown.contains(e.target) && e.target !== notiBtn) {
+                notiDropdown.classList.remove('show');
+                // Người dùng click ra ngoài làm ẩn dropdown -> Chuông tự động lắc lại nếu chưa đọc
+                checkAndSwingBell();
+            }
+        });
+    </script>
+    <script>
+        const contentContainer = document.getElementById('main-content');
+        const navButtons = document.querySelectorAll('.spa-nav-btn');
+
+        // Bản đồ ánh xạ từ Hash (URL) sang đường dẫn file và tiêu đề tương ứng
+        const pageRoutes = {
+            '#home': {
+                file: 'pages/home.html',
+                title: 'Trang Chủ '
+            },
+            '#history': {
+                file: 'pages/history.html',
+                title: 'Lịch Sử Học Tập '
+            },
+            '#discussion': {
+                file: 'pages/discussion.html',
+                title: 'Thảo Luận'
+            },
+            '#wallet': {
+                file: 'pages/wallet.html',
+                title: 'Ví Tiền Của Tôi'
+            }
+        };
+
+        // Hàm xử lý load nội dung dựa trên Hash hiện tại của trình duyệt
+        function handleRouting() {
+            let currentHash = window.location.hash || '#home';
+
+            // Nếu hash lạ không tồn tại trong hệ thống, tự động đưa về #home
+            if (!pageRoutes[currentHash]) {
+                currentHash = '#home';
+                window.location.hash = '#home';
+            }
+
+            // SỬA LỖI: Lấy chính xác thuộc tính file và title từ Object con
+            const fileUrl = pageRoutes[currentHash].file;
+            const targetTitle = pageRoutes[currentHash].title;
+
+            // 1. Kích hoạt hiệu ứng loading (mờ dần)
+            contentContainer.classList.add('loading');
+
+            setTimeout(() => {
+                fetch(fileUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Không thể tải trang con.');
+                        return response.text();
+                    })
+                    .then(htmlRuot => {
+                        // 2. Đập ruột mới vào khu vực hiển thị
+                        contentContainer.innerHTML = htmlRuot;
+
+                        // 3. TỰ ĐỘNG ĐỔI TIÊU ĐỀ TAB TRÌNH DUYỆT CẬP NHẬT THEO TRANG
+                        document.title = targetTitle;
+
+                        // 4. ĐỒNG BỘ HIỆU ỨNG TRÊN THANH TASKBAR (Cả Desktop & Mobile)
+                        updateActiveNavEffects(currentHash);
+
+                        // 5. Tắt hiệu ứng loading (hiển thị mượt mà)
+                        contentContainer.classList.remove('loading');
+                    })
+                    .catch(err => {
+                        contentContainer.innerHTML = `<div class="p-8 text-center text-rose-500 font-bold">Lỗi: ${err.message}</div>`;
+                        contentContainer.classList.remove('loading');
+                    });
+            }, 150);
+        }
+
+        // Hàm phụ trách việc đổi màu sắc, background cho nút đang active
+        function updateActiveNavEffects(activeHash) {
+            navButtons.forEach(btn => {
+                const btnPage = btn.getAttribute('data-page');
+                const icon = btn.querySelector('i'); // Lấy icon bên trong nút nếu có
+                
+                if (btnPage === activeHash) {
+                    // --- TRẠNG THÁI ĐƯỢC CHỌN (ACTIVE) ---
+                    btn.classList.remove('text-gray-400', 'text-[#5A4B4A]');
+                    btn.classList.add('text-[#C97474]');
+                    
+                    // Nếu là nút trên Desktop (có class px-4), thêm nền hồng nhạt sang chảnh
+                    if (btn.classList.contains('px-4')) {
+                        btn.classList.add('bg-[#C97474]/5');
+                    }
+                    // Đổi màu cả icon đi kèm nếu có
+                    if (icon) {
+                        icon.classList.remove('text-gray-400');
+                        icon.classList.add('text-[#C97474]');
+                    }
+                } else {
+                    // --- TRẠNG THÁI BÌNH THƯỜNG ---
+                    btn.classList.remove('text-[#C97474]', 'bg-[#C97474]/5');
+                    
+                    // Trả về màu chữ mặc định tùy theo class gốc của desktop hay mobile
+                    if (btn.classList.contains('px-4')) {
+                        btn.classList.add('text-[#5A4B4A]'); 
+                    } else {
+                        btn.classList.add('text-gray-400'); 
+                    }
+
+                    if (icon) {
+                        icon.classList.remove('text-[#C97474]');
+                        // Trả lại màu xám nhẹ cho icon của các nút không được chọn
+                        if (!btn.classList.contains('text-[#C97474]')) {
+                            icon.classList.add('text-gray-400');
+                        }
+                    }
+                }
+            });
+        }
+
+        // Sự kiện 1: Khi người dùng click nút menu -> Chỉ cần thay đổi hash trên URL
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetHash = button.getAttribute('data-page');
+                window.location.hash = targetHash; 
+            });
+        });
+
+        // Sự kiện 2: Lắng nghe trình duyệt thay đổi hash (Do click nút, nhấn Back/Forward, hoặc F5)
+        window.addEventListener('hashchange', handleRouting);
+
+        // Sự kiện 3: Khi vừa mở trang web lên lần đầu tiên, kích hoạt kiểm tra URL luôn
+        window.addEventListener('DOMContentLoaded', handleRouting);
+    </script>
+</body>
+</html>
