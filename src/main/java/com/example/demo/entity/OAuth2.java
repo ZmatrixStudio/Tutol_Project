@@ -3,15 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-    name = "oauth2",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uq_provider_user",
-            columnNames = {"provider", "provider_user_id"}
-        )
-    }
-)
+@Table(name = "oauth2",uniqueConstraints = {@UniqueConstraint(name = "uq_provider_user",columnNames = {"provider", "provider_user_id"})})
 public class OAuth2 {
 
     @Id
