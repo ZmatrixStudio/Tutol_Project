@@ -50,11 +50,23 @@ public class TaiKhoanService {
         return accountRepository.findByEmail(email);
     }
 
+    public Optional<TaiKhoan> findByEmailAndProvide(String email, String provider) {
+        return accountRepository.findByEmailAndProvider(email, provider);
+    }
+
     public Optional<TaiKhoan> findById(Long id) {
         return accountRepository.findById(id);
     }
 
     public boolean existsByEmail(String email) { 
         return accountRepository.existsByEmail(email);
+    }
+
+    public Optional<TaiKhoan> findByEmailNotFacebook(
+            String email
+    ) {
+        return accountRepository.findByEmailNotFacebook(
+            email
+        );
     }
 }

@@ -142,6 +142,13 @@
 
     <div id="hidden-google-container" style="display: none !important;"></div>
 
+    <script th:inline="javascript">
+        window.RECAPTCHA_SITE_KEY = [[${recaptchaSiteKey}]];
+        window.GOOGLE_CLIENT_ID = [[${googleClientId}]];
+        window.FACEBOOK_APP_ID = [[${facebookAppId}]];
+        window.FACEBOOK_VERSION = [[${facebookVersion}]];
+    </script>
+
     <script src="js/email-validation.js"></script>
     <script src="js/password-toggle.js"></script>
     <script src="js/notification.js"></script>
@@ -152,7 +159,7 @@
         import {headers} from "/js/get-headers.js";
         const emailInput = document.getElementById('email');
 
-        async function login() {
+        window.login = async function() {
             const email = emailInput.value.trim();
             const pass = passwordInput.value;
 
@@ -163,23 +170,23 @@
             try {
                 const token = await new Promise((resolve) => {
                     grecaptcha.ready(() => {
-                        grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'login'}).then(resolve);
+                        grecaptcha.execute(window.RECAPTCHA_SITE_KEY, {action: 'login'}).then(resolve);
                     });
                 });
             
-                const response = await fetch("login", {
+                const response = await fetch("http://localhost:8080/api/v1/auth/login", {
                     method: "POST",
                     headers: await headers(),
                     body: JSON.stringify({
                         "email": email,
-                        "password": sha256(password), 
-                        "recaptchaToken": token
+                        "password": sha256(pass), 
+                        "reCaptchaToken": token
                     })
                 });
 
                 const data = await response.json();
 
-                if (response.success === 200) {
+                if (response.status == 200) {
                     showMessage(data.message || "Đăng nhập thành công", true);
 
                     // Nếu status trả về là 200 thì mở trang cpontrol và tiếp tục kiểm tra token

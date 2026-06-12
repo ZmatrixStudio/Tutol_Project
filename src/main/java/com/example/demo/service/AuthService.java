@@ -181,7 +181,7 @@ public class AuthService {
 
     public ResponseEntity<?> login(LoginRequest request){
         try {
-            String recaptchaToken = request.getReCaptcha();
+            String recaptchaToken = request.getReCaptchaToken();
             if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
                 return ResponseEntity.status(400).body(Map.of("status", 400, "msg", "reCAPTCHA verification failed"));
             }
@@ -189,32 +189,18 @@ public class AuthService {
             String email = request.getEmail();
             String password = request.getPassword();
 
-            // kiểm tra email
-            Optional<TaiKhoan> optionalTaiKhoan = taiKhoanService.findByEmail(email);
+            Optional<TaiKhoan> optionalTaiKhoan = taiKhoanService.findByEmailNotFacebook(email);
 
             if (optionalTaiKhoan.isEmpty()) {
-                return ResponseEntity.status(401).body(
-                    Map.of(
-                        "status", 401,
-                        "msg", "Email chưa được đăng kí !",
-                        "success", false,
-                        "error", 1
-                    )
-                );
+                return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Email không tồn tại, vui lòng đăng kí!!", "success", false, "errol", 1));
             }
 
             TaiKhoan taiKhoan = optionalTaiKhoan.get();
 
             // kiểm tra mật khẩu
             if (!passwordEncoder.matches(password, taiKhoan.getMatKhau())) {
-                return ResponseEntity.status(401).body(
-                    Map.of(
-                        "status", 401,
-                        "msg", "Sai mật khẩu !",
-                        "success", false,
-                        "error", 1
-                    )
-                );
+                return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Sai mật khẩu !!", "success", false, "errol", 1));
+
             }
 
             // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN

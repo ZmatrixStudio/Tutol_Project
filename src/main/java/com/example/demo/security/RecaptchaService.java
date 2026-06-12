@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.Map;
@@ -12,11 +14,10 @@ import java.util.Map;
 @Service
 public class RecaptchaService {
 
-    private final String RECAPTCHA_API_URL =
-            "https://www.google.com/recaptcha/api/siteverify";
+    private final String RECAPTCHA_API_URL ="https://www.google.com/recaptcha/api/siteverify";
 
-    private final String SECRET_KEY =
-            "6LdaoAwtAAAAAF_ylwpNN6CrXYs9e2jBBrYMMdJH";
+    @Value("${recaptcha.secret}")
+    private String SECRET_KEY;
 
     public boolean verifyRecaptcha(String recaptchaResponse) {
         if (recaptchaResponse == null || recaptchaResponse.isBlank()) {

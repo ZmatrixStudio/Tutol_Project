@@ -9,7 +9,7 @@ const keyBytes = new Uint8Array([
 ]); // ENC Auth Google
 window.onload = function () {
     google.accounts.id.initialize({
-        client_id: "135399930194-pmatudppnlqs1rbc6ffna5l2648doka4.apps.googleusercontent.com",
+        client_id: window.GOOGLE_CLIENT_ID,
         callback: handleCredentialResponse
     });
 
@@ -37,7 +37,7 @@ async function handleCredentialResponse(response) {
         const authBody = `${sign.cipher}.${sign.nonce}`;
         const token = await new Promise((resolve) => {
             grecaptcha.ready(() => {
-                grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'google_oauth'}).then(resolve);
+                grecaptcha.execute(window.RECAPTCHA_SITE_KEY, {action: 'google_oauth'}).then(resolve);
             });
         });
         // Requests về backend

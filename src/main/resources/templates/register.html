@@ -167,6 +167,13 @@
     </div>
     <div id="hidden-google-container" style="display: none !important;"></div>
 
+    <script th:inline="javascript">
+        window.RECAPTCHA_SITE_KEY = [[${recaptchaSiteKey}]];
+        window.GOOGLE_CLIENT_ID = [[${googleClientId}]];
+        window.FACEBOOK_APP_ID = [[${facebookAppId}]];
+        window.FACEBOOK_VERSION = [[${facebookVersion}]];
+    </script>
+
     <script type="module" src="/js/otp-verify.js"></script>
     <script src="/js/email-validation.js"></script>
     <script src="/js/password-toggle.js"></script>
@@ -177,7 +184,7 @@
 
     <script type="module">
         document.getElementById("btnRegister").addEventListener("click", register);
-
+        
         import {headers} from "./js/get-headers.js";
         async function register() {
             const usernameInput = document.getElementById('username').value;
@@ -193,7 +200,7 @@
             // Gửi lấy t-auth
             const token = await new Promise((resolve) => {
                     grecaptcha.ready(() => {
-                        grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'register'}).then(resolve);
+                        grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'register'}).then(resolve);
                     });
                 });
 

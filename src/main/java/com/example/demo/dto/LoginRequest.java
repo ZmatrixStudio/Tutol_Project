@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 
 public class LoginRequest {
+
     @NotBlank(message = "Trường EMAIL không được để trống !!")
     @Email(message = "Email không đúng định dạng")
     @Size(max = 150, message = "Email quá dài")
@@ -14,30 +15,33 @@ public class LoginRequest {
     @Size(max = 150, message = "Mật khẩu quá dài")
     private String password;
 
-    @NotBlank(message = "Trường reCaptcha không được để trống!!")
-    private String reCaptcha;
+    @NotBlank(message = "Trường reCaptchaToken không được để trống!!")
+    private String reCaptchaToken;
 
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public void setPassword(String password){
-        this.password = password;
-    }
-
-    public void setReCaptcha(String reCaptcha){
-        this.reCaptcha = reCaptcha;
-    }
-
-    public String getReCaptcha(){
-        return reCaptcha;
-    }
-
-    public String getEmail(){
+    // EMAIL
+    public String getEmail() {
         return email;
     }
 
-    public String getPassword(){
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // PASSWORD
+    public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // RECAPTCHA
+    public String getReCaptchaToken() {
+        return reCaptchaToken;
+    }
+
+    public void setReCaptchaToken(String reCaptchaToken) {
+        this.reCaptchaToken = reCaptchaToken;
     }
 }

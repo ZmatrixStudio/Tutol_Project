@@ -16,12 +16,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 // CHECK AUTH GG VÀ TRẢ DỮ LIỆU
 @Service
 public class GoogleOAuthService {
-    private static final String CLIENT_ID = "135399930194-pmatudppnlqs1rbc6ffna5l2648doka4.apps.googleusercontent.com";
-
+    @Value("${google.client-id}")
+    private String clientId;
+    
     @Autowired
     private TokenSecurityService tokenSecurityService;
 
@@ -41,7 +43,7 @@ public class GoogleOAuthService {
             }
             
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-            .setAudience(Collections.singleton(CLIENT_ID)).build();
+            .setAudience(Collections.singleton(clientId)).build();
 
             String authBody = request.getAuth();
             // VERI AUTH

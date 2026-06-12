@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Map;
 
@@ -17,8 +18,9 @@ import java.util.Map;
 // SO SÁNH GIỮA DỮ LIỆU TOKEN TRẢ VỀ USER_ID
 @Service
 public class FacebookOAuthService {
-    private static final String APP_TOKEN = "3940751182724418|xeOXvETDYuuSJmVlXoOB6jjde_I";
-    
+    @Value("${facebook.app-token}")
+    private String appToken;
+
     @Autowired
     private RecaptchaService recaptchaService;
 
@@ -40,7 +42,7 @@ public class FacebookOAuthService {
             RestTemplate restTemplate = new RestTemplate();
             String url = "https://graph.facebook.com/debug_token"
                     + "?input_token=" + accessTokenUser
-                    + "&access_token=" + APP_TOKEN;
+                    + "&access_token=" + appToken;
 
             String response = restTemplate.getForObject(url, String.class);
             JsonNode root = new ObjectMapper().readTree(response);

@@ -6,9 +6,9 @@ document.getElementById("facebook-btn").addEventListener("click", function() {
 
 window.fbAsyncInit = function () {
     FB.init({
-        appId: "3940751182724418",
+        appId: window.FACEBOOK_APP_ID,
         xfbml: true,
-        version: "v25.0",
+        version: window.FACEBOOK_VERSION,
     });
 };
 
@@ -57,7 +57,7 @@ async function handleFb() {
 
             const token = await new Promise((resolve) => {
                 grecaptcha.ready(() => {
-                    grecaptcha.execute('6LdaoAwtAAAAAJGDRLJDtWFjA_KKWRdaY9KUXWEu', {action: 'facebook_oauth'}).then(resolve);
+                    grecaptcha.execute(window.RECAPTCHA_SITE_KEY, {action: 'facebook_oauth'}).then(resolve);
                 });
             });
             // ĐẨY DỮ LIỆU LÊN SERVER
