@@ -1,175 +1,311 @@
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-    <div>
-        <h2 class="text-xl md:text-2xl font-black text-[#3D3333] tracking-wide">Góc Thảo Luận</h2>
-        <p class="text-xs text-gray-400 font-medium mt-1">Nơi trao đổi bài tập, chia sẻ tài liệu và kinh nghiệm học tập bứt phá.</p>
-    </div>
-    <button class="flex items-center justify-center gap-2 bg-[#C97474] hover:bg-[#b56363] text-white text-xs font-bold px-5 py-3 rounded-xl shadow-md shadow-rose-500/10 transition active:scale-[0.98]">
-        <i class="fa-solid fa-pen-to-square"></i> Tạo bài viết mới
-    </button>
-</div>
-
-<div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] mb-8 flex items-center gap-3">
-    <div class="flex-1 relative">
-        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-        <input type="text" placeholder="Tìm kiếm câu hỏi, từ khóa tài liệu..." class="w-full bg-[#F6F1F1] text-xs font-bold rounded-xl pl-11 pr-4 py-3 text-[#3D3333] outline-none border-2 border-transparent focus:border-[#C97474]/20 focus:bg-white transition duration-300">
-    </div>
-    <button class="hidden sm:block bg-[#5A4B4A] hover:bg-[#3D3333] text-white text-xs font-bold px-5 py-3 rounded-xl transition">
-        Tìm kiếm
-    </button>
-</div>
-
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-    
-    <div class="lg:col-span-3">
-        <div class="bg-white rounded-3xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100 sticky top-24 flex flex-col gap-5">
-            
+<div class="bg-[#FAFAFA] min-h-screen p-4 md:p-8 font-sans w-full">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-                <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2 pb-3 border-b border-gray-50 mb-3">
-                    <i class="fa-solid fa-tags text-[#C97474]"></i> Chuyên mục tuyển chọn
-                </h3>
-                <div class="flex flex-col gap-1">
-                    <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl bg-[#C97474] text-white shadow-sm shadow-rose-100 transition">
-                        <i class="fa-solid fa-globe mr-2"></i> Tất cả thảo luận
-                    </button>
-                    <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
-                        <i class="fa-solid fa-circle-question mr-2 text-amber-500"></i> Hỏi đáp bài tập
-                    </button>
-                    <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
-                        <i class="fa-solid fa-folder-open mr-2 text-indigo-500"></i> Chia sẻ tài liệu
-                    </button>
-                    <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
-                        <i class="fa-solid fa-lightbulb mr-2 text-emerald-500"></i> Mẹo & Kinh nghiệm
-                    </button>
-                </div>
+                <h2 class="text-xl md:text-2xl font-black text-[#3D3333] tracking-wide">Góc Thảo Luận</h2>
+                <p class="text-xs text-gray-400 font-medium mt-1">Nơi trao đổi bài tập, chia sẻ tài liệu và kinh nghiệm học tập bứt phá.</p>
             </div>
-
-            <div>
-                <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2 pb-3 border-b border-gray-50 mb-3">
-                    <i class="fa-solid fa-fire text-amber-500"></i> Xu hướng học tập
-                </h3>
-                <div class="flex flex-wrap gap-2">
-                    <a href="#" class="text-[10px] font-bold text-gray-500 bg-[#F6F1F1] px-2.5 py-1.5 rounded-lg hover:bg-[#C97474]/10 hover:text-[#C97474] transition">#IELTS2026</a>
-                    <a href="#" class="text-[10px] font-bold text-gray-500 bg-[#F6F1F1] px-2.5 py-1.5 rounded-lg hover:bg-[#C97474]/10 hover:text-[#C97474] transition">#Toan12Thpt</a>
-                    <a href="#" class="text-[10px] font-bold text-gray-500 bg-[#F6F1F1] px-2.5 py-1.5 rounded-lg hover:bg-[#C97474]/10 hover:text-[#C97474] transition">#NguPhapAnh</a>
-                    <a href="#" class="text-[10px] font-bold text-gray-500 bg-[#F6F1F1] px-2.5 py-1.5 rounded-lg hover:bg-[#C97474]/10 hover:text-[#C97474] transition">#OnChuyenLy</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="lg:col-span-9 flex flex-col gap-4">
-        
-        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] hover:border-gray-200 transition duration-300">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" alt="Avatar User" class="w-10 h-10 rounded-xl object-cover border border-gray-100 shadow-sm" />
-                    <div>
-                        <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Lê Minh Anh</h4>
-                        <p class="text-[10px] text-gray-400 font-medium mt-0.5">Học sinh lớp 12 • 15 phút trước</p>
-                    </div>
-                </div>
-                <span class="bg-amber-50 text-amber-600 text-[9px] font-black tracking-wide px-2.5 py-1 rounded-md uppercase">Hỏi Đáp Bài Tập</span>
-            </div>
-            
-            <a href="#" class="group">
-                <h3 class="font-black text-sm md:text-base text-[#3D3333] group-hover:text-[#C97474] transition duration-200 leading-snug">
-                    Có ai giải giúp em bài toán tích phân hàm ẩn này với ạ? Nghĩ mãi không ra hướng đổi biến...
-                </h3>
-                <p class="text-xs text-gray-400 font-medium line-clamp-2 mt-2 leading-relaxed">
-                    Em đã thử đặt t bằng căn nhưng đoạn sau đạo hàm ra phức tạp quá. Đề bài cho tích phân từ 0 đến 1 của f(x)dx bằng 5, tính tích phân...
-                </p>
-            </a>
-
-            <div class="flex items-center justify-between border-t border-gray-50 mt-4 pt-4 text-xs font-bold text-gray-400">
-                <div class="flex items-center gap-4">
-                    <button class="flex items-center gap-1.5 hover:text-[#C97474] transition">
-                        <i class="fa-regular fa-thumbs-up text-sm"></i> 24
-                    </button>
-                    <button class="flex items-center gap-1.5 hover:text-[#C97474] transition">
-                        <i class="fa-regular fa-comment text-sm"></i> 12 câu trả lời
-                    </button>
-                </div>
-                <div class="flex gap-1.5">
-                    <span class="bg-[#F6F1F1] text-[#5A4B4A] text-[10px] px-2 py-0.5 rounded-md">Toán Học</span>
-                </div>
-            </div>
+            <button class="create-post-btn flex items-center justify-center gap-2 bg-[#C97474] hover:bg-[#b56363] text-white text-xs font-bold px-5 py-3 rounded-xl shadow-md shadow-rose-500/10 transition active:scale-[0.98]">
+                <i class="fa-solid fa-pen-to-square"></i> Tạo bài viết mới
+            </button>
         </div>
 
-        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] hover:border-gray-200 transition duration-300">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" alt="Avatar Gia Sư" class="w-10 h-10 rounded-xl object-cover border border-gray-100 shadow-sm" />
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-3xl p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-100 sticky top-8 flex flex-col gap-5">
                     <div>
-                        <div class="flex items-center gap-1.5">
-                            <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Gia sư Trần Hoàng Bách</h4>
-                            <i class="fa-solid fa-circle-check text-[11px] text-blue-500" title="Gia sư đã xác thực"></i>
+                        <h3 class="font-extrabold text-[#3D3333] text-sm flex items-center gap-2 pb-3 border-b border-gray-50 mb-3">
+                            <i class="fa-solid fa-tags text-[#C97474]"></i> Chuyên mục
+                        </h3>
+                        <div class="flex flex-col gap-1 category-filters">
+                            <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl bg-[#C97474] text-white shadow-sm shadow-rose-100 transition">
+                                Tất cả thảo luận
+                            </button>
+                            <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
+                                Hỏi đáp bài tập
+                            </button>
+                            <button class="w-full text-left px-4 py-2.5 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition">
+                                Chia sẻ tài liệu
+                            </button>
                         </div>
-                        <p class="text-[10px] text-gray-400 font-medium mt-0.5">Gia sư Tiếng Anh • 2 giờ trước</p>
                     </div>
                 </div>
-                <span class="bg-indigo-50 text-indigo-600 text-[9px] font-black tracking-wide px-2.5 py-1 rounded-md uppercase">Chia Sẻ Tài Liệu</span>
             </div>
-            
-            <a href="#" class="group">
-                <h3 class="font-black text-sm md:text-base text-[#3D3333] group-hover:text-[#C97474] transition duration-200 leading-snug">
-                    Tổng hợp 50 cụm Collocations ăn điểm cực cao trong đề thi IELTS Writing Task 2 (Bản PDF nét căng)
-                </h3>
-                <p class="text-xs text-gray-400 font-medium line-clamp-2 mt-2 leading-relaxed">
-                    Tài liệu này được mình biên soạn và đúc kết từ các bài mẫu Band 8.0+. Phân loại cực kỳ rõ ràng theo các chủ đề hot như Education, Environment, Technology. Các bạn tải về ngâm cứu nhé!
-                </p>
-            </a>
 
-            <div class="flex items-center justify-between border-t border-gray-50 mt-4 pt-4 text-xs font-bold text-gray-400">
-                <div class="flex items-center gap-4">
-                    <button class="flex items-center gap-1.5 text-[#C97474]">
-                        <i class="fa-solid fa-thumbs-up text-sm"></i> 142
-                    </button>
-                    <button class="flex items-center gap-1.5 hover:text-[#C97474] transition">
-                        <i class="fa-regular fa-comment text-sm"></i> 45 thảo luận
-                    </button>
-                </div>
-                <div class="flex gap-1.5">
-                    <span class="bg-[#F6F1F1] text-[#5A4B4A] text-[10px] px-2 py-0.5 rounded-md">Tiếng Anh</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] hover:border-gray-200 transition duration-300">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" alt="Avatar User" class="w-10 h-10 rounded-xl object-cover border border-gray-100 shadow-sm" />
+            <div class="lg:col-span-9 flex flex-col gap-4" id="postsContainer">
+                <div class="post-item bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)]" data-category="Chia sẻ tài liệu">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="w-10 h-10 rounded-xl object-cover" />
+                            <div>
+                                <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Gia sư Trần Bách</h4>
+                                <p class="text-[10px] text-gray-400 font-medium mt-0.5">2 giờ trước</p>
+                            </div>
+                        </div>
+                        <span class="bg-indigo-50 text-indigo-600 text-[9px] font-black px-2.5 py-1 rounded-md uppercase">Chia Sẻ Tài Liệu</span>
+                    </div>
+                    
                     <div>
-                        <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Nguyễn Minh Hương</h4>
-                        <p class="text-[10px] text-gray-400 font-medium mt-0.5">Sinh viên Ngoại Thương • 1 ngày trước</p>
+                        <h3 class="font-black text-sm md:text-base text-[#3D3333] leading-snug">
+                            Tài liệu 50 Collocations IELTS Writing Task 2
+                        </h3>
+                        <p class="text-xs text-gray-400 font-medium mt-2 leading-relaxed">
+                            Mọi người tải file đính kèm về ôn tập nhé, rất hay đó!
+                        </p>
+                        <div class="mt-3 flex items-center gap-3 p-3 bg-red-50 rounded-xl text-red-600 font-bold text-xs border border-red-100 w-max cursor-pointer hover:bg-red-100 transition">
+                            <i class="fa-solid fa-file-pdf text-lg"></i>
+                            <span>IELTS_Collocations_Band8.pdf</span>
+                            <i class="fa-solid fa-download ml-2 text-gray-400"></i>
+                        </div>
                     </div>
-                </div>
-                <span class="bg-emerald-50 text-emerald-600 text-[9px] font-black tracking-wide px-2.5 py-1 rounded-md uppercase">Mẹo Học Tập</span>
-            </div>
-            
-            <a href="#" class="group">
-                <h3 class="font-black text-sm md:text-base text-[#3D3333] group-hover:text-[#C97474] transition duration-200 leading-snug">
-                    Phương pháp quản lý thời gian "Pomodoro cải tiến" giúp mình tập trung ôn thi đại học suốt 8 tiếng không mệt mỏi
-                </h3>
-                <p class="text-xs text-gray-400 font-medium line-clamp-2 mt-2 leading-relaxed">
-                    Thay vì học 25 phút nghỉ 5 phút thông thường, mình áp dụng chu kỳ 50-10 tối ưu hóa hoàn toàn cho cấu trúc não bộ khi nạp kiến thức khó như Toán, Lý. Dưới đây là cách setup không gian...
-                </p>
-            </a>
 
-            <div class="flex items-center justify-between border-t border-gray-50 mt-4 pt-4 text-xs font-bold text-gray-400">
-                <div class="flex items-center gap-4">
-                    <button class="flex items-center gap-1.5 hover:text-[#C97474] transition">
-                        <i class="fa-regular fa-thumbs-up text-sm"></i> 98
-                    </button>
-                    <button class="flex items-center gap-1.5 hover:text-[#C97474] transition">
-                        <i class="fa-regular fa-comment text-sm"></i> 19 bình luận
-                    </button>
-                </div>
-                <div class="flex gap-1.5">
-                    <span class="bg-[#F6F1F1] text-[#5A4B4A] text-[10px] px-2 py-0.5 rounded-md">Đời Sống Học Đường</span>
+                    <div class="flex items-center gap-4 border-t border-gray-50 mt-4 pt-4 text-xs font-bold text-gray-400">
+                        <button class="like-btn flex items-center gap-1.5 hover:text-[#C97474] transition">
+                            <i class="fa-regular fa-thumbs-up text-sm"></i> <span class="like-count">14</span>
+                        </button>
+                        <button class="toggle-comments-btn flex items-center gap-1.5 hover:text-[#C97474] transition">
+                            <i class="fa-regular fa-comment text-sm"></i> <span class="comment-count">1</span> bình luận
+                        </button>
+                    </div>
+
+                    <div class="comments-section hidden mt-4 pt-4 border-t border-gray-50">
+                        <div class="comments-list flex flex-col gap-3 mb-3 max-h-48 overflow-y-auto pr-2">
+                            <div class="flex gap-2.5 text-xs">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" class="w-7 h-7 rounded-full shrink-0 object-cover">
+                                <div class="bg-gray-50 rounded-xl rounded-tl-none px-3 py-2 w-full">
+                                    <span class="font-bold text-[#3D3333] block mb-0.5">Minh Anh</span>
+                                    <p class="text-gray-600">Tuyệt vời quá, em cảm ơn thầy ạ!</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form class="comment-form flex items-center gap-2 relative">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-black flex items-center justify-center shrink-0 text-xs">Me</div>
+                            <input type="text" class="comment-input w-full bg-[#F6F1F1] text-xs font-medium rounded-xl px-4 py-2.5 text-[#3D3333] outline-none focus:bg-white focus:border-[#C97474]/30 border-2 border-transparent transition" placeholder="Viết bình luận..." required>
+                            <button type="submit" class="absolute right-2 text-gray-400 hover:text-[#C97474] p-1 transition"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div id="createPostModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center backdrop-blur-sm transition-opacity opacity-0">
+        <div class="bg-white w-full max-w-2xl mx-4 rounded-3xl p-6 shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center mb-5 border-b border-gray-100 pb-3">
+                <h3 class="text-lg font-black text-[#3D3333]">Tạo bài thảo luận mới</h3>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="createPostForm" class="flex flex-col gap-4">
+                <input type="text" id="postTitle" placeholder="Tiêu đề bài viết..." class="w-full bg-[#F6F1F1] text-sm font-bold rounded-xl px-4 py-3 text-[#3D3333] outline-none border-2 border-transparent focus:border-[#C97474]/30" required>
+                
+                <select id="postCategory" class="w-full bg-[#F6F1F1] text-sm font-bold rounded-xl px-4 py-3 text-[#3D3333] outline-none border-2 border-transparent focus:border-[#C97474]/30" required>
+                    <option value="Hỏi đáp bài tập">Hỏi Đáp Bài Tập</option>
+                    <option value="Chia sẻ tài liệu">Chia Sẻ Tài Liệu</option>
+                </select>
+                
+                <textarea id="postContent" rows="4" placeholder="Nội dung chi tiết..." class="w-full bg-[#F6F1F1] text-sm font-medium rounded-xl px-4 py-3 text-[#3D3333] outline-none border-2 border-transparent focus:border-[#C97474]/30" required></textarea>
+                
+                <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center relative hover:bg-gray-50 transition cursor-pointer">
+                    <input type="file" id="postFile" accept="image/*, .pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-gray-400 mb-2"></i>
+                    <p class="text-xs font-bold text-gray-500" id="fileNameDisplay">Nhấn để đính kèm Ảnh hoặc file PDF</p>
+                </div>
+                
+                <button type="submit" class="bg-[#C97474] hover:bg-[#b56363] text-white text-sm font-bold px-5 py-3 rounded-xl transition w-full mt-2 shadow-lg shadow-rose-500/20 active:scale-[0.98]">
+                    Đăng bài viết
+                </button>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+    // Bọc trong một block tĩnh hoặc IIFE để tránh xung đột biến khi người dùng chuyển tab liên tục
+    (function initDiscussionComponent() {
+        const postsContainer = document.getElementById('postsContainer');
+        const modal = document.getElementById('createPostModal');
+        const fileInput = document.getElementById('postFile');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const categoryButtons = document.querySelectorAll('.category-filters button');
+
+        if(!postsContainer) return; // Đảm bảo DOM đã load đúng
+
+        // --- Lọc chuyên mục ---
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryButtons.forEach(b => {
+                    b.classList.remove('bg-[#C97474]', 'text-white', 'shadow-sm', 'shadow-rose-100');
+                    b.classList.add('text-gray-500');
+                });
+                btn.classList.remove('text-gray-500');
+                btn.classList.add('bg-[#C97474]', 'text-white', 'shadow-sm', 'shadow-rose-100');
+                
+                const selectedCategory = btn.innerText.trim();
+                document.querySelectorAll('.post-item').forEach(post => {
+                    if (selectedCategory === "Tất cả thảo luận" || post.getAttribute('data-category') === selectedCategory) {
+                        post.style.display = 'block';
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // --- Hiển thị tên file khi chọn đính kèm ---
+        if(fileInput) {
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    fileNameDisplay.innerHTML = `<span class="text-[#C97474]"><i class="fa-solid fa-check-circle mr-1"></i> Đã chọn: ${e.target.files[0].name}</span>`;
+                } else {
+                    fileNameDisplay.innerText = "Nhấn để đính kèm Ảnh hoặc file PDF";
+                }
+            });
+        }
+
+        // --- Logic Thả Tim, Bật/Tắt Bình Luận, Gửi Bình Luận ---
+        postsContainer.addEventListener('click', (e) => {
+            const likeBtn = e.target.closest('.like-btn');
+            if (likeBtn) {
+                const icon = likeBtn.querySelector('i');
+                const countSpan = likeBtn.querySelector('.like-count');
+                let count = parseInt(countSpan.innerText) || 0;
+                
+                if (icon.classList.contains('fa-regular')) {
+                    icon.classList.replace('fa-regular', 'fa-solid');
+                    likeBtn.classList.add('text-[#C97474]');
+                    count++;
+                } else {
+                    icon.classList.replace('fa-solid', 'fa-regular');
+                    likeBtn.classList.remove('text-[#C97474]');
+                    count--;
+                }
+                countSpan.innerText = count;
+            }
+
+            const toggleCommentsBtn = e.target.closest('.toggle-comments-btn');
+            if (toggleCommentsBtn) {
+                const postItem = toggleCommentsBtn.closest('.post-item');
+                const commentsSection = postItem.querySelector('.comments-section');
+                commentsSection.classList.toggle('hidden');
+            }
+        });
+
+        postsContainer.addEventListener('submit', (e) => {
+            if (e.target.classList.contains('comment-form')) {
+                e.preventDefault();
+                const form = e.target;
+                const input = form.querySelector('.comment-input');
+                const commentsList = form.closest('.comments-section').querySelector('.comments-list');
+                const countSpan = form.closest('.post-item').querySelector('.comment-count');
+                
+                const text = input.value.trim();
+                if (text) {
+                    const newCommentHTML = `
+                        <div class="flex gap-2.5 text-xs animate-[fadeIn_0.3s_ease-out]">
+                            <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 font-black flex items-center justify-center shrink-0 text-[10px]">Me</div>
+                            <div class="bg-gray-100 rounded-xl rounded-tl-none px-3 py-2 w-full">
+                                <span class="font-bold text-[#3D3333] block mb-0.5">Bạn</span>
+                                <p class="text-gray-700">${text}</p>
+                            </div>
+                        </div>
+                    `;
+                    commentsList.insertAdjacentHTML('beforeend', newCommentHTML);
+                    input.value = '';
+                    countSpan.innerText = (parseInt(countSpan.innerText) || 0) + 1;
+                    commentsList.scrollTop = commentsList.scrollHeight;
+                }
+            }
+        });
+
+        // --- XỬ LÝ ĐĂNG BÀI VIẾT MỚI ---
+        const createPostBtn = document.querySelector('.create-post-btn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const createPostForm = document.getElementById('createPostForm');
+
+        if(createPostBtn && modal) {
+            createPostBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            });
+        }
+        
+        const closeModal = () => {
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        };
+
+        if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+
+        if(createPostForm) {
+            createPostForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const title = document.getElementById('postTitle').value;
+                const category = document.getElementById('postCategory').value;
+                const content = document.getElementById('postContent').value;
+                const file = fileInput.files[0];
+                
+                let badgeClass = category === "Hỏi đáp bài tập" ? "bg-amber-50 text-amber-600" : "bg-indigo-50 text-indigo-600";
+                
+                let attachmentHTML = '';
+                if (file) {
+                    const fileURL = URL.createObjectURL(file); 
+                    if (file.type.startsWith('image/')) {
+                        attachmentHTML = `<img src="${fileURL}" alt="Đính kèm" class="mt-3 rounded-xl max-h-[300px] object-cover border border-gray-100">`;
+                    } else if (file.type === 'application/pdf') {
+                        attachmentHTML = `
+                            <a href="${fileURL}" target="_blank" class="mt-3 flex items-center gap-3 p-3 bg-red-50 rounded-xl text-red-600 font-bold text-xs border border-red-100 w-max hover:bg-red-100 transition">
+                                <i class="fa-solid fa-file-pdf text-lg"></i>
+                                <span>${file.name}</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square ml-2 text-gray-400"></i>
+                            </a>`;
+                    }
+                }
+
+                const newPostHTML = `
+                    <div class="post-item bg-white rounded-3xl p-6 border border-[#C97474]/30 shadow-[0_4px_24px_rgba(201,116,116,0.1)]" data-category="${category}">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">Me</div>
+                                <div>
+                                    <h4 class="font-extrabold text-xs md:text-sm text-[#3D3333]">Bạn</h4>
+                                    <p class="text-[10px] text-gray-400 font-medium mt-0.5">Vừa xong</p>
+                                </div>
+                            </div>
+                            <span class="${badgeClass} text-[9px] font-black tracking-wide px-2.5 py-1 rounded-md uppercase">${category}</span>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-black text-sm md:text-base text-[#3D3333] leading-snug">${title}</h3>
+                            <p class="text-xs text-gray-500 font-medium mt-2 whitespace-pre-line leading-relaxed">${content}</p>
+                            ${attachmentHTML}
+                        </div>
+
+                        <div class="flex items-center gap-4 border-t border-gray-50 mt-4 pt-4 text-xs font-bold text-gray-400">
+                            <button class="like-btn flex items-center gap-1.5 hover:text-[#C97474] transition">
+                                <i class="fa-regular fa-thumbs-up text-sm"></i> <span class="like-count">0</span>
+                            </button>
+                            <button class="toggle-comments-btn flex items-center gap-1.5 hover:text-[#C97474] transition">
+                                <i class="fa-regular fa-comment text-sm"></i> <span class="comment-count">0</span> bình luận
+                            </button>
+                        </div>
+
+                        <div class="comments-section hidden mt-4 pt-4 border-t border-gray-50">
+                            <div class="comments-list flex flex-col gap-3 mb-3 max-h-48 overflow-y-auto pr-2"></div>
+                            <form class="comment-form flex items-center gap-2 relative">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-black flex items-center justify-center shrink-0 text-xs">Me</div>
+                                <input type="text" class="comment-input w-full bg-[#F6F1F1] text-xs font-medium rounded-xl px-4 py-2.5 text-[#3D3333] outline-none focus:bg-white focus:border-[#C97474]/30 border-2 border-transparent transition" placeholder="Viết bình luận..." required>
+                                <button type="submit" class="absolute right-2 text-gray-400 hover:text-[#C97474] p-1 transition"><i class="fa-solid fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+
+                postsContainer.insertAdjacentHTML('afterbegin', newPostHTML);
+                e.target.reset();
+                fileNameDisplay.innerText = "Nhấn để đính kèm Ảnh hoặc file PDF";
+                closeModal();
+            });
+        }
+    })();
+</script>

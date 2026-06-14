@@ -406,11 +406,14 @@
     <div class="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between mb-4">
             <h3 class="font-black text-base text-emerald-600"><i class="fa-solid fa-qrcode mr-2"></i> Quét mã nạp tiền Sepay</h3>
-            <button class="close-modal text-gray-400 hover:text-rose-500 transition" onclick="closeSepayModal()"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <!-- <button class="close-modal text-gray-400 hover:text-rose-500 transition" onclick="closeSepayModal()"><i class="fa-solid fa-xmark text-xl"></i></button> -->
         </div>
         <div class="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-4 flex flex-col items-center justify-center mb-4">
-            <div class="w-36 h-36 bg-white border border-gray-100 rounded-xl shadow-inner flex flex-col items-center justify-center relative overflow-hidden mb-2">
-                <i class="fa-solid fa-qrcode text-7xl text-slate-700"></i>
+            <div id="qrBox" class="w-36 h-36 bg-white border border-gray-100 rounded-xl shadow-inner flex flex-col items-center justify-center relative overflow-hidden mb-2">
+                <a id="qrLink" href="#" target="_blank" class="flex items-center justify-center w-full h-full relative z-10 pointer-events-none">
+                    <img alt="Mã QR thanh toán" class="w-full h-full object-contain">
+                </a>
+
                 <div class="absolute inset-0 bg-gradient-to-t from-emerald-500/10 to-transparent animate-pulse"></div>
             </div>
             <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Mở App ngân hàng quét QR tự động điền</p>
@@ -418,19 +421,19 @@
         <div class="flex flex-col gap-2.5 bg-[#F6F1F1] rounded-2xl p-4 text-xs mb-5">
             <div class="flex justify-between items-center border-b border-gray-200/60 pb-1.5">
                 <span class="font-bold text-gray-400">Ngân hàng:</span>
-                <span class="font-black text-[#3D3333]">MB BANK (Quân Đội)</span>
+                <span class="font-black text-[#3D3333]">MBBANK</span>
             </div>
             <div class="flex justify-between items-center border-b border-gray-200/60 pb-1.5">
                 <span class="font-bold text-gray-400">Số tài khoản:</span>
-                <span class="font-mono font-black text-[#3D3333] text-sm">190026268888</span>
+                <span class="font-mono font-black text-[#3D3333] text-sm">0359832905</span>
             </div>
             <div class="flex justify-between items-center border-b border-gray-200/60 pb-1.5">
                 <span class="font-bold text-gray-400">Chủ tài khoản:</span>
-                <span class="font-black text-[#3D3333] uppercase">CONG TY CONG NGHE SEPAY</span>
+                <span class="font-black text-[#3D3333] uppercase">DAO CAO NGUYEN</span>
             </div>
             <div class="flex justify-between items-center border-b border-gray-200/60 pb-1.5">
                 <span class="font-bold text-gray-400">Số tiền:</span>
-                <span id="sepay-render-amount" class="font-black text-rose-600 text-sm">200.000đ</span>
+                <span id="sepay-render-amount" class="font-black text-rose-600 text-sm">000.000đ</span>
             </div>
             <div class="flex flex-col gap-1 pt-0.5">
                 <span class="font-bold text-gray-400">Nội dung chuyển khoản bắt buộc:</span>
@@ -440,9 +443,9 @@
                 </div>
             </div>
         </div>
-        <button id="btn-payment-done" class="w-full bg-emerald-600 text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-emerald-700 active:scale-[0.98] transition shadow-md">
-            Tôi đã chuyển khoản thành công
-        </button>
+        <p class="text-center text-gray-500 text-xs font-semibold py-3.5 italic">
+            Chuyển khoản sẽ tự động duyệt trong vài phút tới, vui lòng không đóng thẻ này ...
+        </p>
     </div>
 </div>
 
@@ -640,6 +643,25 @@
             // Tạo mã nội dung chuyển khoản ngẫu nhiên (Ví dụ: NAPVITIEN + 4 số ngẫu nhiên)
             sepayContent = "NAPVITIEN" + Math.floor(1000 + Math.random() * 9000);
 
+            // Tạo mã qr
+            const bank = "MB";
+            const account = "0359832905";
+            const content = sepayContent;
+
+            // tạo link QR động
+            const qrUrl = `https://img.vietqr.io/image/${bank}-${account}-compact.png?amount=${amount}&addInfo=${encodeURIComponent(content)}`;
+
+            // gán link
+            const qrImgElement = document.querySelector("#qrLink img");
+
+            if (qrImgElement) {
+                // Nếu đã có thẻ <img> bên trong, đổi src
+                qrImgElement.src = qrUrl;
+            } else {
+                // Nếu chưa có, tạo mới và thêm vào trong qrLink
+                document.getElementById("qrLink").innerHTML = `<img src="${qrUrl}" class="w-full h-full object-contain">`;
+            }
+            
             // Đổ thông tin động vào giao diện cấu trúc Modal Sepay của bạn
             document.getElementById('sepay-render-amount').innerText = formatMoney(amount);
             document.getElementById('sepay-render-content').innerText = sepayContent;
@@ -726,7 +748,7 @@
                     pendingAmount = 0;
                 } else {
                     if (isManualClick) {
-                        alert("❌ Hệ thống chưa tìm thấy giao dịch tương ứng với nội dung trên. Vui lòng bấm lại sau ít giây!");
+                        alert("Hệ thống chưa tìm thấy giao dịch tương ứng với nội dung trên. Vui lòng bấm lại sau ít giây!");
                         if (btn) {
                             btn.innerText = "Tôi đã chuyển khoản thành công";
                             btn.disabled = false;
