@@ -169,296 +169,296 @@
 </div>
 
 <script>
-{
-    // 1. KIỂM TRA & KHỞI TẠO DỮ LIỆU TOÀN CỤC (Giữ lại trạng thái đánh giá qua mỗi lần chuyển trang)
-    if (!window.globalHistoryData) {
-        window.globalHistoryData = [
-            { 
-                id: 1, tutorName: "Trần Hoàng Bách", subject: "Tiếng Anh (IELTS)", subjectDetail: "Tiếng Anh (IELTS Cấp Tốc)", status: "ongoing", time: "Hôm nay, 19:00 - 21:00", cost: 600000, hours: 2, avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&q=80", reviewed: false,
-                files: { image: "de_doc_ielts_reading.png", summary: "summary_key_tips.pdf", knowledge: "vocab_band_8.0.epub", solution: "answer_key_explained.docx" }
-            },
-            { 
-                id: 2, tutorName: "Nguyễn Minh Hương", subject: "Toán Học", subjectDetail: "Toán Học (Lớp 12)", status: "completed", time: "14:00 - 15:30, 10/06/2026", cost: 270000, hours: 1.5, avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80", reviewed: false,
-                files: { image: "hinh_hoc_khong_gian.jpg", summary: "tom_tat_cong_thuc_nhanh.pdf", knowledge: "ly_thuyet_khoi_da_dien.pdf", solution: "giai_chi_tiet_phat_trien_cau_38.pdf" }
-            },
-            { 
-                id: 3, tutorName: "Lê Thị Thu Thảo", subject: "Vật Lý", subjectDetail: "Vật Lý (Luyện Chuyên)", status: "cancelled", time: "14:00 - 15:30, 10/06/2026", cost: 400000, hours: 2, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80", reviewed: false,
-                files: { image: "chua_tai_len.png", summary: "rong.pdf", knowledge: "rong.pdf", solution: "rong.pdf" }
-            },
-            { 
-                id: 4, tutorName: "Phạm Minh Đức", subject: "Toán Học", subjectDetail: "Toán Học Cao Cấp", status: "completed", time: "14:00 - 15:30, 10/06/2026", cost: 500000, hours: 2.5, avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80", reviewed: true,
-                files: { image: "tich_phan_boi.png", summary: "chuoi_taylor_tom_tat.pdf", knowledge: "giao_trinh_toan_cao_cap_a1.pdf", solution: "loi_giai_de_thi_giua_ky.pdf" }
-            }
-        ];
-        window.globalSelectedStatus = 'all';
-    }
-
-    // Biến tạm trong Scope hiện tại của phiên render này
-    let currentReviewId = null;
-    let selectedRating = 0;
-    const stars = document.querySelectorAll('.star-icon');
-
-    // 2. CÁC HÀM XỬ LÝ GIAO DIỆN CHÍNH
-    const showToast = (message) => {
-        const toast = document.getElementById('toast');
-        const msg = document.getElementById('toast-msg');
-        if (!toast || !msg) return;
-        msg.innerText = message;
-        toast.classList.remove('translate-y-20', 'opacity-0');
-        toast.classList.add('translate-y-0', 'opacity-100');
-        setTimeout(() => {
-            toast.classList.remove('translate-y-0', 'opacity-100');
-            toast.classList.add('translate-y-20', 'opacity-0');
-        }, 3000);
-    };
-
-    const updateStatsDashboard = () => {
-        const sEl = document.getElementById('stat-sessions');
-        const hEl = document.getElementById('stat-hours');
-        const spEl = document.getElementById('stat-spent');
-        if (!sEl || !hEl || !spEl) return;
-
-        const validSessions = window.globalHistoryData.filter(item => item.status !== 'cancelled');
-        sEl.innerText = validSessions.length;
-        hEl.innerText = validSessions.reduce((sum, item) => sum + item.hours, 0);
-        spEl.innerText = (validSessions.reduce((sum, item) => sum + item.cost, 0) / 1000000).toFixed(1) + "M";
-    };
-
-    const renderHistoryUI = (data) => {
-        const container = document.getElementById('history-list-container');
-        if (!container) return;
-        container.innerHTML = '';
-
-        if (data.length === 0) {
-            container.innerHTML = `
-                <div class="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
-                    <i class="fa-solid fa-folder-open text-gray-300 text-3xl mb-2"></i>
-                    <p class="text-xs text-gray-400 font-bold">Không tìm thấy lịch sử kết nối tương thích.</p>
-                </div>`;
-            return;
+    {
+        // 1. KIỂM TRA & KHỞI TẠO DỮ LIỆU TOÀN CỤC (Giữ lại trạng thái đánh giá qua mỗi lần chuyển trang)
+        if (!window.globalHistoryData) {
+            window.globalHistoryData = [
+                { 
+                    id: 1, tutorName: "Trần Hoàng Bách", subject: "Tiếng Anh (IELTS)", subjectDetail: "Tiếng Anh (IELTS Cấp Tốc)", status: "ongoing", time: "Hôm nay, 19:00 - 21:00", cost: 600000, hours: 2, avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&q=80", reviewed: false,
+                    files: { image: "de_doc_ielts_reading.png", summary: "summary_key_tips.pdf", knowledge: "vocab_band_8.0.epub", solution: "answer_key_explained.docx" }
+                },
+                { 
+                    id: 2, tutorName: "Nguyễn Minh Hương", subject: "Toán Học", subjectDetail: "Toán Học (Lớp 12)", status: "completed", time: "14:00 - 15:30, 10/06/2026", cost: 270000, hours: 1.5, avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80", reviewed: false,
+                    files: { image: "hinh_hoc_khong_gian.jpg", summary: "tom_tat_cong_thuc_nhanh.pdf", knowledge: "ly_thuyet_khoi_da_dien.pdf", solution: "giai_chi_tiet_phat_trien_cau_38.pdf" }
+                },
+                { 
+                    id: 3, tutorName: "Lê Thị Thu Thảo", subject: "Vật Lý", subjectDetail: "Vật Lý (Luyện Chuyên)", status: "cancelled", time: "14:00 - 15:30, 10/06/2026", cost: 400000, hours: 2, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80", reviewed: false,
+                    files: { image: "chua_tai_len.png", summary: "rong.pdf", knowledge: "rong.pdf", solution: "rong.pdf" }
+                },
+                { 
+                    id: 4, tutorName: "Phạm Minh Đức", subject: "Toán Học", subjectDetail: "Toán Học Cao Cấp", status: "completed", time: "14:00 - 15:30, 10/06/2026", cost: 500000, hours: 2.5, avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80", reviewed: true,
+                    files: { image: "tich_phan_boi.png", summary: "chuoi_taylor_tom_tat.pdf", knowledge: "giao_trinh_toan_cao_cap_a1.pdf", solution: "loi_giai_de_thi_giua_ky.pdf" }
+                }
+            ];
+            window.globalSelectedStatus = 'all';
         }
 
-        data.forEach(item => {
-            let statusBadge = '';
-            let actionBtn = '';
-            let paymentTitle = 'Tổng thanh toán';
-            let cardClasses = 'bg-white rounded-3xl p-5 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] flex flex-col justify-between gap-4 sm:flex-row sm:items-center cursor-pointer hover:border-[#C97474]/30 hover:shadow-md transition duration-300';
+        // Biến tạm trong Scope hiện tại của phiên render này
+        let currentReviewId = null;
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('.star-icon');
 
-            if (item.status === 'ongoing') {
-                statusBadge = `<span class="bg-emerald-50 text-emerald-600 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Đang học</span>`;
-                actionBtn = `<button data-id="${item.id}" data-tutor="${item.tutorName}" class="btn-action-goto bg-[#C97474] text-white hover:bg-[#b56363] font-extrabold text-xs px-4 py-2 rounded-xl transition duration-300 shadow-sm">Vào Lớp</button>`;
-            } else if (item.status === 'completed') {
-                statusBadge = `<span class="bg-blue-50 text-blue-600 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Hoàn thành</span>`;
-                actionBtn = item.reviewed 
-                    ? `<button class="bg-gray-100 text-gray-400 font-extrabold text-xs px-4 py-2 rounded-xl cursor-not-allowed" disabled>Đã Đánh Giá</button>`
-                    : `<button data-id="${item.id}" data-tutor="${item.tutorName}" class="btn-action-review bg-[#F6F1F1] text-[#5A4B4A] hover:bg-[#C97474] hover:text-white font-extrabold text-xs px-4 py-2 rounded-xl transition duration-300">Đánh Giá</button>`;
-            } else if (item.status === 'cancelled') {
-                statusBadge = `<span class="bg-rose-50 text-rose-500 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Đã Hủy</span>`;
-                actionBtn = `<span class="text-[11px] text-rose-400 font-bold italic">Hệ thống đã hoàn tiền</span>`;
-                paymentTitle = 'Hoàn trả ví';
-                cardClasses += ' opacity-75';
-            }
-
-            const cardHtml = `
-                <div class="${cardClasses}" data-card-id="${item.id}">
-                    <div class="flex gap-4 items-center">
-                        <img src="${item.avatar}" alt="Tutor" class="w-14 h-14 rounded-2xl object-cover border border-gray-100 shadow-sm ${item.status === 'cancelled' ? 'grayscale' : ''}" />
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <h4 class="font-extrabold text-sm md:text-base text-[#3D3333] ${item.status === 'cancelled' ? 'line-through text-gray-500' : ''}">${item.tutorName}</h4>
-                                ${statusBadge}
-                            </div>
-                            <p class="text-xs text-gray-400 font-bold mt-0.5"><i class="fa-solid fa-book-open text-xs mr-1 ${item.status === 'cancelled' ? 'text-gray-400' : 'text-[#C97474]'}"></i> ${item.subjectDetail}</p>
-                            <p class="text-[11px] text-gray-400 font-medium mt-1"><i class="fa-solid fa-calendar-days mr-1"></i> ${item.time}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between sm:flex-col sm:items-end border-t sm:border-none pt-3 sm:pt-0 border-gray-50">
-                        <div class="mb-1">
-                            <p class="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider text-left sm:text-right">${paymentTitle}</p>
-                            <p class="text-base font-black ${item.status === 'cancelled' ? 'text-gray-400' : 'text-[#3D3333]'}">${item.cost.toLocaleString('vi-VN')}đ</p>
-                        </div>
-                        ${actionBtn}
-                    </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', cardHtml);
-        });
-
-        // Gán sự kiện click trực tiếp cho các thành phần vừa render để chống xung đột SPA
-        bindCardActions();
-    };
-
-    // 3. QUẢN LÝ MODAL (XỬ LÝ ĐÓNG MỞ AN TOÀN)
-    const toggleModal = (modalId, show) => {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        if (show) {
-            modal.classList.remove('hidden');
+        // 2. CÁC HÀM XỬ LÝ GIAO DIỆN CHÍNH
+        const showToast = (message) => {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toast-msg');
+            if (!toast || !msg) return;
+            msg.innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
             setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('div').classList.remove('scale-95');
-            }, 10);
-        } else {
-            modal.classList.add('opacity-0');
-            modal.querySelector('div').classList.add('scale-95');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-    };
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        };
 
-    const openDetailModal = (id) => {
-        const item = window.globalHistoryData.find(session => session.id === id);
-        if (!item) return;
+        const updateStatsDashboard = () => {
+            const sEl = document.getElementById('stat-sessions');
+            const hEl = document.getElementById('stat-hours');
+            const spEl = document.getElementById('stat-spent');
+            if (!sEl || !hEl || !spEl) return;
 
-        document.getElementById('detail-title').innerText = item.subjectDetail;
-        document.getElementById('detail-tutor').innerText = item.tutorName;
-        document.getElementById('detail-time').innerText = item.time;
-        document.getElementById('detail-hours').innerText = item.hours;
-        document.getElementById('detail-cost').innerText = item.cost.toLocaleString('vi-VN') + "đ";
+            const validSessions = window.globalHistoryData.filter(item => item.status !== 'cancelled');
+            sEl.innerText = validSessions.length;
+            hEl.innerText = validSessions.reduce((sum, item) => sum + item.hours, 0);
+            spEl.innerText = (validSessions.reduce((sum, item) => sum + item.cost, 0) / 1000000).toFixed(1) + "M";
+        };
 
-        const badge = document.getElementById('detail-badge');
-        if (item.status === 'ongoing') {
-            badge.innerText = "Đang học";
-            badge.className = "text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase mb-1 inline-block bg-emerald-50 text-emerald-600";
-            document.getElementById('detail-payment-title').innerText = "Tổng thanh toán";
-        } else if (item.status === 'completed') {
-            badge.innerText = "Hoàn thành";
-            badge.className = "text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase mb-1 inline-block bg-blue-50 text-blue-600";
-            document.getElementById('detail-payment-title').innerText = "Tổng thanh toán";
-        } else {
-            badge.innerText = "Đã hủy";
-            badge.className = "text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase mb-1 inline-block bg-rose-50 text-rose-500";
-            document.getElementById('detail-payment-title').innerText = "Hoàn trả ví";
-        }
+        const renderHistoryUI = (data) => {
+            const container = document.getElementById('history-list-container');
+            if (!container) return;
+            container.innerHTML = '';
 
-        document.getElementById('file-image-name').innerText = item.files.image;
-        document.getElementById('file-summary-name').innerText = item.files.summary;
-        document.getElementById('file-knowledge-name').innerText = item.files.knowledge;
-        document.getElementById('file-solution-name').innerText = item.files.solution;
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
+                        <i class="fa-solid fa-folder-open text-gray-300 text-3xl mb-2"></i>
+                        <p class="text-xs text-gray-400 font-bold">Không tìm thấy lịch sử kết nối tương thích.</p>
+                    </div>`;
+                return;
+            }
 
-        document.getElementById('btn-view-image').onclick = () => showToast(`Đang hiển thị tệp hình ảnh: ${item.files.image}`);
-        document.getElementById('btn-view-summary').onclick = () => showToast(`Đang tải tài liệu tóm tắt đề: ${item.files.summary}`);
-        document.getElementById('btn-view-knowledge').onclick = () => showToast(`Đang mở tệp dữ liệu kiến thức: ${item.files.knowledge}`);
-        document.getElementById('btn-view-solution').onclick = () => showToast(`Đang truy xuất phương pháp giải: ${item.files.solution}`);
+            data.forEach(item => {
+                let statusBadge = '';
+                let actionBtn = '';
+                let paymentTitle = 'Tổng thanh toán';
+                let cardClasses = 'bg-white rounded-3xl p-5 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.015)] flex flex-col justify-between gap-4 sm:flex-row sm:items-center cursor-pointer hover:border-[#C97474]/30 hover:shadow-md transition duration-300';
 
-        toggleModal('detail-modal', true);
-    };
+                if (item.status === 'ongoing') {
+                    statusBadge = `<span class="bg-emerald-50 text-emerald-600 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Đang học</span>`;
+                    actionBtn = `<button data-id="${item.id}" data-tutor="${item.tutorName}" class="btn-action-goto bg-[#C97474] text-white hover:bg-[#b56363] font-extrabold text-xs px-4 py-2 rounded-xl transition duration-300 shadow-sm">Vào Lớp</button>`;
+                } else if (item.status === 'completed') {
+                    statusBadge = `<span class="bg-blue-50 text-blue-600 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Hoàn thành</span>`;
+                    actionBtn = item.reviewed 
+                        ? `<button class="bg-gray-100 text-gray-400 font-extrabold text-xs px-4 py-2 rounded-xl cursor-not-allowed" disabled>Đã Đánh Giá</button>`
+                        : `<button data-id="${item.id}" data-tutor="${item.tutorName}" class="btn-action-review bg-[#F6F1F1] text-[#5A4B4A] hover:bg-[#C97474] hover:text-white font-extrabold text-xs px-4 py-2 rounded-xl transition duration-300">Đánh Giá</button>`;
+                } else if (item.status === 'cancelled') {
+                    statusBadge = `<span class="bg-rose-50 text-rose-500 text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase">Đã Hủy</span>`;
+                    actionBtn = `<span class="text-[11px] text-rose-400 font-bold italic">Hệ thống đã hoàn tiền</span>`;
+                    paymentTitle = 'Hoàn trả ví';
+                    cardClasses += ' opacity-75';
+                }
 
-    const openReviewModal = (id, name) => {
-        currentReviewId = id;
-        selectedRating = 0;
-        document.getElementById('modal-tutor-name').innerText = name;
-        document.getElementById('modal-comment').value = '';
-        highlightStars(0);
-        toggleModal('review-modal', true);
-    };
+                const cardHtml = `
+                    <div class="${cardClasses}" data-card-id="${item.id}">
+                        <div class="flex gap-4 items-center">
+                            <img src="${item.avatar}" alt="Tutor" class="w-14 h-14 rounded-2xl object-cover border border-gray-100 shadow-sm ${item.status === 'cancelled' ? 'grayscale' : ''}" />
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-extrabold text-sm md:text-base text-[#3D3333] ${item.status === 'cancelled' ? 'line-through text-gray-500' : ''}">${item.tutorName}</h4>
+                                    ${statusBadge}
+                                </div>
+                                <p class="text-xs text-gray-400 font-bold mt-0.5"><i class="fa-solid fa-book-open text-xs mr-1 ${item.status === 'cancelled' ? 'text-gray-400' : 'text-[#C97474]'}"></i> ${item.subjectDetail}</p>
+                                <p class="text-[11px] text-gray-400 font-medium mt-1"><i class="fa-solid fa-calendar-days mr-1"></i> ${item.time}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:flex-col sm:items-end border-t sm:border-none pt-3 sm:pt-0 border-gray-50">
+                            <div class="mb-1">
+                                <p class="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider text-left sm:text-right">${paymentTitle}</p>
+                                <p class="text-base font-black ${item.status === 'cancelled' ? 'text-gray-400' : 'text-[#3D3333]'}">${item.cost.toLocaleString('vi-VN')}đ</p>
+                            </div>
+                            ${actionBtn}
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', cardHtml);
+            });
 
-    // 4. BỘ LỌC DỮ LIỆU
-    const filterHistoryData = () => {
-        const filterSubject = document.getElementById('filter-subject');
-        if (!filterSubject) return;
-        
-        const subjectFilter = filterSubject.value;
-        let results = window.globalHistoryData;
-        
-        if (window.globalSelectedStatus !== 'all') {
-            results = results.filter(item => item.status === window.globalSelectedStatus);
-        }
-        if (subjectFilter !== 'all') {
-            results = results.filter(item => item.subject === subjectFilter);
-        }
-        renderHistoryUI(results);
-    };
+            // Gán sự kiện click trực tiếp cho các thành phần vừa render để chống xung đột SPA
+            bindCardActions();
+        };
 
-    // Gán hiệu ứng Active cho nút trạng thái tĩnh
-    const updateStatusButtonsUI = () => {
-        document.querySelectorAll('.status-btn').forEach(btn => {
-            if (btn.getAttribute('data-status') === window.globalSelectedStatus) {
-                btn.className = "status-btn w-full text-left px-4 py-3 text-xs font-bold rounded-xl bg-[#C97474] text-white shadow-sm shadow-rose-100 transition";
+        // 3. QUẢN LÝ MODAL (XỬ LÝ ĐÓNG MỞ AN TOÀN)
+        const toggleModal = (modalId, show) => {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            if (show) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modal.querySelector('div').classList.remove('scale-95');
+                }, 10);
             } else {
-                btn.className = "status-btn w-full text-left px-4 py-3 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition";
+                modal.classList.add('opacity-0');
+                modal.querySelector('div').classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        };
+
+        const openDetailModal = (id) => {
+            const item = window.globalHistoryData.find(session => session.id === id);
+            if (!item) return;
+
+            document.getElementById('detail-title').innerText = item.subjectDetail;
+            document.getElementById('detail-tutor').innerText = item.tutorName;
+            document.getElementById('detail-time').innerText = item.time;
+            document.getElementById('detail-hours').innerText = item.hours;
+            document.getElementById('detail-cost').innerText = item.cost.toLocaleString('vi-VN') + "đ";
+
+            const badge = document.getElementById('detail-badge');
+            if (item.status === 'ongoing') {
+                badge.innerText = "Đang học";
+                badge.className = "text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase mb-1 inline-block bg-emerald-50 text-emerald-600";
+                document.getElementById('detail-payment-title').innerText = "Tổng thanh toán";
+            } else if (item.status === 'completed') {
+                badge.innerText = "Hoàn thành";
+                badge.className = "text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase mb-1 inline-block bg-blue-50 text-blue-600";
+                document.getElementById('detail-payment-title').innerText = "Tổng thanh toán";
+            } else {
+                badge.innerText = "Đã hủy";
+                badge.className = "text-[9px] font-black tracking-wide px-2 py-0.5 rounded-md uppercase mb-1 inline-block bg-rose-50 text-rose-500";
+                document.getElementById('detail-payment-title').innerText = "Hoàn trả ví";
+            }
+
+            document.getElementById('file-image-name').innerText = item.files.image;
+            document.getElementById('file-summary-name').innerText = item.files.summary;
+            document.getElementById('file-knowledge-name').innerText = item.files.knowledge;
+            document.getElementById('file-solution-name').innerText = item.files.solution;
+
+            document.getElementById('btn-view-image').onclick = () => showToast(`Đang hiển thị tệp hình ảnh: ${item.files.image}`);
+            document.getElementById('btn-view-summary').onclick = () => showToast(`Đang tải tài liệu tóm tắt đề: ${item.files.summary}`);
+            document.getElementById('btn-view-knowledge').onclick = () => showToast(`Đang mở tệp dữ liệu kiến thức: ${item.files.knowledge}`);
+            document.getElementById('btn-view-solution').onclick = () => showToast(`Đang truy xuất phương pháp giải: ${item.files.solution}`);
+
+            toggleModal('detail-modal', true);
+        };
+
+        const openReviewModal = (id, name) => {
+            currentReviewId = id;
+            selectedRating = 0;
+            document.getElementById('modal-tutor-name').innerText = name;
+            document.getElementById('modal-comment').value = '';
+            highlightStars(0);
+            toggleModal('review-modal', true);
+        };
+
+        // 4. BỘ LỌC DỮ LIỆU
+        const filterHistoryData = () => {
+            const filterSubject = document.getElementById('filter-subject');
+            if (!filterSubject) return;
+            
+            const subjectFilter = filterSubject.value;
+            let results = window.globalHistoryData;
+            
+            if (window.globalSelectedStatus !== 'all') {
+                results = results.filter(item => item.status === window.globalSelectedStatus);
+            }
+            if (subjectFilter !== 'all') {
+                results = results.filter(item => item.subject === subjectFilter);
+            }
+            renderHistoryUI(results);
+        };
+
+        // Gán hiệu ứng Active cho nút trạng thái tĩnh
+        const updateStatusButtonsUI = () => {
+            document.querySelectorAll('.status-btn').forEach(btn => {
+                if (btn.getAttribute('data-status') === window.globalSelectedStatus) {
+                    btn.className = "status-btn w-full text-left px-4 py-3 text-xs font-bold rounded-xl bg-[#C97474] text-white shadow-sm shadow-rose-100 transition";
+                } else {
+                    btn.className = "status-btn w-full text-left px-4 py-3 text-xs font-bold rounded-xl text-gray-500 hover:text-[#C97474] hover:bg-gray-50 transition";
+                }
+            });
+        };
+
+        // 5. EVENT BINDING ĐỘC LẬP (Tránh trùng lặp hoặc mất sự kiện khi thay đổi DOM)
+        const bindCardActions = () => {
+            // Sự kiện click vào thẻ Card để xem chi tiết
+            document.querySelectorAll('[data-card-id]').forEach(card => {
+                card.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-card-id'));
+                    openDetailModal(id);
+                });
+            });
+
+            // Nút "Vào Lớp" trên Card
+            document.querySelectorAll('.btn-action-goto').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showToast(`Đang kết nối lớp trực tuyến với Gia sư ${this.getAttribute('data-tutor')}...`);
+                });
+            });
+
+            // Nút "Đánh giá" trên Card
+            document.querySelectorAll('.btn-action-review').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const name = this.getAttribute('data-tutor');
+                    openReviewModal(id, name);
+                });
+            });
+        };
+
+        // Khởi tạo sự kiện cho các Control Tĩnh (Chỉ chạy 1 lần sau khi DOM nạp)
+        document.querySelectorAll('.status-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                window.globalSelectedStatus = this.getAttribute('data-status');
+                updateStatusButtonsUI();
+                filterHistoryData();
+            });
+        });
+
+        document.getElementById('search-btn')?.addEventListener('click', filterHistoryData);
+        document.getElementById('btn-close-detail')?.addEventListener('click', () => toggleModal('detail-modal', false));
+        document.getElementById('btn-close-review')?.addEventListener('click', () => toggleModal('review-modal', false));
+
+        // Logic ngôi sao đánh giá
+        const highlightStars = (rating) => {
+            stars.forEach(s => {
+                const val = parseInt(s.getAttribute('data-rating'));
+                s.className = val <= rating ? "star-icon fa-solid fa-star text-amber-400 cursor-pointer transition" : "star-icon fa-regular fa-star text-amber-400 cursor-pointer transition";
+            });
+        };
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-rating'));
+                highlightStars(selectedRating);
+            });
+            star.addEventListener('mouseenter', function() { 
+                highlightStars(parseInt(this.getAttribute('data-rating'))); 
+            });
+            star.addEventListener('mouseleave', function() { 
+                highlightStars(selectedRating); 
+            });
+        });
+
+        // Nút xác nhận gửi đánh giá
+        document.getElementById('submit-review-btn')?.addEventListener('click', function() {
+            if (selectedRating === 0) { alert('Vui lòng chọn số sao trước khi gửi!'); return; }
+            const session = window.globalHistoryData.find(item => item.id === currentReviewId);
+            if (session) {
+                session.reviewed = true;
+                toggleModal('review-modal', false);
+                showToast(`Đã lưu đánh giá ${selectedRating} sao cho gia sư ${session.tutorName}!`);
+                updateStatsDashboard();
+                filterHistoryData();
             }
         });
-    };
 
-    // 5. EVENT BINDING ĐỘC LẬP (Tránh trùng lặp hoặc mất sự kiện khi thay đổi DOM)
-    const bindCardActions = () => {
-        // Sự kiện click vào thẻ Card để xem chi tiết
-        document.querySelectorAll('[data-card-id]').forEach(card => {
-            card.addEventListener('click', function() {
-                const id = parseInt(this.getAttribute('data-card-id'));
-                openDetailModal(id);
-            });
-        });
-
-        // Nút "Vào Lớp" trên Card
-        document.querySelectorAll('.btn-action-goto').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                showToast(`Đang kết nối lớp trực tuyến với Gia sư ${this.getAttribute('data-tutor')}...`);
-            });
-        });
-
-        // Nút "Đánh giá" trên Card
-        document.querySelectorAll('.btn-action-review').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const id = parseInt(this.getAttribute('data-id'));
-                const name = this.getAttribute('data-tutor');
-                openReviewModal(id, name);
-            });
-        });
-    };
-
-    // Khởi tạo sự kiện cho các Control Tĩnh (Chỉ chạy 1 lần sau khi DOM nạp)
-    document.querySelectorAll('.status-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            window.globalSelectedStatus = this.getAttribute('data-status');
-            updateStatusButtonsUI();
-            filterHistoryData();
-        });
-    });
-
-    document.getElementById('search-btn')?.addEventListener('click', filterHistoryData);
-    document.getElementById('btn-close-detail')?.addEventListener('click', () => toggleModal('detail-modal', false));
-    document.getElementById('btn-close-review')?.addEventListener('click', () => toggleModal('review-modal', false));
-
-    // Logic ngôi sao đánh giá
-    const highlightStars = (rating) => {
-        stars.forEach(s => {
-            const val = parseInt(s.getAttribute('data-rating'));
-            s.className = val <= rating ? "star-icon fa-solid fa-star text-amber-400 cursor-pointer transition" : "star-icon fa-regular fa-star text-amber-400 cursor-pointer transition";
-        });
-    };
-
-    stars.forEach(star => {
-        star.addEventListener('click', function() {
-            selectedRating = parseInt(this.getAttribute('data-rating'));
-            highlightStars(selectedRating);
-        });
-        star.addEventListener('mouseenter', function() { 
-            highlightStars(parseInt(this.getAttribute('data-rating'))); 
-        });
-        star.addEventListener('mouseleave', function() { 
-            highlightStars(selectedRating); 
-        });
-    });
-
-    // Nút xác nhận gửi đánh giá
-    document.getElementById('submit-review-btn')?.addEventListener('click', function() {
-        if (selectedRating === 0) { alert('Vui lòng chọn số sao trước khi gửi!'); return; }
-        const session = window.globalHistoryData.find(item => item.id === currentReviewId);
-        if (session) {
-            session.reviewed = true;
-            toggleModal('review-modal', false);
-            showToast(`Đã lưu đánh giá ${selectedRating} sao cho gia sư ${session.tutorName}!`);
-            updateStatsDashboard();
-            filterHistoryData();
-        }
-    });
-
-    // CHẠY KHỞI TẠO ĐẦU LẦN ĐẦU VÀ MỖI LẦN QUAY LẠI TRANG
-    updateStatusButtonsUI();
-    updateStatsDashboard();
-    filterHistoryData();
-}
+        // CHẠY KHỞI TẠO ĐẦU LẦN ĐẦU VÀ MỖI LẦN QUAY LẠI TRANG
+        updateStatusButtonsUI();
+        updateStatsDashboard();
+        filterHistoryData();
+    }
 </script>
