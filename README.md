@@ -20,6 +20,7 @@
 
 > **Cơ chế SPA và Định tuyến Client (Custom SPA Router):** Sử dụng cơ chế định tuyến dựa trên Hash (`#home`, `#history`...) giúp chuyển trang siêu tốc mà không cần tải lại toàn bộ trang (No-Refresh). Hệ thống giữ cố định khung Layout tổng (Header, Taskbar) để tối ưu băng thông, đồng thời lưu vết URL cho phép người dùng thoải mái F5 làm mới trang hoặc Back/Forward trình duyệt mà không bị mất trạng thái.
 
+
 ---
 
 ## 2. Kiến trúc hệ thống 
