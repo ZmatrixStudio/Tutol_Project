@@ -1,9 +1,12 @@
 package com.example.demo.service.oauth;
 
 import com.example.demo.dto.GoogleRequest;
+import com.example.demo.entity.TaiKhoan;
 import com.example.demo.security.RecaptchaService;
 import com.example.demo.security.TokenSecurityService;
+import com.example.demo.service.JwtService;
 import com.example.demo.service.OAuth2Service;
+import com.example.demo.service.RefreshTokenService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -12,11 +15,16 @@ import com.google.api.client.json.gson.GsonFactory;
 
 import java.util.Collections;
 import java.util.Map;
+import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 // CHECK AUTH GG VÀ TRẢ DỮ LIỆU
 @Service
@@ -33,9 +41,13 @@ public class GoogleOAuthService {
     @Autowired
     private OAuth2Service oAuth2Service;
 
+    @Autowired
+    private JwtService jwtService;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
-    public  ResponseEntity<?> verifyToken(GoogleRequest request){
+    public  ResponseEntity<?> verifyToken(GoogleRequest request, HttpServletResponse responseGg){
         try {
             String recaptchaToken = request.getRecaptchaToken();
             if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
@@ -82,13 +94,33 @@ public class GoogleOAuthService {
                 // System.out.println("====================================");
                 
                 // LƯU USERNAME, PASSWORD, EMAIL, TIME, REFRESH VÀO DATABASE 
-                oAuth2Service.google(userId, email, name, pictureUrl);
+                TaiKhoan taiKhoan = oAuth2Service.google(userId, email, name, pictureUrl);
+
+                Long userIdGg = taiKhoan.getMaTaiKhoan();
+                String accessToken = jwtService.generateAccessToken(userIdGg, "Oauth_Google");
+                String refreshToken = refreshTokenService.create(userIdGg).getToken();
+
+                // SET REFRESH TOKEN VÀO HTTPONLY COOKIE
+                ResponseCookie refreshCookie = ResponseCookie.from(
+                        "RFTT",
+                        "rftt-" + refreshToken // RFTT = REFRESH TOKEN TUTOL
+                    )
+                    .httpOnly(true)                  // JS không đọc được
+                    .secure(true)                    // chỉ HTTPS
+                    .path("/")                       // toàn site
+                    .maxAge(Duration.ofDays(7))      // 7 ngày
+                    .sameSite("Strict")              // chống CSRF
+                    .build();
+
+                responseGg.addHeader(
+                        HttpHeaders.SET_COOKIE,
+                        refreshCookie.toString()
+                );
 
                 // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
                 return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
                                             "data", Map.of(
-                                                "accessToken", "",
-                                                "refreshToken", ""
+                                                "accessToken", accessToken
                                             ),"success", true,"error", 0));
             } else {
                 return ResponseEntity.badRequest()

@@ -1,18 +1,26 @@
 package com.example.demo.service.oauth;
 
 import com.example.demo.dto.FacebookRequest;
+import com.example.demo.entity.TaiKhoan;
 import com.example.demo.security.RecaptchaService;
+import com.example.demo.service.JwtService;
 import com.example.demo.service.OAuth2Service;
+import com.example.demo.service.RefreshTokenService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 
 import java.util.Map;
+import java.time.Duration;
 
 // CHECK TOKEN 
 // SO SÁNH GIỮA DỮ LIỆU TOKEN TRẢ VỀ USER_ID
@@ -27,7 +35,13 @@ public class FacebookOAuthService {
     @Autowired
     private OAuth2Service oAuth2Service;
 
-    public ResponseEntity<?> verifyToken(FacebookRequest request){
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
+    @Autowired 
+    private JwtService jwtService;
+
+    public ResponseEntity<?> verifyToken(FacebookRequest request, HttpServletResponse responseFb){
         try {
             // CHECK CAPTCHA
             String recaptchaToken = request.getRecaptchaToken();
@@ -68,13 +82,32 @@ public class FacebookOAuthService {
                 if (facebookId.trim().equals(userId.trim())){
 
                     // DATABASE
-                    oAuth2Service.facebook(facebookId, email, name, avatarUrl);
+                    TaiKhoan taiKhoan =  oAuth2Service.facebook(facebookId, email, name, avatarUrl);
 
+                    Long userIdFb = taiKhoan.getMaTaiKhoan();
+                    String accessToken = jwtService.generateAccessToken(userIdFb, "Oauth_Facebook");
+                    String refreshToken = refreshTokenService.create(userIdFb).getToken();
+                    
+                    // SET REFRESH TOKEN VÀO HTTPONLY COOKIE
+                    ResponseCookie refreshCookie = ResponseCookie.from(
+                            "RFTT",
+                            "rftt-" + refreshToken // RFTT = REFRESH TOKEN TUTOL
+                        )
+                        .httpOnly(true)                  // JS không đọc được
+                        .secure(true)                    // chỉ HTTPS
+                        .path("/")                       // toàn site
+                        .maxAge(Duration.ofDays(7))      // 7 ngày
+                        .sameSite("Strict")              // chống CSRF
+                        .build();
+
+                    responseFb.addHeader(
+                            HttpHeaders.SET_COOKIE,
+                            refreshCookie.toString()
+                    );
                     // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
                     return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
                                             "data", Map.of(
-                                                "accessToken", "",
-                                                "refreshToken", ""
+                                                "accessToken", accessToken
                                             ),"success", true,"error", 0));
                 } else {
                     return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Lỗi xác thực Facebook!! ", "success", false, "errol", 1));

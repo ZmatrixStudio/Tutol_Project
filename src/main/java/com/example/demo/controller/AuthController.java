@@ -34,14 +34,14 @@ public class AuthController {
         return authService.handleSendToken(request);
     }
 
-    @PostMapping("/auth/veri-otp")
-    public ResponseEntity<?> veriOtp(@Valid @RequestBody VeriOtpRequests requestBody, @RequestHeader("T-Auth") String Tauth){
-        return authService.veriOtp(requestBody, Tauth);
-    }
-
     @PostMapping("/auth/check-token")
     public ResponseEntity<?> checkToken(@RequestHeader("T-Auth") String Tauth){
         return authService.checkToken(Tauth);
+    }
+
+    @PostMapping("/auth/veri-otp")
+    public ResponseEntity<?> veriOtp(@Valid @RequestBody VeriOtpRequests requestBody, @RequestHeader("T-Auth") String Tauth, HttpServletResponse response){
+        return authService.veriOtp(requestBody, Tauth, response);
     }
 
     @PostMapping("/auth/login")
@@ -50,12 +50,12 @@ public class AuthController {
     }
 
     @PostMapping("/oauth/google")
-    public ResponseEntity<?> google(@Valid @RequestBody GoogleRequest request){
-        return googleOAuthService.verifyToken(request);
+    public ResponseEntity<?> google(@Valid @RequestBody GoogleRequest request, HttpServletResponse responseGg){
+        return googleOAuthService.verifyToken(request, responseGg);
     }
 
     @PostMapping("/oauth/facebook")
-    public ResponseEntity<?> facebook(@Valid @RequestBody FacebookRequest request){
-        return facebookOAuthService.verifyToken(request);
+    public ResponseEntity<?> facebook(@Valid @RequestBody FacebookRequest request, HttpServletResponse responseFb){
+        return facebookOAuthService.verifyToken(request, responseFb);
     }
 }

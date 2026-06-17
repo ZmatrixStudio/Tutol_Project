@@ -128,7 +128,7 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<?> veriOtp(VeriOtpRequests requestBody, String authHeader){
+    public ResponseEntity<?> veriOtp(VeriOtpRequests requestBody, String authHeader, HttpServletResponse response){
         try {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return ResponseEntity.status(401).body(
@@ -173,13 +173,33 @@ public class AuthService {
 
             // LƯU USERNAME, PASSWORD, EMAIL, TIME, REFRESH VÀO DATABASE 
             String password = otpData.getPassword();
-            taiKhoanService.createAccount(username, email, password);
+            TaiKhoan taiKhoan = taiKhoanService.createAccount(username, email, password);
+
+            Long userId = taiKhoan.getMaTaiKhoan();
+            String accessToken = jwtService.generateAccessToken(userId, "register");
+            String refreshToken = refreshTokenService.create(userId).getToken();
+
+            // SET REFRESH TOKEN VÀO HTTPONLY COOKIE
+            ResponseCookie refreshCookie = ResponseCookie.from(
+                    "RFTT",
+                    "rftt-" + refreshToken // RFTT = REFRESH TOKEN TUTOL
+                )
+                .httpOnly(true)                  // JS không đọc được
+                .secure(true)                    // chỉ HTTPS
+                .path("/")                       // toàn site
+                .maxAge(Duration.ofDays(7))      // 7 ngày
+                .sameSite("Strict")              // chống CSRF
+                .build();
+
+            response.addHeader(
+                    HttpHeaders.SET_COOKIE,
+                    refreshCookie.toString()
+            );
 
             // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
             return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
                                         "data", Map.of(
-                                            "accessToken", "",
-                                            "refreshToken", ""
+                                            "accessToken", accessToken
                                         ),"success", true,"error", 0));
 
         } catch (Exception e) {
