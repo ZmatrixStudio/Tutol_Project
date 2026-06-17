@@ -11,6 +11,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.service.oauth.FacebookOAuthService;
 import com.example.demo.service.oauth.GoogleOAuthService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +45,8 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request){
-        return authService.login(request);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response){
+        return authService.login(request, response);
     }
 
     @PostMapping("/oauth/google")

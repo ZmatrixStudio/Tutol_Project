@@ -6,20 +6,25 @@ import com.example.demo.dto.SendTokenRequest;
 import com.example.demo.dto.VeriOtpRequests;
 import com.example.demo.entity.TaiKhoan;
 import com.example.demo.util.JwtUtil;
-
-import io.jsonwebtoken.Claims;
-
 import com.example.demo.security.RecaptchaService;
 import com.example.demo.store.OtpStore;
 
+import io.jsonwebtoken.Claims;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpHeaders;
 
 import java.util.Map;
 import java.util.Date;
 import java.util.Optional;
+import java.time.Duration;
+
 
 @Service
 public class AuthService {
@@ -34,6 +39,12 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     public ResponseEntity<?> handleSendToken(SendTokenRequest request) {
         try{
@@ -179,7 +190,7 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<?> login(LoginRequest request){
+    public ResponseEntity<?> login(LoginRequest request, HttpServletResponse response){
         try {
             String recaptchaToken = request.getReCaptchaToken();
             if (recaptchaToken == null || !recaptchaService.verifyRecaptcha(recaptchaToken)) {
@@ -200,14 +211,33 @@ public class AuthService {
             // kiểm tra mật khẩu
             if (!passwordEncoder.matches(password, taiKhoan.getMatKhau())) {
                 return ResponseEntity.status(401).body(Map.of("status", 401, "msg", "Sai mật khẩu !!", "success", false, "errol", 1));
-
             }
+
+            Long userId = taiKhoan.getMaTaiKhoan();
+            String accessToken = jwtService.generateAccessToken(userId, "login");
+            String refreshToken = refreshTokenService.create(userId).getToken();
+
+            // SET REFRESH TOKEN VÀO HTTPONLY COOKIE
+            ResponseCookie refreshCookie = ResponseCookie.from(
+                    "RFTT",
+                    "rftt-" + refreshToken // RFTT = REFRESH TOKEN TUTOL
+                )
+                .httpOnly(true)                  // JS không đọc được
+                .secure(true)                    // chỉ HTTPS
+                .path("/")                       // toàn site
+                .maxAge(Duration.ofDays(7))      // 7 ngày
+                .sameSite("Strict")              // chống CSRF
+                .build();
+
+            response.addHeader(
+                    HttpHeaders.SET_COOKIE,
+                    refreshCookie.toString()
+            );
 
             // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
             return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
                                         "data", Map.of(
-                                            "accessToken", "",
-                                            "refreshToken", ""
+                                            "accessToken", accessToken
                                         ),"success", true,"error", 0));
         } catch (Exception e) {
             System.out.println("[AuthService:login] -> "+e.getMessage());
