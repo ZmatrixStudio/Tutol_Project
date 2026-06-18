@@ -177,11 +177,13 @@
                 const response = await fetch("http://localhost:8080/api/v1/auth/login", {
                     method: "POST",
                     headers: await headers(),
+                    credentials: "include",
                     body: JSON.stringify({
                         "email": email,
                         "password": sha256(pass), 
                         "reCaptchaToken": token
                     })
+                    
                 });
 
                 const data = await response.json();
@@ -189,8 +191,7 @@
                 if (response.status == 200) {
                     showMessage(data.message || "Đăng nhập thành công", true);
 
-                    // Nếu status trả về là 200 thì mở trang cpontrol và tiếp tục kiểm tra token
-                    // và cookie rồi chuyển hướng tới trang cần thiết 
+                    window.location.replace("/");
                     
                 } else {
                     showMessage(data.message || "Đăng nhập thất bại");

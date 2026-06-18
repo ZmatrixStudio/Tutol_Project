@@ -237,6 +237,9 @@ public class AuthService {
             String accessToken = jwtService.generateAccessToken(userId, "login");
             String refreshToken = refreshTokenService.create(userId).getToken();
 
+            // SET ACCESS TOKEN VÀO HTTPONLY COOKIE
+            ResponseCookie accessCookie = ResponseCookie.from("ACTK", accessToken).httpOnly(true).secure(true).path("/").maxAge(Duration.ofMinutes(15)).sameSite("Strict").build();
+
             // SET REFRESH TOKEN VÀO HTTPONLY COOKIE
             ResponseCookie refreshCookie = ResponseCookie.from(
                     "RFTT",
@@ -254,11 +257,13 @@ public class AuthService {
                     refreshCookie.toString()
             );
 
+            response.addHeader(
+                    HttpHeaders.SET_COOKIE,
+                    accessCookie.toString()
+            );
+
             // TRẢ VỀ ACCESS TOKEN VÀ REFRESH TOKEN
-            return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!",
-                                        "data", Map.of(
-                                            "accessToken", accessToken
-                                        ),"success", true,"error", 0));
+            return ResponseEntity.ok(Map.of("status", 200,"msg", "Xác thực thành công !!", "success", true,"error", 0, "reCaptcha", true));
         } catch (Exception e) {
             System.out.println("[AuthService:login] -> "+e.getMessage());
             return ResponseEntity.status(500).body(Map.of("status", 500, "msg", "Server gặp lỗi, chờ vài phút và thử lại!!", "success", false, "errol", 1));
