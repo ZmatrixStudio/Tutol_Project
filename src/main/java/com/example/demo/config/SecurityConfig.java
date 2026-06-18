@@ -26,13 +26,16 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
+                    "/",
+                    "/api/v1/auth/**",
+                    "/api/v1/oauth/**",
                     "/login",
                     "/register",
                     "/forgot-password",
                     "/404",
                     "/css/**",
                     "/js/**",
-                    "/images/**"
+                    "/image/**"
                 ).permitAll()
 
                 .anyRequest().authenticated()
