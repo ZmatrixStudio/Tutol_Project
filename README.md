@@ -1,6 +1,6 @@
-  <p align="center">
-    <img src="src/main/resources/static/image/bannerGithub.jpg" alt="Tutol Project Logo" width="1000" height="400">
-  </p>
+  <!-- <p align="center">
+    <!-- <img src="src/main/resources/static/image/bannerGithub.jpg" alt="Tutol Project Logo" width="1000" height="400">
+  </p> --> -->
 
 <h1 align="center"> TUTOL PROJECT </h1>
 <p align="center">
