@@ -37,7 +37,6 @@ public class PageController {
 
     @GetMapping("/login")
     public String login(Authentication auth) {
-        // Trải nghiệm người dùng tốt (UX): Đã đăng nhập rồi thì đá ngược về trang chủ, không bắt đăng nhập lại
         if (isAuthenticated(auth)) {
             return "redirect:/";
         }

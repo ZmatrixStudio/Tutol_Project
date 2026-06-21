@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -30,39 +31,50 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .httpBasic(basic -> basic.disable())
-            
-            // 1. CHUYỂN THÀNH IF_REQUIRED: Để Backend có thể tạo session lưu trạng thái Auth sau khi check Cookie
+            // 1. CHUYỂN HẲN SANG STATELESS: Tuyệt đối không tạo JSESSIONID, ép Spring check JWT trên mỗi request
             .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // 2. Đưa Custom JWT Filter vào trước
+            // 2. BẬT BẢO VỆ CSRF TUYỆT ĐỐI: Tạo cookie XSRF-TOKEN cho phía Frontend (JS) đọc
+            .csrf(csrf -> csrf
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                // Ngoại trừ các endpoint xác thực/đăng nhập ban đầu (lúc này chưa có CSRF token)
+                .ignoringRequestMatchers(
+                    "/api/v1/auth/send-token",
+                    "/api/v1/auth/check-token",
+                    "/api/v1/auth/veri-otp",
+                    "/api/v1/auth/login",
+                    "/api/v1/auth/refresh", // Nhớ thêm route refresh token của bạn vào đây
+                    "/api/v1/oauth/**"
+                )
+            )
+            
+            .httpBasic(basic -> basic.disable())
+            
+            // 3. Đưa Custom JWT Filter lên trước để bóc tách Cookie "ACTK"
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 
-            // 3. QUYẾT ĐỊNH PHÂN QUYỀN TỪ BACKEND
+            // 4. PHÂN QUYỀN TRUY CẬP
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/login", "/register", "/forgot-password",
                     "/api/v1/auth/**", "/api/v1/oauth/**",
-                    "/css/**", "/js/**", "/image/**" // Chỉ cho phép tải tài nguyên tĩnh, KHÔNG permitAll "/" hay "/pages/**"
+                    "/css/**", "/js/**", "/image/**"
                 ).permitAll() 
-                
-                // Tất cả các trang còn lại (bao gồm cả trang chủ "/" và "/#history") BẮT BUỘC phải đăng nhập
                 .anyRequest().authenticated() 
             )
 
-            // 4. Cấu hình điểm đá về trang login nếu chưa auth
+            // 5. Nếu JWT hết hạn hoặc không hợp lệ, trả về mã và đá về /login
             .exceptionHandling(exception -> exception
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
             )
 
+            // 6. LOGOUT CHUẨN STATELESS: Chỉ cần xóa cookie ACTK và RFTT (nếu có) khỏi trình duyệt
             .logout(logout -> logout
                 .logoutUrl("/logout")
-                .deleteCookies("ACTK", "JSESSIONID") // Xóa sạch cả token lẫn Session ID của Spring
+                .deleteCookies("ACTK", "RFTT") 
                 .clearAuthentication(true)
-                .invalidateHttpSession(true)
                 .logoutSuccessUrl("/login?logout")
             );
 
