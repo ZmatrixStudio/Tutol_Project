@@ -58,10 +58,10 @@ public class GetOtpService {
 
                             <div style="padding:40px;text-align:center;">
 
-                                <h2>Hello %s 👋</h2>
+                                <h2>Hello 👋</h2>
 
                                 <p style="color:#666;">
-                                    Thank you for registering.
+                                    Thank you for %s.
                                     Please use the verification code below.
                                 </p>
 
@@ -96,25 +96,47 @@ public class GetOtpService {
                         </div>
                     </div>
                     """
-                    .formatted(getOtpDto.getFirstName()+ " " + getOtpDto.getLastName(), otp);
+                    .formatted(getOtpDto.getType(), otp);
 
             helper.setText(html, true);
 
             mailSender.send(message);
-            
-            String payload = getOtpDto.getFirstName() + getOtpDto.getLastName() + getOtpDto.getEmail() + getOtpDto.getType();
-            String t_token = AESUtil.encrypt(payload);
+            String payload;
+            if ("REGISTER".equals(getOtpDto.getType())){
+                payload = getOtpDto.getFirstName() + "|" 
+                    + getOtpDto.getLastName() + "|" 
+                    + getOtpDto.getEmail() + "|" 
+                    + getOtpDto.getType();
 
-            TempOtpStore.save(
-                    getOtpDto.getEmail(),
-                    new TempOtpData(
-                            getOtpDto.getFirstName(),
-                            getOtpDto.getLastName(),
-                            getOtpDto.getEmail(),
-                            getOtpDto.getPassword(),
-                            getOtpDto.getType(),
-                            otp,
-                            LocalDateTime.now().plusMinutes(5)));
+                TempOtpStore.save(
+                        getOtpDto.getEmail(),
+                        new TempOtpData(
+                                getOtpDto.getFirstName(),
+                                getOtpDto.getLastName(),
+                                getOtpDto.getEmail(),
+                                getOtpDto.getPassword(),
+                                getOtpDto.getType(),
+                                otp,
+                                LocalDateTime.now().plusMinutes(5)));
+            }else {
+                payload = null + "|" 
+                    + null + "|" 
+                    + getOtpDto.getEmail() + "|" 
+                    + getOtpDto.getType();
+
+                TempOtpStore.save(
+                        getOtpDto.getEmail(),
+                        new TempOtpData(
+                                null,
+                                null,
+                                getOtpDto.getEmail(),
+                                null,
+                                getOtpDto.getType(),
+                                otp,
+                                LocalDateTime.now().plusMinutes(5)));
+            }
+
+            String t_token = AESUtil.encrypt(payload);
                             
             return ResponseEntity.ok(
                     Map.of(
