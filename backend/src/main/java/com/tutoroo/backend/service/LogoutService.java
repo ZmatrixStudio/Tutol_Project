@@ -6,7 +6,9 @@ import java.net.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LogoutService {
     public ResponseEntity<?> logout(HttpHeaders headers){
         String cookieHeader = headers.getFirst(HttpHeaders.COOKIE);
