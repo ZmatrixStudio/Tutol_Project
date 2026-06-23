@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <title>404 - Lạc về thời đồ đá</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;800&family=Fredoka+One&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Base & Reset --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f4efef;
+            height: 100vh;
+            justify-content: center;
+            overflow: hidden;
+            padding: 1rem;
+            position: relative;
+            color: #5a4e4e;
+            width: 100%;
+        }
+
+        /* --- Typography --- */
+        .font-comic {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        /* --- Animations Keyframes --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(3deg); }
+            50% { transform: rotate(-3deg); }
+            100% { transform: rotate(3deg); }
+        }
+
+        @keyframes spark {
+            0%, 100% { opacity: 0; transform: scale(.5) rotate(0); }
+            20% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+            40% { opacity: 0; transform: scale(.8) rotate(-10deg); }
+            60% { opacity: 1; transform: scale(1.5) rotate(20deg); }
+            80% { opacity: .2; transform: scale(.9) rotate(-5deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+
+        /* --- Animation Classes --- */
+        .animate-fade-in-up {
+            animation: .6s cubic-bezier(.16, 1, .3, 1) forwards fadeInUp;
+        }
+
+        .wire-swing {
+            transform-origin: top center;
+            animation: swing 4s ease-in-out infinite;
+        }
+
+        .spark-animate {
+            animation: spark 1.5s infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 3s infinite;
+        }
+
+        /* --- Layout & Components --- */
+        
+        /* Dây điện treo */
+        .wires-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            height: 8rem; /* h-32 */
+            justify-content: center;
+            overflow: visible;
+            width: 100%;
+        }
+
+        .wire-left {
+            position: absolute;
+            top: 0;
+            left: 30%;
+        }
+
+        .wire-left svg {
+            height: 150px;
+            width: 40px;
+        }
+
+        .spark-box {
+            position: absolute;
+            bottom: -20px;
+            left: 15px;
+            color: #c97474;
+        }
+
+        .spark-box svg {
+            height: 30px;
+            width: 30px;
+        }
+
+        .wire-right {
+            position: absolute;
+            top: 0;
+            right: 30%;
+            animation-delay: -2s;
+            transform-origin: top right;
+        }
+
+        .wire-right svg {
+            height: 120px;
+            width: 40px;
+        }
+
+        /* Khối nội dung chính */
+        .content-wrap {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            max-width: 42rem; /* max-w-2xl */
+            margin-top: 5rem; /* mt-20 */
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .emojis {
+            margin-bottom: 1rem;
+            line-height: 1;
+            font-size: 80px;
+        }
+
+        .title-404 {
+            color: #c97474;
+            filter: drop-shadow(0 4px 3px rgba(0,0,0,0.07)) drop-shadow(0 2px 2px rgba(0,0,0,0.06));
+            margin-bottom: 0.5rem;
+            font-size: 6rem; /* text-8xl */
+        }
+
+        .subtitle {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.5rem; /* text-2xl */
+            color: #8a7575;
+        }
+
+        .description {
+            line-height: 1.625; /* leading-relaxed */
+            font-weight: 500;
+            max-width: 28rem; /* max-w-md */
+            margin-bottom: 2rem; /* mb-8 */
+            font-size: 0.875rem; /* text-sm */
+            color: #a58e8e;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Nút quay lại */
+        .btn-back {
+            font-weight: 700;
+            background-color: #c97474;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem; /* py-4 px-8 */
+            position: relative;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            color: #f4efef;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .btn-back:hover {
+            background-color: #b56565;
+        }
+
+        .btn-back:active {
+            transform: scale(0.95);
+        }
+
+        .btn-back:focus {
+            box-shadow: 0 0 0 4px #e2c7c7, 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-icon {
+            margin-left: -0.25rem;
+            margin-right: 0.5rem;
+            height: 1.25rem;
+            width: 1.25rem;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-back:hover .btn-icon {
+            transform: translateX(-0.25rem);
+        }
+
+        /* Footer text */
+        .footer-status {
+            position: absolute;
+            bottom: 1.25rem;
+            display: flex;
+            font-weight: 500;
+            gap: 0.5rem;
+            align-items: center;
+            color: #bfaeae;
+            font-size: 0.875rem;
+            animation-delay: .3s;
+        }
+
+        /* --- Media Queries (Màn hình máy tính / md: trong Tailwind) --- */
+        @media (min-width: 768px) {
+            .wires-container {
+                height: 12rem; /* md:h-48 */
+            }
+            .wire-left {
+                left: 40%; /* md:left-[40%] */
+            }
+            .wire-left svg {
+                height: 200px; /* md:h-[200px] */
+            }
+            .wire-right {
+                right: 40%; /* md:right-[40%] */
+            }
+            .wire-right svg {
+                height: 160px; /* md:h-[160px] */
+            }
+            .emojis {
+                font-size: 100px; /* md:text-[100px] */
+            }
+            .title-404 {
+                font-size: 8rem; /* md:text-9xl */
+            }
+            .subtitle {
+                font-size: 1.875rem; /* md:text-3xl */
+            }
+            .description {
+                font-size: 1rem; /* md:text-base */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wires-container">
+        <div class="wire-left wire-swing">
+            <svg fill="none" viewBox="0 0 40 150">
+                <path d="M20 0 C20 50, 5 100, 25 145" stroke-linecap="round" stroke-width="12" stroke="#c97474"/>
+                <path d="M25 145 L20 155 M25 145 L28 152 M25 145 L32 150" stroke-linecap="round" stroke-width="3" stroke="#e2c7c7"/>
+            </svg>
+            <div class="spark-box spark-animate">
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="wire-right wire-swing">
+            <svg fill="none" viewBox="0 0 40 120">
+                <path d="M20 0 C20 40, 35 80, 15 115" stroke-linecap="round" stroke-width="12" stroke="#c97474"/>
+                <path d="M15 115 L10 125 M15 115 L18 122 M15 115 L22 120" stroke-linecap="round" stroke-width="3" stroke="#e2c7c7"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="content-wrap animate-fade-in-up">
+        <div class="emojis animate-bounce">🧌🦴</div>
+        <h1 class="title-404 font-comic">404</h1>
+        <h2 class="subtitle">Ối! Lạc về thời đồ đá rồi...</h2>
+        <p class="description">Có vẻ như một anh bạn thời tiền sử nào đó đã vô tình lấy xương đập đứt cáp mạng của chúng ta. Trang bạn đang tìm kiếm hiện không tồn tại!</p>
+        
+        <a class="btn-back" href="/">
+            <svg fill="none" viewBox="0 0 24 24" class="btn-icon" stroke="currentColor">
+                <path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-width="2" stroke-linejoin="round"/>
+            </svg> 
+            Quay lại thế giới hiện đại
+        </a>
+    </div>
+
+    <div class="footer-status animate-fade-in-up">🔥 Đang cố gắng nối lại dây...</div>
+
+</body>
+</html>

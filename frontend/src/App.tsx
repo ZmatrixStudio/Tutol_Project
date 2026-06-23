@@ -1,13 +1,14 @@
-
-import './App.css'; 
-// Đường dẫn chuẩn dựa theo hình ảnh của bạn:
-import Login from './pages/Login/Login'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import IndexPage from './pages/Login/Login'; // Trang chủ của bạn
 
 function App() {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        {/* Trang chủ index chỉ hiển thị giao diện của nó */}
+        <Route path="/" element={<IndexPage />} />
+      </Routes>
+    </Router>
   );
 }
 

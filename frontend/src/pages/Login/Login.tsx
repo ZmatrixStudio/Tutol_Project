@@ -31,7 +31,7 @@ function Login() {
     }, [errorMessage]);
 
     useEffect(() => {
-        document.title = "Trang chủ";
+        document.title = "Đăng Nhập - Chào mừng bạn đã trở lại";
     }, []);
 
     const handleTogglePassword = () => { setShowPassword((prev) => !prev) };
