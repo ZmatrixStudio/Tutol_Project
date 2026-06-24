@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { loginAPI } from "../../Services/LoginServices";
 import { useAuth } from "../../Context/AuthContext";
+   
 import "./Login.css";
 
 import laImage from "../../assets/login/la.png"; 
 import rocketImage from "../../assets/login/rocket.png";
+import InputField from '../../components/InputField';
+import ButtonContinue from '../../components/ButtonContinue';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -88,63 +91,39 @@ function Login() {
                         <div className="progress-bar"></div>
                     </div>
 
-                    <div className={`input-group js-control ${isEmailFocused || email !== "" ? "active" : ""}`}>
-                        <i className="fa-regular fa-envelope icon"></i>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            className="input-field" 
-                            placeholder="Example@gmail.com" 
-                            style={{ borderRadius: "20px" }}
-                            value={email}  
-                            onChange={(e) => setEmail(e.target.value)}
-                            onFocus={() => setIsEmailFocused(true)}
-                            onBlur={() => setIsEmailFocused(false)}
-                            required 
-                        />
-                        <label className="input-label" htmlFor="email">Email</label>
-                        <div className="border-layer"></div>
-                        <img className="btn-la" width={70} height={57} src={laImage} alt="Image" />
-                    </div>
+                    <InputField
+                        id="email"
+                        type="email"
+                        label="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        isFocused={isEmailFocused}
+                        setIsFocused={setIsEmailFocused}
+                        placeholder="Example@gmail.com"
+                        icon="fa-regular fa-envelope icon"
+                        image={laImage}
+                    />
 
-                    <div className={`input-group js-control ${isPasswordFocused || password !== "" ? "active" : ""}`}>
-                        <i className="fa fa-lock icon"></i> 
-                        <input 
-                            type={showPassword ? 'text' : 'password'} 
-                            id="password" 
-                            className="input-field" 
-                            placeholder="Example1@" 
-                            style={{ borderRadius: "20px" }}
-                            value={password} 
-                            onChange={(e) => setPassword(e.target.value)}
-                            onFocus={() => setIsPasswordFocused(true)}
-                            onBlur={() => setIsPasswordFocused(false)}
-                            required 
-                        />
-                        <label htmlFor="password" className="input-label">Mật Khẩu</label>
-                        <div className="border-layer"></div>
-                        <i
-                            className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'} e-icon`}
-                            id="togglePassword"
-                            style={{ fontSize: '15px', marginRight: '20px', cursor: 'pointer' }}
-                            onClick={handleTogglePassword}
-                        ></i>
-                    </div>
+                    <InputField
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        label="Mật Khẩu"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        isFocused={isPasswordFocused}
+                        setIsFocused={setIsPasswordFocused}
+                        icon="fa fa-lock icon"
+                        placeholder="Example1@"
+                        showToggle={true}
+                        showPassword={showPassword}
+                        onTogglePassword={handleTogglePassword}
+                    />
 
                     <div className="btn-forgot-password" id="continue-forgot-password">
                         <span>Quên mật khẩu ?</span>
                     </div>
 
-                    <button type="submit" className="btn-continue" id="login" style={{ border: 'none', width: '100%' }}>
-                        <div className="water-blob blob-1"></div>
-                        <div className="water-blob blob-2"></div>
-                        <div className="water-blob blob-3"></div>
-                        <div className="water-blob blob-4"></div>
-                        <div className="water-blob blob-5"></div>
-                        <div className="water-blob blob-6"></div>
-                        <div className="water-blob blob-7"></div>
-                        <span className="btn-text">Tiếp Tục</span>
-                    </button>
+                    <ButtonContinue type="submit" text="Tiếp Tục"/>
 
                     <div className="btn-register" id="continue-register">
                         <span>Tạo Tài Khoản Mới</span>
