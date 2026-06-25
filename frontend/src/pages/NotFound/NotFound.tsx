@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 function NotFound() {
     useEffect(() => {
-            document.title = "Đăng Nhập - Chào mừng bạn đã trở lại";
+            document.title = "Not Found ";
         }, []);
   return (
     <div>
