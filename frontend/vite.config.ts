@@ -9,5 +9,8 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss()
   ],
+  build: {
+    outDir: "dist"
+  }
 })
 
