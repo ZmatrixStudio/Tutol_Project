@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import "./NotFound.css";
+import { useEffect } from "react";
 
 function NotFound() {
+    useEffect(() => {
+            document.title = "Đăng Nhập - Chào mừng bạn đã trở lại";
+        }, []);
   return (
     <div>
       <div className="wires-container">
@@ -75,10 +79,6 @@ function NotFound() {
 
           Quay lại thế giới hiện đại
         </Link>
-      </div>
-
-      <div className="footer-status animate-fade-in-up">
-        🔥 Đang cố gắng nối lại dây...
       </div>
     </div>
   );
