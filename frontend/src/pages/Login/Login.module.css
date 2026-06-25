@@ -1,0 +1,402 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+body {
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+overflow: hidden;
+}
+.container {
+width: 1200px;
+background: #FFFFFF;
+box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.1), 
+    0px 5px 15px rgba(0, 0, 0, 0.05);
+border-radius: 20px;
+display: flex;
+justify-content: space-between;
+height: 600px;
+overflow: hidden;
+position: relative;
+}
+
+.rightBtn {
+margin-right: 50px;
+}
+
+
+
+.btnRegister {
+box-sizing: border-box;
+
+position: relative;
+width: 500px;
+height: 60px;
+
+border: 3px solid #60A0FF;
+border-radius: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 15px;
+cursor: pointer;
+
+background-color: transparent; 
+user-select: none;             
+transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+.btnRegister span {
+position: absolute;
+width: 372px;
+height: 60px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 60px;
+color: #60A0FF;
+
+text-align: center; 
+pointer-events: none; 
+transition: color 0.3s ease; 
+}
+
+.btnRegister:hover {
+background-color: #60A0FF;
+box-shadow: 0 8px 20px rgba(96, 160, 255, 0.35); 
+transform: translateY(-2px); 
+}
+
+.btnRegister:hover span {
+color: #ffffff; 
+}
+
+.btnRegister:active {
+transform: translateY(1px); 
+box-shadow: 0 4px 10px rgba(96, 160, 255, 0.2);
+}
+
+.divider {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 500px;
+margin-top: 30px;
+
+opacity: 0.5;
+}
+
+.divider::before,
+.divider::after {
+content: "";
+flex: 1;
+height: 2px;
+background-color: #000000;
+}
+
+.divider span {
+padding: 0 20px;
+font-family: 'Poppins', sans-serif;
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+color: #000000;
+text-transform: uppercase;
+}
+
+.socialGroup {
+display: flex;
+gap: 30px;
+width: 500px;
+margin-top: 30px;
+}
+
+.btnSocial {
+flex: 1;
+height: 60px;
+border-radius: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 15px;
+cursor: pointer;
+user-select: none;
+transition: all 0.2s ease;
+margin-bottom: 30px;
+}
+
+.btnSocial img {
+height: 30px;
+width: 30px;
+object-fit: contain;
+}
+
+.btnSocial span {
+font-family: 'Poppins', sans-serif;
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+}
+
+.btnGoogle {
+background-color: #f1f8db;
+border: 1px solid #738054;
+}
+
+.btnGoogle span {
+color: #738054;
+}
+
+.btnFacebook {
+background-color: #60A0FF;
+border: 1px solid #1976d2;
+}
+
+.btnFacebook span {
+color: #ffffff;
+}
+
+.btnSocial:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btnSocial:active {
+transform: translateY(0);
+}
+
+
+@keyframes shake {
+0%   { transform: rotate(0deg) translateY(0); }
+25%  { transform: rotate(3deg) translateY(-1px); }
+50%  { transform: rotate(-3deg) translateY(1px); }
+75%  { transform: rotate(2deg) translateY(-1px); }
+100% { transform: rotate(0deg) translateY(0); }
+}
+.leftBtn {
+width: 550px;
+background: rgba(119, 246, 240, 0.5);
+border-radius: 20px;
+}
+
+.welcomeContainer {
+display: flex;
+flex-direction: column;
+align-items:center;
+font-family: 'Poppins', 'Inter', sans-serif;
+gap: 15px;
+text-align: center;
+}
+
+.titleWelcome {
+width: 500px;
+height: 44px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 50px;
+line-height: 94px;
+
+color: #000000;
+
+
+}
+
+.badge {
+display: inline-flex;
+justify-content: center;
+align-items: center;
+height: 60px;
+padding: 0 40px;
+font-size: 32px;
+font-weight: 700;
+color: #FFFFFF;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+.badgeTutoring {
+background-color: #658354;
+width: 220px;
+}
+
+.badgeWebsite {
+background-color: #d1a24b;
+width: 220px;
+}
+
+.svgMoveUp {
+position: absolute;
+transform: translateX(230px) translateY(-300px) rotate(5deg);
+
+/* Chạy animation */
+animation: diagonalFloat 3s ease-in-out infinite alternate;
+}
+
+@keyframes diagonalFloat {
+0% {
+    /* Điểm xuất phát: Phải trùng khớp với vị trí định vị ban đầu */
+    transform: translate(210px, -280px); 
+}
+100% {
+    /* Điểm kết thúc (đã cộng thêm): 
+    X: 220px + 25px = 245px
+    Y: -350px - 20px = -370px */
+    transform: translate(230px, -300px); 
+}
+}
+.loginTitleWrapper{
+
+padding-top:30px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+margin-bottom: 30px;
+}
+
+.loginTitle{
+
+margin:0;
+
+font-family:
+    'Roboto',
+    sans-serif;
+
+font-weight:700;
+
+font-size:40px;
+
+color:
+    rgba(
+        31,
+        31,
+        31,
+        .9
+    );
+
+line-height:1;
+}
+
+.loginLine{
+
+margin-top:10px;
+
+width:260px;
+
+height:5px;
+
+background:#b89d9d;
+
+border-radius:999px;
+}
+
+.authSwitchBtn {
+text-align: end;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+color: #60A0FF;
+margin-top: 10px;   
+cursor: pointer;
+}
+
+@media (max-width:1200px){
+    body{
+        overflow-x:hidden;
+        overflow-y:auto;
+    }
+
+    .leftBtn{
+        display:none;
+    }
+
+    .container{
+        width:90%;
+        max-width:450px;
+        height:auto;
+        margin:0 auto;
+        flex-direction:column;
+        padding:20px;
+        box-sizing:border-box;
+    }
+
+    .rightBtn{
+        width:100%;
+        margin-right:0;
+    }
+
+    .btnContinue,
+    .btnRegister,
+    .divider,
+    .socialGroup{
+        width:100%;
+        margin-left:0;
+    }
+
+    .btnRegister span{
+        font-size: 20px;
+    }
+
+    .loginTitleWrapper{
+        margin-left:0;
+    }
+
+    .socialGroup span {
+        font-size: 15px;
+    }
+    
+}
+
+.errorToast {
+    position: absolute;
+    top: 20px;
+    right: -400px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    transition: right 0.5s ease-in-out;
+    width: 350px;
+    z-index: 100;
+    font-family: 'Roboto';
+    opacity: 1;
+    width: fit-content;    /* Tự co giãn theo độ dài chữ */
+    min-width: 200px;      /* Đảm bảo khung không quá bé */
+    max-width: 90%;        /* Không bao giờ vượt quá màn hình */
+    white-space: nowrap;   /* Giữ nội dung trên 1 dòng nếu cần */
+    z-index: 100;
+    transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    overflow: hidden; /* Cắt phần progress bar khi nó chạy */
+}
+
+.errorToast:not(.show) {
+    right: -400px; /* Trượt ra ngoài */
+    opacity: 0;    /* Mờ dần */
+}
+
+/* Màu sắc dựa trên trạng thái */
+.errorToast.error { background-color: #ff4d4f; } /* Đỏ */
+.errorToast.success { background-color: #52c41a; } /* Xanh (nếu bạn muốn thêm) */
+
+.errorToast.show { right: 20px; }
+
+/* Thanh chạy thời gian */
+.progressBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    animation: shrink 10s linear forwards; /* Chạy trong 10s */
+}
+
+@keyframes shrink {
+    from { width: 100%; }
+    to { width: 0%; }
+}

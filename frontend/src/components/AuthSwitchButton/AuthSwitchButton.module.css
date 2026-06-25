@@ -1,0 +1,9 @@
+.authSwitchBtn {
+    text-align: end;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    color: #60A0FF;
+    margin-top: 10px;
+    cursor: pointer;
+}

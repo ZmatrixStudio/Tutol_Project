@@ -1,0 +1,223 @@
+.inputGroup {
+box-sizing: border-box;
+position: relative;
+height: 60px;
+border: 2px solid rgba(0, 0, 0, 0.5);
+border-radius: 20px;
+display: flex;
+align-items: center;
+margin-top: 15px;
+background-color: #ffffff;
+overflow: visible;
+
+}
+
+.inputGroup::before,
+.inputGroup::after {
+content: "";
+position: absolute;
+inset: -2px; 
+border: 3px solid #19d228;
+border-radius: 20px;
+pointer-events: none;
+z-index: 1; 
+}
+
+.inputGroup::before {
+clip-path: polygon(50% 0, 50% 0, 50% 0, 50% 0);
+}
+.inputGroup::after {
+clip-path: polygon(50% 0, 50% 0, 50% 0, 50% 0);
+mask: linear-gradient(to right, #000, #000) no-repeat center top;
+mask-size: 0% 100%; 
+transition: mask-size 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inputGroup input {
+border: none;
+height: 50px;
+font-size: 20px;
+outline: none;
+width: 350px;
+flex-shrink: 0;
+border-radius: 10px;
+}
+
+.inputLabel{
+position:absolute;
+left:50%;
+top:0;
+transform: translate(-50%, -50%);
+background:white;
+padding:0 10px;
+font-size:20px;
+opacity:0;
+transition:.25s;
+pointer-events:none;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 19px;
+color: #707070;
+z-index: 999;
+}
+
+.inputGroup:focus-within .inputLabel,
+.inputGroup input:not(:placeholder-shown) ~ .inputLabel {
+opacity: 1;
+}
+
+.inputField:focus::placeholder {
+color: transparent;
+}
+
+.inputField::placeholder {
+font-size: 18px; /* Chỉnh số này nhỏ lại theo ý bạn */
+color: #999;     /* Có thể chỉnh màu nhạt hơn để nhìn đỡ rối */
+opacity: 1;      /* Bắt buộc thêm dòng này để Safari/iPhone hiển thị đúng màu */
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #000 !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+/* KÍCH HOẠT ANIMATION CHẠY TỪ GIỮA SANG HAI BÊN */
+/* Thay thế toàn bộ đoạn :has(...) của bạn bằng đoạn này */
+.inputGroup.active .borderLayer::before {
+animation: drawLeft 0.5s ease-in-out forwards;
+-webkit-animation: drawLeft 0.5s ease-in-out forwards;
+}
+
+.inputGroup.active .borderLayer::after {
+animation: drawRight 0.5s ease-in-out forwards;
+-webkit-animation: drawRight 0.5s ease-in-out forwards;
+}
+
+/* Định nghĩa border-layer */
+.borderLayer {
+position: absolute;
+inset: -2px;
+pointer-events: none;
+z-index: 1;
+}
+.borderLayer::before, .borderLayer::after {
+content: "";
+position: absolute;
+inset: 0;
+border: 3px solid #19d228;
+border-radius: 20px;
+-webkit-clip-path: polygon(50% 0, 50% 0, 50% 0, 50% 0);
+clip-path: polygon(50% 0, 50% 0, 50% 0, 50% 0);
+}
+
+    /* NỬA BÊN TRÁI: Chạy từ giữa đỉnh -> góc trái -> cạnh trái -> đáy -> giữa đáy */
+    /* ================= NỬA BÊN TRÁI (CHẠY 10% MỖI BƯỚC) ================= */
+@keyframes drawLeft {
+0%   { clip-path: polygon(50% 0, 50% 0, 50% 0, 50% 0); }
+10%  { clip-path: polygon(50% 0, 37.5% 0, 37.5% 0, 50% 0); }
+20%  { clip-path: polygon(50% 0, 25% 0, 25% 0, 50% 0); }
+30%  { clip-path: polygon(50% 0, 12.5% 0, 12.5% 0, 50% 0); }
+40%  { clip-path: polygon(50% 0, 0% 0, 0% 0, 50% 0); }        /* Chạm góc trên trái */
+50%  { clip-path: polygon(50% 0, 0% 0, 0% 50%, 50% 0); }      /* Chạy nửa cạnh dọc trái */
+60%  { clip-path: polygon(50% 0, 0% 0, 0% 100%, 50% 0); }     /* Chạm góc dưới trái */
+70%  { clip-path: polygon(50% 0, 0% 0, 0% 100%, 12.5% 100%); }
+80%  { clip-path: polygon(50% 0, 0% 0, 0% 100%, 25% 100%); }
+90%  { clip-path: polygon(50% 0, 0% 0, 0% 100%, 37.5% 100%); }
+100% { clip-path: polygon(50% 0, 0% 0, 0% 100%, 50% 100%); }   /* Gặp nhau ở giữa đáy */
+}
+@keyframes drawRight {
+0%   { clip-path: polygon(50% 0, 50% 0, 50% 0, 50% 0); }
+10%  { clip-path: polygon(50% 0, 62.5% 0, 62.5% 0, 50% 0); }
+20%  { clip-path: polygon(50% 0, 75% 0, 75% 0, 50% 0); }
+30%  { clip-path: polygon(50% 0, 87.5% 0, 87.5% 0, 50% 0); }
+40%  { clip-path: polygon(50% 0, 100% 0, 100% 0, 50% 0); }    /* Chạm góc trên phải */
+50%  { clip-path: polygon(50% 0, 100% 0, 100% 50%, 50% 0); }  /* Chạy nửa cạnh dọc phải */
+60%  { clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 0); } /* Chạm góc dưới phải */
+70%  { clip-path: polygon(50% 0, 100% 0, 100% 100%, 87.5% 100%); }
+80%  { clip-path: polygon(50% 0, 100% 0, 100% 100%, 75% 100%); }
+90%  { clip-path: polygon(50% 0, 100% 0, 100% 100%, 62.5% 100%); }
+100% { clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%); } /* Gặp nhau ở giữa đáy */
+}
+
+.btnLa {
+margin-left: 25px;
+margin-top: -10px;
+overflow: hidden;
+border-radius: 20px;
+animation: shake 5s infinite ease-in-out;
+transform-origin: center;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 15px;      /* Căn sát lề phải */
+    color: #888;      /* Màu nhạt để tinh tế hơn */
+    cursor: pointer;
+    z-index: 10;      /* Đảm bảo nó luôn nằm trên các lớp khác */
+    transition: color 0.3s ease;
+}
+
+#togglePassword:hover {
+    color: #555;      /* Đổi màu khi hover để người dùng biết có thể click */
+}
+
+
+    .inputGroup{
+        width:100%;
+        margin-left:0;
+        display:flex;
+        align-items:center;
+    }
+
+    .btnContinue {
+        height: 50px;
+    }
+
+    .inputGroup input{
+        flex:1;
+        width:80%;
+        height: 30px;
+    }
+
+    .btnLa{
+        margin-left:5px; /* sát input */
+        white-space:nowrap;
+        margin-top: 0.5px;
+        width: 60px;
+        height: 50px;
+        margin-top: -15px;
+        animation: shake 5s infinite ease-in-out;
+
+        
+    }
+    @keyframes shake {
+            0%   { transform: rotate(0deg) translateY(0); }
+            25%  { transform: rotate(3deg) translateY(-1px); }
+            50%  { transform: rotate(-3deg) translateY(1px); }
+            75%  { transform: rotate(2deg) translateY(-1px); }
+            100% { transform: rotate(0deg) translateY(0); }
+        }
+
+    .inputField::placeholder {
+        font-size: 15px; /* Chỉnh số này nhỏ lại theo ý bạn */
+        color: #999;     /* Có thể chỉnh màu nhạt hơn để nhìn đỡ rối */
+        opacity: 1;      /* Bắt buộc thêm dòng này để Safari/iPhone hiển thị đúng màu */
+    }
+
+.active {
+    transform: scale(1.02);
+}
+
+.icon {
+margin-left: 20px;
+margin-right: 10px;
+font-size: 22px;
+transition: 0.3s;
+color: #7e7e7e;
+}
