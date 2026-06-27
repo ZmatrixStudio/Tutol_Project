@@ -336,6 +336,19 @@ body {
     margin-left: 0;
   }
 
+  .divider {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .divider span{
+    font-size: 1em;
+  }
+
+  .socialGroup{
+    margin-top: 10px;
+  }
+
   .btnRegister span {
     font-size: 20px;
   }

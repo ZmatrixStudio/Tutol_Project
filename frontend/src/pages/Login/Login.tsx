@@ -130,7 +130,7 @@ function Login() {
                         onTogglePassword={handleTogglePassword}
                     />
 
-                    <AuthSwitchButton text="Quên mật khẩu ?" id="continue-forgot-password"  onClick={() => useNavigate()("/login")} />
+                    <AuthSwitchButton text="Quên mật khẩu ?" id="continue-forgot-password"  onClick={() => navigate("/forgot-password")} />
 
                     <ButtonContinue type="submit" text="Tiếp Tục"/>
 

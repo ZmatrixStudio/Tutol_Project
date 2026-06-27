@@ -6,7 +6,11 @@ interface InputFieldProps {
     type: string;
     label: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
+    onChange: (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => void;
+
     isFocused: boolean;
     setIsFocused: (v: boolean) => void;
 
@@ -18,6 +22,11 @@ interface InputFieldProps {
     onTogglePassword?: () => void;
 
     image?: string;
+
+    onFocus?: () => void;
+    onBlur?: () => void;
+
+    readOnly?: boolean;
 }
 
 function InputField({
@@ -26,19 +35,37 @@ function InputField({
     label,
     value,
     onChange,
+
     isFocused,
     setIsFocused,
+
     placeholder,
     icon,
+
     showToggle,
     showPassword,
     onTogglePassword,
-    image
+
+    image,
+
+    onFocus,
+    onBlur,
+
+    readOnly
 }: InputFieldProps) {
     return (
-        <div className={`${styles.inputGroup} ${isFocused || value !== "" ? styles.active : ""}`}>
-            
-            {icon && <i className={`${icon} ${styles.icon}`}></i>}
+        <div
+            className={`${styles.inputGroup} ${
+                isFocused || value !== ""
+                    ? styles.active
+                    : ""
+            }`}
+        >
+            {icon && (
+                <i
+                    className={`${icon} ${styles.icon}`}
+                ></i>
+            )}
 
             <input
                 type={type}
@@ -46,28 +73,65 @@ function InputField({
                 className={styles.inputField}
                 placeholder={placeholder}
                 value={value}
+
                 onChange={onChange}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+
+                readOnly={readOnly}
+
+                onFocus={() => {
+                    setIsFocused(true);
+
+                    // CHẠY CALLBACK NẾU CÓ
+                    onFocus?.();
+                }}
+
+                onBlur={() => {
+                    setIsFocused(false);
+
+                    // CHẠY CALLBACK NẾU CÓ
+                    onBlur?.();
+                }}
+
                 required
             />
 
-            <label className={styles.inputLabel} htmlFor={id}>
+            <label
+                htmlFor={id}
+                className={styles.inputLabel}
+            >
                 {label}
             </label>
 
-            <div className={styles.borderLayer}></div>
+            <div
+                className={styles.borderLayer}
+            ></div>
 
             {showToggle && (
                 <i
-                    className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"} e-icon`}
-                    style={{ fontSize: "15px", marginRight: "20px", cursor: "pointer" }}
-                    onClick={onTogglePassword}
+                    className={`fa ${
+                        showPassword
+                            ? "fa-eye-slash"
+                            : "fa-eye"
+                    } e-icon`}
+                    style={{
+                        fontSize: "15px",
+                        marginRight: "20px",
+                        cursor: "pointer"
+                    }}
+                    onClick={
+                        onTogglePassword
+                    }
                 ></i>
             )}
 
             {image && (
-                <img className={styles.btnLa} width={70} height={57} src={image} alt="Image" />
+                <img
+                    className={styles.btnLa}
+                    width={70}
+                    height={57}
+                    src={image}
+                    alt="Image"
+                />
             )}
         </div>
     );
