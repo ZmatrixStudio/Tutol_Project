@@ -7,7 +7,7 @@ function NotFound() {
             document.title = "Not Found ";
         }, []);
   return (
-    <div>
+    <div className="body">
       <div className="wires-container">
         <div className="wire-left wire-swing">
           <svg fill="none" viewBox="0 0 40 150">

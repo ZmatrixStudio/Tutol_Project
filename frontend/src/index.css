@@ -1,0 +1,30 @@
+@keyframes softWiggle {
+  0%,100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+.animate-wiggle-loop {
+  animation: softWiggle 2.5s ease-in-out infinite;
+}
+
+@keyframes bellSwing {
+  0%,100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+.animate-bell-swing {
+  animation: bellSwing 2s ease-in-out infinite;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f4efef;
+}
+::-webkit-scrollbar-thumb {
+  background: #e2c7c7;
+  border-radius: 10px;
+}
