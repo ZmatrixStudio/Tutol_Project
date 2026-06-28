@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+
 export default function HomePage() {
+  useEffect(() => { document.title = "Trang chủ - Tìm gia sư ngay" }, []);
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-[#C97474]">

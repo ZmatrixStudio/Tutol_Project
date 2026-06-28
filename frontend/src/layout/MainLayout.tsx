@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Footer from './Footer';
 import NavMobile from './NavMoblie';
-import Chat from './chat';
+import Chat from './Chat';
 import { Outlet } from "react-router-dom";
 
 
