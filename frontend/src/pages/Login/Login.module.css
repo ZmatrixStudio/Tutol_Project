@@ -41,6 +41,7 @@ body {
   gap: 15px;
   font-family: 'Poppins', 'Inter', sans-serif;
   text-align: center;
+  margin-top: 20px;
 }
 
 .titleWelcome {
@@ -64,11 +65,13 @@ body {
   font-weight: 700;
   color: #FFFFFF;
   border-radius: 4px;
+
 }
 
 .badgeTutoring {
   width: 220px;
   background-color: #658354;
+  margin-top: 40px;
 }
 
 .badgeWebsite {
@@ -281,7 +284,7 @@ body {
 
 .svgMoveUp {
   position: absolute;
-  transform: translateX(230px) translateY(-300px) rotate(5deg);
+  transform: translateX(230px) translateY(-270px) rotate(5deg);
   animation: diagonalFloat 3s ease-in-out infinite alternate;
 }
 
@@ -294,8 +297,8 @@ body {
 }
 
 @keyframes diagonalFloat {
-  0%   { transform: translate(210px, -280px); }
-  100% { transform: translate(230px, -300px); }
+  0%   { transform: translate(210px, -250px); }
+  100% { transform: translate(230px, -270px); }
 }
 
 @keyframes shrink {

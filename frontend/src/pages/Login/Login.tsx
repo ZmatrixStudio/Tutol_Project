@@ -69,6 +69,7 @@ function Login() {
                     <>
                         <div className={styles.welcomeContainer}>
                             <h1 className={styles.titleWelcome}>Welcome To The</h1>
+                            
                             <div className={`${styles.badge} ${styles.badgeTutoring}`}>
                                 Tutoring
                             </div>
