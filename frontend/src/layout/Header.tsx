@@ -1,11 +1,37 @@
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Header(){
     const [showNoti, setShowNoti] = useState(false);
     const [showSetting, setShowSetting] = useState(false);
     const [hasUnread] = useState(true);
+
+    const menuItems = [
+        {
+            path: "/home",
+            label: "Trang Chủ",
+            icon: "fa-house",
+        },
+        {
+            path: "/history",
+            label: "Lịch Sử",
+            icon: "fa-clock-rotate-left",
+        },
+        {
+            path: "/discussion",
+            label: "Thảo Luận",
+            icon: "fa-comments",
+        },
+        {
+            path: "/wallet",
+            label: "Ví Tiền",
+            icon: "fa-wallet",
+        },
+    ];
+    
     const navigate = useNavigate();
+    const location = useLocation();
 
 
     useEffect(() => {
@@ -13,6 +39,7 @@ export default function Header(){
         document.addEventListener("click", handleClickOutside);
         return () => {document.removeEventListener("click", handleClickOutside);};
     }, []);
+
 
     return (
         <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.02)] border-b border-white">
@@ -27,18 +54,23 @@ export default function Header(){
                 </h1>
 
                 <nav className="hidden md:flex items-center gap-1 text-sm font-bold text-[#5A4B4A]">
-                    <button onClick={() => navigate("/home")} className="spa-nav-btn flex items-center gap-2 px-4 py-2 text-[#C97474] bg-[#C97474]/5 rounded-xl transition duration-300">
-                        <i className="fa-solid fa-house"></i> Trang Chủ
-                    </button>
-                    <button onClick={() => navigate("/history")} className="spa-nav-btn flex items-center gap-2 px-4 py-2 hover:text-[#C97474] hover:bg-gray-50 rounded-xl transition-all duration-300 group">
-                        <i className="fa-solid fa-clock-rotate-left text-gray-400 group-hover:text-[#C97474] transition duration-300"></i> Lịch Sử
-                    </button>
-                    <button onClick={() => navigate("/discussion")} className="spa-nav-btn flex items-center gap-2 px-4 py-2 hover:text-[#C97474] hover:bg-gray-50 rounded-xl transition-all duration-300 group">
-                        <i className="fa-solid fa-comments text-gray-400 group-hover:text-[#C97474] transition duration-300"></i> Thảo Luận
-                    </button>
-                    <button onClick={() => navigate("/wallet")} className="spa-nav-btn flex items-center gap-2 px-4 py-2 hover:text-[#C97474] hover:bg-gray-50 rounded-xl transition-all duration-300 group">
-                        <i className="fa-solid fa-wallet text-gray-400 group-hover:text-[#C97474] transition duration-300"></i> Ví Tiền
-                    </button>
+                    {menuItems.map((item) => {
+                    const isActive = location.pathname === item.path;
+
+                    return (
+                        <button key={item.path} onClick={() => navigate(item.path)} className="relative flex items-center gap-2 px-4 py-2 rounded-xl overflow-hidden">
+                            {isActive && (
+                                <motion.div layoutId="activeTab" className="absolute inset-0 bg-[#C97474]/10 rounded-xl" transition={{ type: "spring", stiffness: 400, damping: 30 }}/>
+                            )}
+
+                            <i className={`fa-solid ${item.icon} relative z-10 transition duration-300 ${ isActive ? "text-[#C97474]" : "text-gray-400"}`}/>
+
+                            <span className={`relative z-10 transition duration-300 ${ isActive ? "text-[#C97474]" : "text-[#5A4B4A]" }`}>
+                                {item.label}
+                            </span>
+                        </button>
+                    );
+                })}
                 </nav>
 
                 <div className="flex items-center gap-4">

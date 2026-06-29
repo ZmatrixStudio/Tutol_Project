@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import HomePage from "./pages/Main/Home/Home";
+import WalletPage from "./pages/Main/Wallet/Wallet";
 
 const LoginPage = lazy(() => import("./pages/Login/Login"));
 const RegisterPage = lazy(() => import("./pages/Register/Register"));
@@ -22,6 +23,7 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/wallet" element={<WalletPage/>}></Route>
           </Route>
         </Routes>
     </Router>
