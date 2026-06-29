@@ -1,4 +1,7 @@
+import { useEffect } from "react";
+
 export default function WalletPage(){
+    useEffect(() => {document.title = "Ví tiền của tôi"})
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -69,32 +72,7 @@ export default function WalletPage(){
                         <div id="bank-info-card" className="flex items-center justify-between p-3 bg-[#F6F1F1] rounded-xl border border-gray-200 cursor-pointer hover:border-[#C97474]/50 transition group">
                             <div className="flex items-center gap-3">
                                 <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00287A] to-[#000820] shadow-[0_8px_16px_-6px_rgba(0,20,60,0.8)] border border-blue-300/20 flex flex-col items-center justify-center overflow-hidden group select-none transition-transform duration-300 hover:-translate-y-1 cursor-pointer">
-
-                                    <div className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent rounded-t-2xl z-20 pointer-events-none"></div>
-
-                                    <svg className="absolute inset-0 w-full h-full scale-[1.6] opacity-80 blur-[1.5px] -translate-y-1.5 group-hover:blur-[0.5px] transition-all duration-500" viewBox="0 0 100 100">
-                                        <polygon points="50,15 61,40 88,40 66,56 75,81 50,65 25,81 34,56 12,40 39,40" fill="url(#bg-star)"/>
-                                        <defs>
-                                            <linearGradient id="bg-star" x1="0" y1="0" x2="1" y2="1">
-                                                <stop offset="10%" stop-color="#EE0033"/> 
-                                                <stop offset="90%" stop-color="#00AEEF"/> 
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-
-                                    <span
-                                        className="text-xl font-black text-white z-20 drop-shadow-[0_3px_3px_rgba(0,0,0,0.7)] tracking-tighter mt-0.5 group-hover:scale-105 transition-transform"
-                                        style={{ fontFamily: "'Arial Black', sans-serif" }}
-                                    >
-                                        MB
-                                    </span>
-
-                                    <svg className="absolute bottom-1.5 w-[80%] h-3 z-20 drop-shadow-[0_2px_1px_rgba(0,0,0,0.6)] group-hover:-translate-y-0.5 transition-transform duration-500" viewBox="0 0 100 30" fill="none">
-                                        <path d="M 5 25 Q 20 10 35 20 T 55 20" stroke="#00AEEF" stroke-width="8" stroke-linecap="round"/>
-                                        <path d="M 45 28 Q 65 5 80 15 T 100 10" stroke="#EE0033" stroke-width="9" stroke-linecap="round"/>
-                                    </svg>
-                                    
-                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_0_8px_rgba(255,255,255,0.1)] z-30 pointer-events-none"></div>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Logo_MB_new.png" alt="MBBank" className="w-30 h-30 object-contain" />
                                 </div>
                                 <div>
                                     <p className="text-xs font-black text-[#3D3333] group-hover:text-[#C97474] transition">MB BANK</p>
