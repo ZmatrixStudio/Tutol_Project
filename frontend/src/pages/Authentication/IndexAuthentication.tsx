@@ -198,32 +198,24 @@ export default function IndexAuthentication(){
                         </div>
                     )}
 
-                    {state == "register" && (
-                        <div id="msg-register" className={`space-y-6 smooth-transition ${state == "register" ? " opacity-100 translate-x-0 block": "opacity-0 transform -translate-x-4 hidden"}`}>
+                    {["register", "otp"].includes(state) && (
+                        <div 
+                            id="msg-register" 
+                            className={`space-y-6 smooth-transition ${["register", "otp"].includes(state) ? "opacity-100 translate-x-0 block" : "opacity-0 transform -translate-x-4 hidden"}`}
+                        >
                             <div className="space-y-3">
                                 <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Join Us</span>
                                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Khám phá điều mới!</h2>
-                                <p className="text-slate-500 text-sm leading-relaxed">Đăng ký ngay tài khoản hôm nay để nhận được các đặc quyền, thông báo cập nhật tính năng mới nhất từ hệ thống của chúng tôi.</p>
+                                <p className="text-slate-500 text-sm leading-relaxed">
+                                    Đăng ký ngay tài khoản hôm nay để nhận được các đặc quyền, thông báo cập nhật tính năng mới nhất từ hệ thống của chúng tôi.
+                                </p>
                             </div>
                             <div className="pt-2">
                                 <p className="text-xs text-slate-400 mb-3">Đã có tài khoản thành viên từ trước?</p>
-                                <button onClick={() => {setState("login")}} className="w-full sm:w-auto px-6 py-2.5 border border-slate-300 text-slate-700 text-sm font-medium rounded-xl hover:bg-slate-900 hover:text-white hover:border-slate-900 active:scale-95 smooth-transition shadow-sm">
-                                    Đăng nhập ngay
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {state == "otp" && (
-                        <div id="msg-register" className={`space-y-6 smooth-transition ${state == "otp" ? " opacity-100 translate-x-0 block": "opacity-0 transform -translate-x-4 hidden"}`}>
-                            <div className="space-y-3">
-                                <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Join Us</span>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Khám phá điều mới!</h2>
-                                <p className="text-slate-500 text-sm leading-relaxed">Đăng ký ngay tài khoản hôm nay để nhận được các đặc quyền, thông báo cập nhật tính năng mới nhất từ hệ thống của chúng tôi.</p>
-                            </div>
-                            <div className="pt-2">
-                                <p className="text-xs text-slate-400 mb-3">Đã có tài khoản thành viên từ trước?</p>
-                                <button onClick={() => {setState("login")}} className="w-full sm:w-auto px-6 py-2.5 border border-slate-300 text-slate-700 text-sm font-medium rounded-xl hover:bg-slate-900 hover:text-white hover:border-slate-900 active:scale-95 smooth-transition shadow-sm">
+                                <button 
+                                    onClick={() => {setState("login")}} 
+                                    className="w-full sm:w-auto px-6 py-2.5 border border-slate-300 text-slate-700 text-sm font-medium rounded-xl hover:bg-slate-900 hover:text-white hover:border-slate-900 active:scale-95 smooth-transition shadow-sm"
+                                >
                                     Đăng nhập ngay
                                 </button>
                             </div>
