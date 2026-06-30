@@ -7,7 +7,6 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
 
-
 import "./index.css";
 import IndexAuthentication from "./pages/Authentication/IndexAuthentication";
 import AuthRoute from "./routes/AuthRoute";

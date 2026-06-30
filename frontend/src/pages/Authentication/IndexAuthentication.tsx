@@ -14,7 +14,7 @@ export default function IndexAuthentication(){
     const [forgotStepOtp, setforgotStepOtp] = useState(false);
     const [forgotStepReset, setForgotStepReset ] = useState(false);
 
-    useEffect(() => {document.title = "Xác minh người dùng"}, [])
+    useEffect(() => {document.title = "Chào mừng bạn đã quay trở lại"}, [])
 
     // CHECK JWT
     useEffect(() => {
@@ -126,7 +126,7 @@ export default function IndexAuthentication(){
                     )}
 
                     {state == "otp" && (
-                        <div id="form-register-otp" className="space-y-6 smooth-transition opacity-0 transform -translate-x-4 hidden">
+                        <div id="form-register-otp" className={`space-y-6 smooth-transition${state == "otp" ? "opacity-100 transform -translate-x-4" : "opacity-0 transform -translate-x-4 hidden"}`}>
                             <div>
                                 <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Xác thực OTP</h2>
                                 <p className="text-xs text-slate-400 mt-1">Vui lòng nhập mã số 6 chữ số vừa được gửi tới email đăng ký của bạn.</p>
@@ -135,7 +135,7 @@ export default function IndexAuthentication(){
                             <form className="space-y-5">
                                 <div className="flex justify-between gap-2 max-w-xs mx-auto">
                                     {[1, 2, 3, 4, 5, 6].map((i) => (
-                                        <input type="number" key={i} id={`otp-reg-${i}`} onChange={(e) => handleOtpChange(e , "otp-reg-", i)} onKeyDown={(e) => handleOtpKeyDown(e, "otp-reg", i)} className="w-10 h-12 sm:w-12 text-center text-lg font-bold border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 bg-white smooth-transition" required/>
+                                        <input type="text" key={i} id={`otp-reg-${i}`} onChange={(e) => handleOtpChange(e , "otp-reg-", i)} onKeyDown={(e) => handleOtpKeyDown(e, "otp-reg-", i)} className="w-10 h-12 sm:w-12 text-center text-lg font-bold border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 bg-white smooth-transition" required/>
                                     ))}
                                 </div>
 
@@ -199,7 +199,23 @@ export default function IndexAuthentication(){
                     )}
 
                     {state == "register" && (
-                        <div id="msg-register" className={`space-y-6 smooth-transition ${state=== "register" ? " opacity-100 translate-x-0 block": "opacity-0 transform -translate-x-4 hidden"}`}>
+                        <div id="msg-register" className={`space-y-6 smooth-transition ${state == "register" ? " opacity-100 translate-x-0 block": "opacity-0 transform -translate-x-4 hidden"}`}>
+                            <div className="space-y-3">
+                                <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Join Us</span>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Khám phá điều mới!</h2>
+                                <p className="text-slate-500 text-sm leading-relaxed">Đăng ký ngay tài khoản hôm nay để nhận được các đặc quyền, thông báo cập nhật tính năng mới nhất từ hệ thống của chúng tôi.</p>
+                            </div>
+                            <div className="pt-2">
+                                <p className="text-xs text-slate-400 mb-3">Đã có tài khoản thành viên từ trước?</p>
+                                <button onClick={() => {setState("login")}} className="w-full sm:w-auto px-6 py-2.5 border border-slate-300 text-slate-700 text-sm font-medium rounded-xl hover:bg-slate-900 hover:text-white hover:border-slate-900 active:scale-95 smooth-transition shadow-sm">
+                                    Đăng nhập ngay
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {state == "otp" && (
+                        <div id="msg-register" className={`space-y-6 smooth-transition ${state == "otp" ? " opacity-100 translate-x-0 block": "opacity-0 transform -translate-x-4 hidden"}`}>
                             <div className="space-y-3">
                                 <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Join Us</span>
                                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Khám phá điều mới!</h2>
@@ -252,7 +268,7 @@ export default function IndexAuthentication(){
                                     <form className="space-y-5" onSubmit={(e) => {setForgotStepReset(true), e.preventDefault(), setforgotStepOtp(false)}}>
                                         <div className="flex justify-between gap-2 max-w-xs mx-auto">
                                             {[1,2,3,4,5,6].map((i) => ( 
-                                                <input key = {i} type="number" id={`otp-forgot-${i}`} onChange={(e) => handleOtpChange(e, "otp-forgot-", i)} onKeyDown={(e) => handleOtpKeyDown(e, "otp-forgot-", i)} className="w-10 h-12 text-center text-lg font-bold border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 bg-white smooth-transition" required/>
+                                                <input key = {i} type="text" id={`otp-forgot-${i}`} onChange={(e) => handleOtpChange(e, "otp-forgot-", i)} onKeyDown={(e) => handleOtpKeyDown(e, "otp-forgot-", i)} className="w-10 h-12 text-center text-lg font-bold border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 bg-white smooth-transition" required/>
                                             ))}
                                         </div>
                                         <button  type="submit" className="w-full py-2.5 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-slate-800 active:scale-95 smooth-transition shadow-md">
