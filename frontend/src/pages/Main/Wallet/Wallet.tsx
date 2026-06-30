@@ -5,6 +5,14 @@ export default function WalletPage(){
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                {/* KHUNG LOADING */}
+                {/* <div className="bg-gradient-to-br from-[#C97474] to-[#b56363] p-5 rounded-2xl skeleton">
+                    <div className="h-3 w-24 bg-white/20 rounded"></div>
+                    <div className="h-8 w-40 bg-white/25 rounded mt-3"></div>
+                    <div className="h-3 w-32 bg-white/20 rounded mt-3"></div>
+                </div> 
+                */}
+
                 <div className="bg-gradient-to-br from-[#C97474] to-[#b56363] p-5 rounded-2xl text-white shadow-md shadow-rose-900/5 flex flex-col justify-between relative overflow-hidden group">
                     <div className="absolute -right-4 -bottom-4 text-white/10 text-7xl font-black transform -rotate-12 transition-transform duration-500 group-hover:scale-110">
                         <i className="fa-solid fa-wallet"></i>
@@ -13,6 +21,14 @@ export default function WalletPage(){
                     <span id="available-balance" className="text-2xl md:text-3xl font-black mt-3">1.250.000đ</span>
                     <span className="text-[10px] text-rose-100 font-medium mt-2 flex items-center gap-1"><i className="fa-solid fa-shield-check"></i> Sẵn sàng thanh toán lớp học</span>
                 </div>
+
+                {/* KHUNG LOADING 2 */}
+                {/* <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] relative overflow-hidden animate-pulse">
+                    <div className="h-3 w-40 bg-gray-200 rounded"></div>
+                    <div className="h-8 w-32 bg-gray-300 rounded mt-3"></div>
+                    <div className="h-3 w-44 bg-amber-100 rounded mt-3"></div>
+                </div> */}
+
                 <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between relative overflow-hidden group">
                     <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Số dư tạm giữ (Đóng băng)</span>
                     <span id="frozen-balance" className="text-2xl md:text-3xl font-black text-[#3D3333] mt-3">600.000đ</span>
@@ -20,6 +36,13 @@ export default function WalletPage(){
                         <i className="fa-solid fa-clock"></i> Đang giữ cho lịch học hôm nay
                     </span>
                 </div>
+
+                {/* <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] relative overflow-hidden skeleton">
+                    <div className="h-3 w-32 bg-gray-200 rounded"></div>
+                    <div className="h-8 w-28 bg-emerald-100 rounded mt-3"></div>
+                    <div className="h-3 w-40 bg-gray-100 rounded mt-3"></div>
+                </div> */}
+
                 <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] flex flex-col justify-between">
                     <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Điểm thưởng tích lũy</span>
                     <span className="text-2xl md:text-3xl font-black text-emerald-600 mt-3">4,500 <span className="text-xs font-bold text-gray-400">Xu</span></span>

@@ -3,24 +3,22 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import MainLayout from "./layout/MainLayout";
 import HomePage from "./pages/Main/Home/Home";
 import WalletPage from "./pages/Main/Wallet/Wallet";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
-const LoginPage = lazy(() => import("./pages/Login/Login"));
-const RegisterPage = lazy(() => import("./pages/Register/Register"));
 const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword/forgot-password"))
+
 
 import "./index.css";
+import IndexAuthentication from "./pages/Authentication/IndexAuthentication";
 
 function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/authentication" element={<IndexAuthentication/>} />
           <Route path="*" element={<NotFound />} />
 
-          <Route element={<MainLayout />}>
+          <Route element={<ProtectedRoute> <MainLayout/> </ProtectedRoute>}>
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/wallet" element={<WalletPage/>}></Route>
