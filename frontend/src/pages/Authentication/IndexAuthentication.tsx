@@ -14,7 +14,7 @@ export default function IndexAuthentication(){
     const [forgotStepOtp, setforgotStepOtp] = useState(false);
     const [forgotStepReset, setForgotStepReset ] = useState(false);
 
-    useEffect(() => {document.title = "Xác minh người dùng"}, [])
+    useEffect(() => {document.title = "Chào mừng bạn quay trở lại"}, [])
     
     // CHECK MÃ OTP 
     const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, prefix: string, index: number) => {
