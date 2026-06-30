@@ -14,7 +14,13 @@ export default function IndexAuthentication(){
     const [forgotStepOtp, setforgotStepOtp] = useState(false);
     const [forgotStepReset, setForgotStepReset ] = useState(false);
 
-    useEffect(() => {document.title = "Chào mừng bạn quay trở lại"}, [])
+    useEffect(() => {document.title = "Xác minh người dùng"}, [])
+
+    // CHECK JWT
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken")
+        if (token) navigate("/");
+    }, [])
     
     // CHECK MÃ OTP 
     const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, prefix: string, index: number) => {

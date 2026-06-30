@@ -10,12 +10,13 @@ const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
 
 import "./index.css";
 import IndexAuthentication from "./pages/Authentication/IndexAuthentication";
+import AuthRoute from "./routes/AuthRoute";
 
 function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/authentication" element={<IndexAuthentication/>} />
+          <Route path="/authentication" element={<AuthRoute><IndexAuthentication/></AuthRoute>} />
           <Route path="*" element={<NotFound />} />
 
           <Route element={<ProtectedRoute> <MainLayout/> </ProtectedRoute>}>
