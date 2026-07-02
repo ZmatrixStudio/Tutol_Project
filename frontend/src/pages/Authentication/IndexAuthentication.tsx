@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { loginFacebook } from "./OAuth/Facebook";
 import { loginGoogle } from "./OAuth/Google";
 
@@ -15,6 +15,8 @@ export default function IndexAuthentication(){
     const [forgotStepEmail, setForgotStepEmail] = useState(true);
     const [forgotStepOtp, setforgotStepOtp] = useState(false);
     const [forgotStepReset, setForgotStepReset ] = useState(false);
+
+    const [registerData, setRegisterData] = useState({ fullName: "", email: "", password: ""});
 
     useEffect(() => {document.title = "Chào mừng bạn đã quay trở lại"}, [])
 
@@ -101,6 +103,45 @@ export default function IndexAuthentication(){
         } 
     }
 
+    // REGISTER OTP
+    const registerOtpSubmit = async(e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:8080/api/v1/auth/identifier", {
+                "email" : registerData.email,
+                "purpose": "REGISTER"
+            });
+            sessionStorage.setItem("state", response.data.state);
+            setState("otp");
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    const registerSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        let otp ="";
+        for (let i = 1; i <= 6; i++) {
+            const input = document.getElementById(`otp-reg-${i}` ) as HTMLInputElement;
+            otp += input.value;
+        }
+        try {
+            const response = await axios.post(`http://localhost:8080/api/v1/auth/register`, {
+                "username" : registerData.fullName,
+                "email" : registerData.email,
+                "password" : registerData.password,
+                "otp" : otp,
+                "state" : sessionStorage.getItem("state")
+            })
+            if (response.status == 200) {
+                navigate("/");
+            } else {
+                alert("Thông tin gửi đi không hợp lệ !!");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div className="bg-slate-100 min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 selection:bg-slate-900 selection:text-white">
             <div className="bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(15,23,42,0.08),0_1px_3px_rgba(15,23,42,0.04)] border border-slate-200/60 w-full max-w-4xl min-h-[620px] flex flex-col md:flex-row overflow-hidden= smooth-transition">
@@ -128,18 +169,18 @@ export default function IndexAuthentication(){
                                 <p className="text-xs text-slate-400 mt-1">Đăng ký nhanh chóng chỉ trong vài bước</p>
                             </div>
                             
-                            <form className="space-y-4" onSubmit={(e) => {e.preventDefault(); setState("otp")}}>
+                            <form className="space-y-4" onSubmit={registerOtpSubmit}>
                                 <div>
                                     <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Họ và tên</label>
-                                    <input type="text" required placeholder="Nguyễn Văn A" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
+                                    <input type="text" value={registerData.fullName} onChange={(e) => {setRegisterData({...registerData, fullName: e.target.value})}} required placeholder="Nguyễn Văn A" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
                                 </div>
                                 <div>
                                     <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Địa chỉ Email</label>
-                                    <input type="email" required placeholder="name@example.com" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
+                                    <input type="email" value={registerData.email}  onChange={(e) => {setRegisterData({...registerData, email: e.target.value})}} required placeholder="name@example.com" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
                                 </div>
                                 <div>
                                     <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Mật khẩu</label>
-                                    <input type="password" required placeholder="••••••••" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
+                                    <input type="password" value={registerData.password}  onChange={(e) => {setRegisterData({...registerData, password: e.target.value})}} required placeholder="••••••••" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
                                 </div>
                                 <button type="submit" className="w-full py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-slate-800 active:scale-[0.98] smooth-transition shadow-md">
                                     Đăng ký ngay
@@ -158,7 +199,7 @@ export default function IndexAuthentication(){
                                 <p className="text-xs text-slate-400 mt-1">Vui lòng nhập mã số 6 chữ số vừa được gửi tới email đăng ký của bạn.</p>
                             </div>
                             
-                            <form className="space-y-5">
+                            <form className="space-y-5" onSubmit={registerSubmit}>
                                 <div className="flex justify-between gap-2 max-w-xs mx-auto">
                                     {[1, 2, 3, 4, 5, 6].map((i) => (
                                         <input type="text" key={i} id={`otp-reg-${i}`} onChange={(e) => handleOtpChange(e , "otp-reg-", i)} onKeyDown={(e) => handleOtpKeyDown(e, "otp-reg-", i)} className="w-10 h-12 sm:w-12 text-center text-lg font-bold border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 bg-white smooth-transition" required/>

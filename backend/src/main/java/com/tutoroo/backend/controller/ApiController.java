@@ -1,52 +1,34 @@
 package com.tutoroo.backend.controller;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.tutoroo.backend.dto.GetOtpDto;
-import com.tutoroo.backend.dto.LoginDto;
-import com.tutoroo.backend.dto.VeriOtpDto;
-import com.tutoroo.backend.service.GetOtpService;
-import com.tutoroo.backend.service.LoginService;
-import com.tutoroo.backend.service.LogoutService;
-import com.tutoroo.backend.service.VeriOtpService;
+import com.tutoroo.backend.dto.IdentifierDto;
+import com.tutoroo.backend.dto.RegisterDto;
+import com.tutoroo.backend.service.IdentifierService;
+import com.tutoroo.backend.service.RegisterService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class ApiController {
-    
-    @Autowired
-    private GetOtpService getOtpService;
+
+    private final IdentifierService identifierService;
 
     @Autowired
-    private VeriOtpService veriOtpService;
+    private RegisterService registerService;
 
-    @Autowired
-    private LoginService loginService;
-
-    @Autowired
-    private LogoutService logoutService;
-
-    @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        return loginService.login(loginDto);
+    @PostMapping("/auth/identifier")
+    public ResponseEntity<?> identifierEmail( @Valid @RequestBody IdentifierDto dto) {
+        return identifierService.sendOtp(dto.getEmail(), dto.getPurpose());
     }
 
-    @PostMapping("/auth/logout")
-    public ResponseEntity<?> logout(@RequestHeader HttpHeaders headers){
-        return logoutService.logout(headers);
+    @PostMapping("/auth/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDto dto){
+        return registerService.Register(dto);
     }
-
-    @PostMapping("/get-otp")
-    public ResponseEntity<?> getOtp(@RequestBody GetOtpDto getOtpDto){
-        return getOtpService.sendOtpEmail(getOtpDto);
-    }
-
-    @PostMapping("/veri-otp")
-    public ResponseEntity<?> veriOtp(@RequestBody VeriOtpDto veriOtpDto, @RequestHeader HttpHeaders headers){
-        return veriOtpService.checkOtp(veriOtpDto, headers);
-    }
-
 }

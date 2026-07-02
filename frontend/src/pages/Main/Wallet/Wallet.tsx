@@ -12,6 +12,30 @@ export default function WalletPage(){
     const [popupSepay, setPopupSepay] = useState(false);
     const [popupAddBank, setPopupAddBank] = useState(false);
 
+    const [amount, setAmount] = useState("");
+    const [sepayContent, setSepayContent] = useState("");
+
+    // GỬI GHI CHÚ, SỐ TIỀN, STK, TTK  VỀ SERVER
+    const sepayRequests = async () => {
+        // const res = axios.post("deposit/create")
+        const depositStatus = `NAPTIEN${Math.floor(1000000000 + Math.random() * 9000000000)}`;
+        
+        setSepayContent(depositStatus);
+        setPopupSepay(true);
+    }
+
+    // CHECK BANKING 
+    // useEffect(() => {
+    //     if (!popupSepay) return;
+    //     const checkPayment = async() => {
+    //         try {
+
+    //         } catch {
+
+    //         }
+    //     }
+    // })
+
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -74,7 +98,7 @@ export default function WalletPage(){
                                 <span className="tracking-wider">NẠP TIỀN</span>
                             </button>
 
-                            <button id="btn-withdraw" 
+                            <button id="btn-withdraw" onClick={(e) => {e.preventDefault(), setPopupVeriPass(prev => !prev), setPendingActivate("withdaw")}}
                                     className="relative bg-[#F6F1F1] text-[#5A4B4A] font-extrabold text-xs py-3.5 px-6 
                                         border-4 border-black rounded-none
                                         shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
@@ -83,7 +107,7 @@ export default function WalletPage(){
                                         active:translate-x-[4px] active:translate-y-[4px] active:shadow-none
                                         flex flex-col items-center justify-center gap-2 select-none">
                                 <i className="fa-solid fa-arrow-up-long text-base"></i> 
-                                <span className="tracking-wider" onClick={(e) => {e.preventDefault(), setPopupVeriPass(prev => !prev), setPendingActivate("withdaw")}}>RÚT TIỀN</span>
+                                <span className="tracking-wider">RÚT TIỀN</span>
                             </button>
                         </div>
                     </div>
@@ -233,9 +257,12 @@ export default function WalletPage(){
                         <button onClick={(e) => {e.preventDefault(); 
                                                     if (pendingActivate === "deposit"){
                                                         setPopupDesposit(true);
+                                                    
                                                     } else {
                                                         setPopupWithdraw(true);
-                                                    } }} id="confirm-password" className="w-full bg-[#3D3333] text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-black active:scale-[0.98] transition shadow-md shadow-gray-900/20">
+                                                    } 
+                                                    setPopupVeriPass(prev => !prev)
+                                                    }} id="confirm-password" className="w-full bg-[#3D3333] text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-black active:scale-[0.98] transition shadow-md shadow-gray-900/20">
                             Tiếp tục
                         </button>
                     </div>
@@ -245,11 +272,11 @@ export default function WalletPage(){
 
             {/* POPUP VERI OTP */}
             {popupVeriOtp && (
-                <div id="modal-verify-otp" className="fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+                <div id="modal-verify-otp" className={`fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupVeriOtp ? "block opacity-100" : "hidden opacity-0"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-key text-emerald-600 mr-2"></i> Xác thực mã OTP</h3>
-                            <button className="close-modal text-gray-400 hover:text-rose-500 transition"><i className="fa-solid fa-xmark text-xl"></i></button>
+                            <button onClick={() => {setPopupVeriOtp(prev => !prev)}} className="close-modal text-gray-400 hover:text-rose-500 transition"><i className="fa-solid fa-xmark text-xl"></i></button>
                         </div>
                         <div className="mb-4 p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-center">
                             <span className="text-xs font-bold text-gray-500 block">Số tiền giao dịch:</span>
@@ -273,21 +300,21 @@ export default function WalletPage(){
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-arrow-down-long text-[#C97474] mr-2"></i> Nạp tiền vào ví</h3>
-                            <button className="close-modal text-gray-400 hover:text-rose-500 transition"><i className="fa-solid fa-xmark text-xl"></i></button>
+                            <button onClick={() => setPopupDesposit(false)} className="close-modal text-gray-400 hover:text-rose-500 transition"><i className="fa-solid fa-xmark text-xl"></i></button>
                         </div>
                         <div className="mb-5">
                             <label className="block text-xs font-bold text-gray-500 mb-2">Số tiền muốn nạp (VNĐ)</label>
                             <div className="relative">
-                                <input type="text" id="deposit-amount" className="w-full bg-[#F6F1F1] text-[#3D3333] font-black text-xl rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#C97474]/50 transition" placeholder="0"/>
+                                <input type="text" value={amount} onChange={(e) => {const value = e.target.value.replace(/\D/g, ""); setAmount(value ? Number(value).toLocaleString("vi-VN") : "")}} id="deposit-amount" className="w-full bg-[#F6F1F1] text-[#3D3333] font-black text-xl rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#C97474]/50 transition" placeholder="0"/>
                                 <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 font-bold text-sm">VND</span>
                             </div>
                             <div className="flex gap-2 mt-3">
-                                <button className="quick-deposit-btn flex-1 py-1.5 bg-gray-100 hover:bg-[#C97474] hover:text-white rounded-lg text-xs font-bold text-gray-500 transition" data-val="100000">100k</button>
-                                <button className="quick-deposit-btn flex-1 py-1.5 bg-gray-100 hover:bg-[#C97474] hover:text-white rounded-lg text-xs font-bold text-gray-500 transition" data-val="200000">200k</button>
-                                <button className="quick-deposit-btn flex-1 py-1.5 bg-gray-100 hover:bg-[#C97474] hover:text-white rounded-lg text-xs font-bold text-gray-500 transition" data-val="500000">500k</button>
+                                <button onClick={() => {setAmount((100000).toLocaleString("vi-VN"))}} className="quick-deposit-btn flex-1 py-1.5 bg-gray-100 hover:bg-[#C97474] hover:text-white rounded-lg text-xs font-bold text-gray-500 transition" data-val="100000">100k</button>
+                                <button onClick={() => {setAmount((200000).toLocaleString("vi-VN"))}} className="quick-deposit-btn flex-1 py-1.5 bg-gray-100 hover:bg-[#C97474] hover:text-white rounded-lg text-xs font-bold text-gray-500 transition" data-val="200000">200k</button>
+                                <button onClick={() => {setAmount((500000).toLocaleString("vi-VN"))}} className="quick-deposit-btn flex-1 py-1.5 bg-gray-100 hover:bg-[#C97474] hover:text-white rounded-lg text-xs font-bold text-gray-500 transition" data-val="500000">500k</button>
                             </div>
                         </div>
-                        <button onClick={(e) => {e.preventDefault(); setPopupSepay(prev => !prev)}} id="confirm-deposit" className="w-full bg-[#C97474] text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-[#b56363] active:scale-[0.98] transition shadow-md shadow-rose-900/20">
+                        <button onClick={sepayRequests} id="confirm-deposit" className="w-full bg-[#C97474] text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-[#b56363] active:scale-[0.98] transition shadow-md shadow-rose-900/20">
                             Xác nhận nạp
                         </button>
                     </div>
@@ -296,11 +323,11 @@ export default function WalletPage(){
             
             {/* POPUP RÚT TIỀN */}
             {popupWithdraw && (
-                <div id="modal-withdraw" className="fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+                <div id="modal-withdraw" className={`fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupWithdraw ? "block opacity-100": "hidden opacity-0"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-arrow-up-long text-gray-500 mr-2"></i> Rút tiền về ngân hàng</h3>
-                            <button className="close-modal text-gray-400 hover:text-rose-500 transition"><i className="fa-solid fa-xmark text-xl"></i></button>
+                            <button onClick={() => {setPopupWithdraw(prev => !prev)}} className="close-modal text-gray-400 hover:text-rose-500 transition"><i className="fa-solid fa-xmark text-xl"></i></button>
                         </div>
                         <div className="mb-4 p-3 bg-rose-50 rounded-xl border border-rose-100 flex justify-between items-center">
                             <span className="text-[11px] font-bold text-gray-500">Số dư khả dụng:</span>
@@ -333,7 +360,7 @@ export default function WalletPage(){
                                 </div>
                             </div>
                         </div>
-                        <button onClick={(e) => {e.preventDefault(); setPopupVeriOtp(prev => !prev)}} id="confirm-withdraw" className="w-full bg-[#3D3333] text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-black active:scale-[0.98] transition shadow-md shadow-gray-900/20">
+                        <button onClick={(e) => {e.preventDefault(); setPopupVeriOtp(prev => !prev); setPopupWithdraw(prev => !prev)}} id="confirm-withdraw" className="w-full bg-[#3D3333] text-white font-extrabold text-sm py-3.5 rounded-xl hover:bg-black active:scale-[0.98] transition shadow-md shadow-gray-900/20">
                             Tạo lệnh rút tiền
                         </button>
                     </div>
@@ -477,7 +504,7 @@ export default function WalletPage(){
                         <div className="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-4 flex flex-col items-center justify-center mb-4">
                             <div id="qrBox" className="w-36 h-36 bg-white border border-gray-100 rounded-xl shadow-inner flex flex-col items-center justify-center relative overflow-hidden mb-2">
                                 <a id="qrLink" href="#" target="_blank" className="flex items-center justify-center w-full h-full relative z-10 pointer-events-none">
-                                    <img alt="Mã QR thanh toán" className="w-full h-full object-contain"/>
+                                    <img src={`https://img.vietqr.io/image/MB-0359832905-compact.png?amount=${amount}&addInfo=${sepayContent}}`} alt="Mã QR thanh toán" className="w-full h-full object-contain"/>
                                 </a>
 
                                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/10 to-transparent animate-pulse"></div>
@@ -498,13 +525,13 @@ export default function WalletPage(){
                                 <span className="font-black text-[#3D3333] uppercase">DAO CAO NGUYEN</span>
                             </div>
                             <div className="flex justify-between items-center border-b border-gray-200/60 pb-1.5">
-                                <span className="font-bold text-gray-400">Số tiền:</span>
-                                <span id="sepay-render-amount" className="font-black text-rose-600 text-sm">000.000đ</span>
+                                <span className="font-bold text-gray-400" >Số tiền:</span>
+                                <span id="sepay-render-amount" className="font-black text-rose-600 text-sm">{amount || "000.000"}đ</span>
                             </div>
                             <div className="flex flex-col gap-1 pt-0.5">
                                 <span className="font-bold text-gray-400">Nội dung chuyển khoản bắt buộc:</span>
                                 <div className="flex items-center justify-between bg-white border border-emerald-200 px-3 py-2 rounded-xl mt-1">
-                                    <span id="sepay-render-content" className="font-mono font-black text-emerald-600 text-sm tracking-wide">NAPVITIEN1635</span>
+                                    <span id="sepay-render-content" className="font-mono font-black text-emerald-600 text-sm tracking-wide">{sepayContent || ""}</span>
                                     <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded cursor-pointer hover:bg-emerald-100 transition" onClick={() => navigator.clipboard.writeText(document.getElementById("sepay-render-content")?.textContent || "").then(() => alert("Đã sao chép nội dung!")).catch(() => alert("Sao chép thất bại!"))}>Copy</span>
                                 </div>
                             </div>
