@@ -2,6 +2,8 @@ package com.tutoroo.backend.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+
 import redis.clients.jedis.Jedis;
 
 import java.net.URI;
@@ -13,8 +15,8 @@ import java.util.UUID;
 public class RedisOtpService {
     private final Jedis jedis;
 
-    public RedisOtpService(){
-        this.jedis =  new Jedis(URI.create("rediss://default:gQAAAAAAAhQvAAIgcDFiMGVkZWMxZjVhMzM0ZjY1ODg0YzBiMmNhNjY4MmViMA@current-sawfly-136239.upstash.io:6379"));
+    public RedisOtpService(@Value("${redis.url}") String redisUrl) {
+        this.jedis = new Jedis(URI.create(redisUrl));
     }
 
     public String createOtp(String email, String otp, String purpose, Integer expire){
