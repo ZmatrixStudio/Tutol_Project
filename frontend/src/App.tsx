@@ -11,13 +11,12 @@ import "./index.css";
 import IndexAuthentication from "./pages/Authentication/IndexAuthentication";
 import AuthRoute from "./routes/AuthRoute";
 
-function App() {
+export default function App() {
   return (
     <Router>
         <Routes>
           <Route path="/authentication" element={<AuthRoute><IndexAuthentication/></AuthRoute>} />
           <Route path="*" element={<NotFound />} />
-
           <Route element={<ProtectedRoute> <MainLayout/> </ProtectedRoute>}>
             <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<HomePage />} />
@@ -27,5 +26,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
