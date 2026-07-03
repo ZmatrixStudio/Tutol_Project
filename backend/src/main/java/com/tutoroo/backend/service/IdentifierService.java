@@ -39,6 +39,7 @@ public class IdentifierService {
             return ResponseEntity.status(429).body(Map.of("status", 429, "error", true, "success", false, "message", otpToken));
 
         } 
+        
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject("Tutoroo - Email Verification Code");
         message.setTo(email);
