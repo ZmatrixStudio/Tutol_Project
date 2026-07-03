@@ -4,12 +4,14 @@ import java.security.SecureRandom;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,6 +22,18 @@ public class IdentifierService {
 
     @Autowired
     private final RedisOtpService redisOtpService;
+
+    @Value("${spring.mail.username}")
+    private String username;
+
+    @Value("${spring.mail.password}")
+    private String password;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("MAIL USER = " + username);
+        System.out.println("PASSWORD LENGTH = " + password.length());
+    }
 
     private final SecureRandom random = new SecureRandom();
 
