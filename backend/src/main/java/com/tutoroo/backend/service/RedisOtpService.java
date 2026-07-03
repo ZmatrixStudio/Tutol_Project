@@ -1,30 +1,32 @@
 package com.tutoroo.backend.service;
 
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
-
-import redis.clients.jedis.Jedis;
-
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Service;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
 @Service
 public class RedisOtpService {
-    private final Jedis jedis;
 
-    public RedisOtpService(@Value("${redis.url}") String redisUrl) {
-        this.jedis = new Jedis(URI.create(redisUrl));
+    private final JedisPool jedisPool;
+
+    public RedisOtpService(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
     }
 
-    public String createOtp(String email, String otp, String purpose, Integer expire){
-        try {
+    public String createOtp(String email, String otp, String purpose, Integer expire) {
+
+        try (Jedis jedis = jedisPool.getResource()) {
+
             String otpToken = UUID.randomUUID().toString();
             String key = "otp:" + email;
             String lockKey = "otp_lock:" + email;
-            
+
             if (jedis.exists(lockKey)) {
                 return "Vui lòng đợi 60 giây để gửi lại OTP";
             }
@@ -40,27 +42,43 @@ public class RedisOtpService {
 
             jedis.hset(key, data);
             jedis.expire(key, expire);
-            
-            return otpToken;
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-            return e.getMessage();
-        }
-        
-    } 
 
-    public boolean verifyOtp(String email, String otpInput, String  purpose, String stateUUID){
-        try {
+            return otpToken;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Redis createOtp failed", e);
+        }
+    }
+
+    public boolean verifyOtp(String email, String otpInput, String purpose, String stateUUID) {
+
+        try (Jedis jedis = jedisPool.getResource()) {
+
             String otpKey = "otp:" + email;
-            if (!jedis.exists(otpKey)) return false;
+
+            if (!jedis.exists(otpKey)) {
+                return false;
+            }
 
             Map<String, String> data = jedis.hgetAll(otpKey);
 
+            if (data.isEmpty()) {
+                return false;
+            }
+
             String otpHash = data.get("otpHash");
             String storedPurpose = data.get("purpose");
-            int attempts = Integer.parseInt(data.getOrDefault("attempts", "0"));
 
-            if (!storedPurpose.equals(purpose)) return false;
+            if (otpHash == null || storedPurpose == null) {
+                return false;
+            }
+
+            if (!purpose.equals(storedPurpose)) {
+                return false;
+            }
+
+            int attempts = Integer.parseInt(data.getOrDefault("attempts", "0"));
 
             if (attempts >= 5) {
                 jedis.del(otpKey);
@@ -68,6 +86,7 @@ public class RedisOtpService {
             }
 
             boolean valid = BCrypt.checkpw(otpInput, otpHash);
+
             if (!valid) {
                 jedis.hincrBy(otpKey, "attempts", 1);
                 return false;
@@ -75,10 +94,10 @@ public class RedisOtpService {
 
             jedis.del(otpKey);
             return true;
+
         } catch (Exception e) {
-            System.out.print(e.getMessage());
+            e.printStackTrace();
             return false;
         }
-       
     }
 }
