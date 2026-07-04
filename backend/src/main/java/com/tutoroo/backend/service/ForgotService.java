@@ -1,0 +1,48 @@
+package com.tutoroo.backend.service;
+
+import java.util.Map;
+
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
+
+import com.tutoroo.backend.dto.ForgotDto;
+import com.tutoroo.backend.util.NX1Crypto;
+
+
+@Service
+public class ForgotService {
+    public ResponseEntity<?> Forgot(ForgotDto dto){
+        // kIỂM TRA XEM TOKEN CÓ PHẢI DO SERVER TẠO RA KHÔNG 
+        try {
+            String nx1Token = NX1Crypto.decrypt(dto.getNX1DEBUG());
+            String[] parts = nx1Token.split("\\|");
+        
+            if (parts.length != 2) {
+                return ResponseEntity.badRequest().body("Token invalid");
+            }
+
+            // TOKEN CHỈ SỐNG 10P
+            if ((Long.parseLong(parts[1]) - System.currentTimeMillis()) > 10 * 60 * 1000) {
+                return ResponseEntity.badRequest().body("Token expired");
+            }
+
+            // KIỂM TRA EMAIL TRONG TOKEN ĐÓ TRÙNG VỚI EMAIL THÌ ĐI TIẾP
+            if (!parts[0].equals(dto.getEmail())) { 
+                return ResponseEntity.badRequest().body("Email mismatch token");
+            }
+
+            // HAST PASS CHO VÀO DATABASE
+            String hastPass = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
+            System.out.println(hastPass);
+
+            // ĐÁ RA LOGIN     
+            return ResponseEntity.status(200).body(Map.of("status", 200, "error", false, "success", true, "message", "Xác thực tài khoản thành công !"));
+                                                                            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        
+    }
+}

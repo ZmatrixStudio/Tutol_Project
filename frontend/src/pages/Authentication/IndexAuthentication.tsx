@@ -15,8 +15,10 @@ export default function IndexAuthentication(){
     const [forgotStepEmail, setForgotStepEmail] = useState(true);
     const [forgotStepOtp, setforgotStepOtp] = useState(false);
     const [forgotStepReset, setForgotStepReset ] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [registerData, setRegisterData] = useState({ fullName: "", email: "", password: ""});
+    const [NX1Data, setNX1Data] = useState("");
 
     useEffect(() => {document.title = "Chào mừng bạn đã quay trở lại"}, [])
 
@@ -86,34 +88,99 @@ export default function IndexAuthentication(){
     // FORGOT 
     const forgotSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        try {
+            const formDataForgot = new FormData(e.currentTarget);
 
-        const formDataForgot = new FormData(e.currentTarget);
+            const passNew = formDataForgot.get("password") as string;
+            const confirmPassword = formDataForgot.get("confirmPassword") as string;
 
-        const passNew = formDataForgot.get("password") as string;
-        const confirmPassword = formDataForgot.get("confirmPassword") as string;
+            if (passNew != confirmPassword) {
+                alert("Mật khẩu không khớp!!")
+                return;
+            }
 
-        if (passNew != confirmPassword) {
-            alert("Mật khẩu không khớp!!")
-            return;
+            const resForgot = await axios.post("http://localhost:8080/api/v1/auth/forgot", {
+                "email": emailForgot, 
+                "password": passNew,
+                "NX1DEBUG": NX1Data
+            })
+            if (resForgot.status === 200){
+                navigate("/")
+            } 
+        } catch (error) {
+            alert(error);
         }
-
-        const resForgot = await axios.post("forgot", {emailForgot, passNew})
-        if (resForgot.status === 200){
-            navigate("/")
-        } 
+        
     }
 
-    // REGISTER OTP
-    const registerOtpSubmit = async(e: React.FormEvent) => {
+    const verifyOtp = async(e: React.FormEvent, purpose:string) => {
         e.preventDefault();
+        if (purpose != "FORGOT") return;
+        let otp ="";
+        for (let i = 1; i <= 6; i++) {
+            const input = document.getElementById(`otp-forgot-${i}` ) as HTMLInputElement;
+            if (!input || !input.value) {
+                return; // chưa nhập đủ 6 số
+            }
+            otp += input.value;
+        }
         try {
-            const response = await axios.post("http://localhost:8080/api/v1/auth/identifier", {
-                "email" : registerData.email,
-                "purpose": "REGISTER"
-            });
-            sessionStorage.setItem("state", response.data.state);
-            setState("otp");
+            setLoading(true);
+            const response = await axios.post("http://localhost:8080/api/v1/auth/email-identifier", {
+                "email": emailForgot,
+                "otp": otp,
+                "state": sessionStorage.getItem("otpToken"),
+                "purpose": purpose
+            })
+            if (response.status === 200){
+                setNX1Data(response.data.NX1);
+
+                setforgotStepOtp(false);
+                setForgotStepReset(true);
+
+                sessionStorage.removeItem("otpToken");
+            }
+            setLoading(false);
+            
         } catch (error) {
+            setLoading(false);
+            alert(error);
+            
+        }
+    }
+
+    // OTP
+    const getEmailByPurpose = (purpose: string) => {
+        if (purpose === "REGISTER") {
+            setState("otp");
+            return registerData.email ;
+        }
+        if (purpose === "FORGOT"){
+            setforgotStepOtp(true)
+            return emailForgot;
+        }
+        return "";
+    };
+    const otpSubmit = async(e: React.FormEvent, purpose: string) => {
+        e.preventDefault();
+        if (!["REGISTER", "FORGOT"].includes(purpose)) {
+            alert("Sai trạng thái");
+            return;
+        }
+        const email = getEmailByPurpose(purpose);
+        try {
+            setLoading(true);
+            const response = await axios.post("http://localhost:8080/api/v1/auth/identifier", {
+                "email" : email,
+                "purpose": purpose
+            });
+            
+            if (response.status === 200){
+                sessionStorage.setItem("otpToken", response.data.otpToken);
+            }
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
             alert(error);
         }
     }
@@ -123,6 +190,9 @@ export default function IndexAuthentication(){
         let otp ="";
         for (let i = 1; i <= 6; i++) {
             const input = document.getElementById(`otp-reg-${i}` ) as HTMLInputElement;
+            if (!input || !input.value) {
+                return; // chưa nhập đủ 6 số
+            }
             otp += input.value;
         }
         try {
@@ -131,7 +201,7 @@ export default function IndexAuthentication(){
                 "email" : registerData.email,
                 "password" : registerData.password,
                 "otp" : otp,
-                "state" : sessionStorage.getItem("state")
+                "state" : sessionStorage.getItem("otpToken")
             })
             if (response.status == 200) {
                 navigate("/");
@@ -169,7 +239,7 @@ export default function IndexAuthentication(){
                                 <p className="text-xs text-slate-400 mt-1">Đăng ký nhanh chóng chỉ trong vài bước</p>
                             </div>
                             
-                            <form className="space-y-4" onSubmit={registerOtpSubmit}>
+                            <form className="space-y-4" onSubmit={(e) => otpSubmit(e, "REGISTER")}>
                                 <div>
                                     <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Họ và tên</label>
                                     <input type="text" value={registerData.fullName} onChange={(e) => {setRegisterData({...registerData, fullName: e.target.value})}} required placeholder="Nguyễn Văn A" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
@@ -251,7 +321,7 @@ export default function IndexAuthentication(){
                                 <div>
                                     <div className="flex justify-between items-center mb-1.5">
                                         <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Mật khẩu</label>
-                                        <button type="button" onClick={() => {setForgotModal(prev => !prev)}} className="text-xs text-slate-400 hover:text-slate-900 smooth-transition hover:underline">Quên mật khẩu?</button>
+                                        <button type="button" onClick={() => {setForgotModal(true)}} className="text-xs text-slate-400 hover:text-slate-900 smooth-transition hover:underline">Quên mật khẩu?</button>
                                     </div>
                                     <input name="password" type="password" placeholder="••••••••" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
                                 </div>
@@ -293,7 +363,14 @@ export default function IndexAuthentication(){
                 {forgotModal && (
                     <div id="forgot-modal" className={`fixed inset-0 bg-slate-900/20 backdrop-blur-sm items-center justify-center p-4 z-50 smooth-transition ${forgotModal ? "flex opacity-100" : "hidden opacity-0" }`}>
                         <div className="bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100 max-w-md w-full p-6 sm:p-8 space-y-5 transform scale-95 smooth-transition" id="modal-content">
-                            
+                            {loading && (
+                                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-2xl z-50">
+                                    <div className="relative">
+                                        <div className="w-12 h-12 border-4 border-slate-200 rounded-full"></div>
+                                        <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-t-slate-900 rounded-full animate-spin"></div>
+                                    </div>
+                                </div>
+                            )}
                             <div className="flex justify-end absolute top-4 right-4 z-10">
                                 <button onClick={() => {setForgotModal(prev => !prev)}} className="text-slate-400 hover:text-slate-600 hover:bg-slate-50 p-1.5 rounded-lg smooth-transition">
                                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -306,7 +383,7 @@ export default function IndexAuthentication(){
                                         <h3 className="text-lg font-bold text-slate-900">Khôi phục mật khẩu</h3>
                                         <p className="text-xs text-slate-400 leading-relaxed">Nhập email của bạn để nhận mã OTP xác thực khôi phục mật khẩu.</p>
                                     </div>
-                                    <form className="space-y-4" onSubmit={(e) => {setforgotStepOtp(true), e.preventDefault(), setForgotStepEmail(false)}}>
+                                    <form className="space-y-4" onSubmit={(e) => {setForgotStepEmail(false); otpSubmit(e, "FORGOT")}}>
                                         <div>
                                             <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Địa chỉ Email</label>
                                             <input value={emailForgot} onChange={(e) => {setEmailForgot(e.target.value)}} type="email" required placeholder="name@example.com" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
@@ -324,7 +401,7 @@ export default function IndexAuthentication(){
                                         <h3 className="text-lg font-bold text-slate-900">Xác thực mã OTP</h3>
                                         <p className="text-xs text-slate-400 leading-relaxed">Mã OTP gồm 6 số vừa được gửi đến email của bạn.</p>
                                     </div>
-                                    <form className="space-y-5" onSubmit={(e) => {setForgotStepReset(true), e.preventDefault(), setforgotStepOtp(false)}}>
+                                    <form className="space-y-5" onSubmit={(e) => {verifyOtp(e, "FORGOT")}}>
                                         <div className="flex justify-between gap-2 max-w-xs mx-auto">
                                             {[1,2,3,4,5,6].map((i) => ( 
                                                 <input key = {i} type="text" id={`otp-forgot-${i}`} onChange={(e) => handleOtpChange(e, "otp-forgot-", i)} onKeyDown={(e) => handleOtpKeyDown(e, "otp-forgot-", i)} className="w-10 h-12 text-center text-lg font-bold border border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 bg-white smooth-transition" required/>

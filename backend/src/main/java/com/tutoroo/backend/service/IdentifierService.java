@@ -11,7 +11,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,12 +28,6 @@ public class IdentifierService {
     @Value("${spring.mail.password}")
     private String password;
 
-    @PostConstruct
-    public void init() {
-        System.out.println("MAIL USER = " + username);
-        System.out.println("PASSWORD LENGTH = " + password.length());
-    }
-
     private final SecureRandom random = new SecureRandom();
 
     public ResponseEntity<?> sendOtp(String email, String purpose){
@@ -49,7 +42,7 @@ public class IdentifierService {
         String otp = String.format("%06d", random.nextInt(1000000));
         String otpToken = redisOtpService.createOtp(email, otp, purpose, 300);
 
-        if (otpToken == "Vui lòng đợi 60 giây để gửi lại OTP"){
+        if ("Vui lòng đợi 60 giây để gửi lại OTP".equals(otpToken)){
             return ResponseEntity.status(429).body(Map.of("status", 429, "error", true, "success", false, "message", otpToken));
 
         } 

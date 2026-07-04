@@ -51,7 +51,12 @@ public class RedisOtpService {
 
         String otpHash = data.get("otpHash");
         String storedPurpose = data.get("purpose");
+        String state = data.get("otpToken");
         int attempts = Integer.parseInt(data.getOrDefault("attempts", "0"));
+
+        if (!state.equalsIgnoreCase(stateUUID)) {
+            return false;
+        }
 
         if (!storedPurpose.equals(purpose)) return false;
 

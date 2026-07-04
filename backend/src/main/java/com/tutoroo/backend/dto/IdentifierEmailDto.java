@@ -3,14 +3,10 @@ package com.tutoroo.backend.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterDto {
-    @NotBlank(message = "Password không được để trống")
-    private String password;
-
+public class IdentifierEmailDto {
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email không đúng định dạng")
     @Pattern(
@@ -30,13 +26,8 @@ public class RegisterDto {
     )
     private String state;
 
-    @NotBlank(message = "Username không được để trống")
-    @Pattern(
-        regexp = "^[\\p{L}\\s]+$",
-        message = "Username chỉ được chứa chữ cái và khoảng trắng"
-    )
-    @Size(min = 2, max = 50, message = "Tên phải từ 2 đến 50 ký tự")
-    private String username;
+    @NotBlank(message = "Purpose không được để trống")
+    private String purpose;
 
 
 }
