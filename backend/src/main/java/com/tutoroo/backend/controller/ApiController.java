@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import com.tutoroo.backend.dto.ForgotDto;
 import com.tutoroo.backend.dto.IdentifierDto;
 import com.tutoroo.backend.dto.IdentifierEmailDto;
+import com.tutoroo.backend.dto.LoginDto;
 import com.tutoroo.backend.dto.RegisterDto;
 import com.tutoroo.backend.service.ForgotService;
 import com.tutoroo.backend.service.IdentifierEmailService;
 import com.tutoroo.backend.service.IdentifierService;
+import com.tutoroo.backend.service.LoginService;
 import com.tutoroo.backend.service.RegisterService;
 
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ public class ApiController {
     private final RegisterService registerService;
     private final IdentifierEmailService identifierEmailService;
     private final ForgotService forgotService;
+    private final LoginService loginService;
 
     @PostMapping("/auth/identifier")
     public ResponseEntity<?> identifierEmail( @Valid @RequestBody IdentifierDto dto) {
@@ -44,5 +47,10 @@ public class ApiController {
     public ResponseEntity<?> forgot(@Valid @RequestBody ForgotDto dto){
         return forgotService.Forgot(dto);
     } 
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto dto){
+        return loginService.Login(dto);
+    }
 
 }
