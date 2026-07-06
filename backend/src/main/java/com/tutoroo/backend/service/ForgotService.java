@@ -2,16 +2,21 @@ package com.tutoroo.backend.service;
 
 import java.util.Map;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tutoroo.backend.dto.ForgotDto;
 import com.tutoroo.backend.util.NX1Crypto;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class ForgotService {
+
+    private final PasswordEncoder passwordEncoder;
     public ResponseEntity<?> Forgot(ForgotDto dto){
         // kIỂM TRA XEM TOKEN CÓ PHẢI DO SERVER TẠO RA KHÔNG 
         try {
@@ -33,7 +38,7 @@ public class ForgotService {
             }
 
             // HAST PASS CHO VÀO DATABASE
-            String hastPass = BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt());
+            String hastPass = passwordEncoder.encode(dto.getPassword());
             System.out.println(hastPass);
 
             // ĐÁ RA LOGIN     

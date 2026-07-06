@@ -15,6 +15,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class LocalAccount {
     @Id
     @Column(name = "ma_tai_khoan")

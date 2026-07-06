@@ -49,7 +49,7 @@ public class ApiController {
     } 
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDto dto){
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto dto) throws Exception {
         return loginService.Login(dto);
     }
 

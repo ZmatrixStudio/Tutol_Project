@@ -11,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.tutoroo.backend.repository.LocalAccountRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,11 +32,21 @@ public class IdentifierService {
 
     private final SecureRandom random = new SecureRandom();
 
+    private final LocalAccountRepository localAccountRepository;
+
     public ResponseEntity<?> sendOtp(String email, String purpose){
         if (purpose.equalsIgnoreCase("REGISTER")) {
             // KIỂM TRA XEM EMAIL ĐÃ TẠO CHƯA NẾU CHƯA THÌ CHO ĐI TIẾP
+            Boolean checkUser = localAccountRepository.existsByEmail(email);
+            if (checkUser) {
+                return ResponseEntity.status(409).body(Map.of("status", 409, "error", true, "success", false, "message", "Email đã tồn tại vui lòng quay lại đăng nhập !"));
+            }
         } else if(purpose.equalsIgnoreCase("FORGOT")) {
             // KIỂM TRA XEM EMAIL ĐÃ TẠO CHƯA NẾU RỒI THÌ CHO ĐI TIẾP
+            Boolean checkUser = localAccountRepository.existsByEmail(email);
+            if (!checkUser) {
+                return ResponseEntity.status(409).body(Map.of("status", 409, "error", true, "success", false, "message", "Email không tồn tại !"));
+            }
         } else {
             return ResponseEntity.status(404).body(Map.of("status", 404, "error", "Not Found"));
 

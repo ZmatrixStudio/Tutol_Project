@@ -17,17 +17,19 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "tai_khoan")
 @Entity
+@Builder
 public class TaiKhoan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "ma_tai_khoan")
     private Long id;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Role role = Role.USER;
 
-    
+    @Builder.Default
     @Column(name = "email_verified", nullable = false)
     private Boolean emailVerified = false;
 
