@@ -65,4 +65,14 @@ public class JwtService {
             throw new RuntimeException(e);
         }     
     }
+
+    public boolean validateToken(String token) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateToken'");
+    }
+
+    public String extractUsername(String token) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'extractUsername'");
+    }
 }

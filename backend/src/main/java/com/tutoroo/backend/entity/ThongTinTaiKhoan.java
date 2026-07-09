@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "thong_tin_tai_khoan", uniqueConstraints = {@UniqueConstraint(name = "uq_profile_phone", columnNames = "so_dien_thoai"),
                                                           @UniqueConstraint(name = "uq_profile_cccd", columnNames = "cccd")})
 public class ThongTinTaiKhoan {

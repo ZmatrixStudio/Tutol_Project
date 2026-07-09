@@ -21,12 +21,6 @@ export default function IndexAuthentication(){
     const [NX1Data, setNX1Data] = useState("");
 
     useEffect(() => {document.title = "Chào mừng bạn đã quay trở lại"}, [])
-
-    // CHECK JWT
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken")
-        if (token) navigate("/");
-    }, [])
     
     // CHECK MÃ OTP 
     const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, prefix: string, index: number) => {
@@ -54,9 +48,9 @@ export default function IndexAuthentication(){
             const email = formData.get("email") as string;
             const password = formData.get("password") as string;
 
-            const res = await axios.post("login", {email, password});
+            const res = await axios.post("http://localhost:8080/api/v1/auth/login", {email, password}, {withCredentials: true});
             if (res.status === 200){
-                navigate("/")
+                window.location.reload();
             } 
         } catch (err: any) {
             

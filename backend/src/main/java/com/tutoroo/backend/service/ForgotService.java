@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tutoroo.backend.dto.ForgotDto;
+import com.tutoroo.backend.entity.LocalAccount;
+import com.tutoroo.backend.repository.LocalAccountRepository;
 import com.tutoroo.backend.util.NX1Crypto;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ForgotService {
 
+    private final LocalAccountRepository localAccountRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     public ResponseEntity<?> Forgot(ForgotDto dto){
         // kIỂM TRA XEM TOKEN CÓ PHẢI DO SERVER TẠO RA KHÔNG 
         try {
@@ -39,7 +44,9 @@ public class ForgotService {
 
             // HAST PASS CHO VÀO DATABASE
             String hastPass = passwordEncoder.encode(dto.getPassword());
-            System.out.println(hastPass);
+            LocalAccount localAccount = localAccountRepository.findByEmail(dto.getEmail()).orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản"));
+            localAccount.setPassword(hastPass);
+            localAccountRepository.save(localAccount);
 
             // ĐÁ RA LOGIN     
             return ResponseEntity.status(200).body(Map.of("status", 200, "error", false, "success", true, "message", "Xác thực tài khoản thành công !"));

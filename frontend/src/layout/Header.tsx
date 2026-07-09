@@ -1,3 +1,4 @@
+import axios from "axios";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -6,6 +7,22 @@ export default function Header(){
     const [showNoti, setShowNoti] = useState(false);
     const [showSetting, setShowSetting] = useState(false);
     const [hasUnread] = useState(true);
+
+   const logoutSubmit = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+
+        const res = await axios.post(
+            "http://localhost:8080/api/v1/auth/logout",
+            {},
+            {
+                withCredentials: true
+            }
+        );
+
+        if (res.status === 204) {
+            window.location.reload();
+        }
+};
 
     const menuItems = [
         {
@@ -166,7 +183,7 @@ export default function Header(){
                                     <i className="fa-solid fa-shield-halved text-sm w-4"></i> Bảo mật & Mật khẩu
                                 </a>
                                 <hr className="border-gray-100 my-1"/>
-                                <a href="#" className="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-rose-500 hover:bg-rose-50 rounded-xl transition duration-200">
+                                <a onClick={(e) => {logoutSubmit(e)}}  className="flex items-center gap-3 px-3 py-2.5 text-xs font-bold text-rose-500 hover:bg-rose-50 rounded-xl transition duration-200">
                                     <i className="fa-solid fa-arrow-right-from-bracket text-sm w-4"></i> Đăng xuất
                                 </a>
                             </div>

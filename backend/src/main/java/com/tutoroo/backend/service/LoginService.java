@@ -1,5 +1,6 @@
 package com.tutoroo.backend.service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
@@ -12,8 +13,10 @@ import org.springframework.http.HttpHeaders;
 
 import com.tutoroo.backend.dto.LoginDto;
 import com.tutoroo.backend.entity.LocalAccount;
+import com.tutoroo.backend.entity.RefreshToken;
 import com.tutoroo.backend.entity.TaiKhoan;
 import com.tutoroo.backend.repository.LocalAccountRepository;
+import com.tutoroo.backend.repository.RefreshTokenRepository;
 import com.tutoroo.backend.repository.TaiKhoanRepository;
 import com.tutoroo.backend.util.NX1Crypto;
 
@@ -26,6 +29,7 @@ public class LoginService {
     private final LocalAccountRepository localAccountRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public ResponseEntity<?> Login(LoginDto dto) throws Exception {
         String email = dto.getEmail();
@@ -42,12 +46,29 @@ public class LoginService {
         
         // Lưu vào database
         String deviceId = NX1Crypto.encrypt(UUID.randomUUID().toString());
-        String refreshToken = passwordEncoder.encode(taiKhoan.getId() + "|" + email);
+        String refreshTokenHash = passwordEncoder.encode(taiKhoan.getId() + "|NX1DEBUGSESSION");
 
         String accessToken = jwtService.generateAccessToken(taiKhoan.getId(), email, taiKhoan.getRole(), "LoginAuth", deviceId);
 
+        // LƯU VÀO BẢNG REFRESH TOKEN
+        RefreshToken refreshToken = refreshTokenRepository.findByIdAndDeviceId(taiKhoan.getId(), deviceId).orElse(null);
+        if (refreshToken == null ){
+            refreshToken = new RefreshToken();
+            refreshToken.setTaiKhoan(taiKhoan);
+            refreshToken.setDeviceId(deviceId);
+            refreshToken.setTokenHash(refreshTokenHash);
+            refreshToken.setRevoked(false);
+            refreshToken.setExpiryDate(Instant.now().plus(Duration.ofDays(7)));
+        } else {
+            refreshToken.setTokenHash(refreshTokenHash);
+            refreshToken.setExpiryDate(Instant.now().plus(Duration.ofDays(7)));
+            refreshToken.setRevoked(false);
+        }
+
+        refreshTokenRepository.save(refreshToken);
+        
         ResponseCookie refreshCookie = ResponseCookie
-            .from("_RT", refreshToken)
+            .from("_RT", refreshTokenHash)
             .httpOnly(true)
             .secure(true)
             .path("/")

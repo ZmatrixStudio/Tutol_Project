@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.tutoroo.backend.dto.RegisterDto;
 import com.tutoroo.backend.entity.LocalAccount;
 import com.tutoroo.backend.entity.TaiKhoan;
+import com.tutoroo.backend.entity.ThongTinTaiKhoan;
 import com.tutoroo.backend.enums.Role;
 import com.tutoroo.backend.repository.LocalAccountRepository;
 import com.tutoroo.backend.repository.TaiKhoanRepository;
+import com.tutoroo.backend.repository.ThongTinTaiKhoanRepository;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class RegisterService {
     private final TaiKhoanRepository taiKhoanRepository;
     private final LocalAccountRepository localAccountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ThongTinTaiKhoanRepository thongTinTaiKhoanRepository;
 
     public ResponseEntity<?> Register(RegisterDto dto){
         boolean checkOtp = redisOtpService.verifyOtp(dto.getEmail(), dto.getOtp(), "REGISTER", dto.getState());
@@ -37,8 +40,11 @@ public class RegisterService {
         TaiKhoan user = taiKhoanRepository.save(TaiKhoan.builder().role(Role.USER).build());
 
         // LƯU VÀO BẢNG LOCALACCOUNT 
-        LocalAccount local = localAccountRepository.save(LocalAccount.builder().taiKhoan(user).email(dto.getEmail()).password(passwordEncoder.encode(dto.getPassword())).build());
+        localAccountRepository.save(LocalAccount.builder().taiKhoan(user).email(dto.getEmail()).password(passwordEncoder.encode(dto.getPassword())).build());
 
-        return ResponseEntity.status(200).body(Map.of("status", 200, "error", false, "success", true, "message", "Xác thực tài khoản thành công !"));
+        // LƯU VÀO BẢNG THÔNG TIN 
+        thongTinTaiKhoanRepository.save(ThongTinTaiKhoan.builder().taiKhoan(user).username(dto.getUsername()).build());
+
+        return ResponseEntity.status(200).body(Map.of("status", 200, "error", false, "success", true, "message", "Xác thực tài khoản thành công vui lòng quay lại đnăg nhập !"));
     }
 }

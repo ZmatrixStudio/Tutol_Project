@@ -1,9 +1,18 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
-export default function AuthRoute({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem("accessToken");
+export default function AuthRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { accessToken, loading } = useAuth();
 
-  if (token) {
+  if (loading) {
+    return null; 
+  }
+
+  if (accessToken) {
     return <Navigate to="/" replace />;
   }
 
