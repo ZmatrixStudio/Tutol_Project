@@ -10,6 +10,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "oauth2_account", uniqueConstraints = {@UniqueConstraint (name = "uq_provider_user", columnNames = {"prrovider", "provider_user_id"})})
@@ -32,6 +33,6 @@ public class Oauth2Account {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-
-    
+    @Column(name = "email", nullable = false, length = 150)
+    private String email;
 }

@@ -72,7 +72,14 @@ export default function IndexAuthentication(){
     const googleLogin = async () => {
         try {
             const googleData = await loginGoogle();
+
             console.log(googleData);
+
+            const res = await axios.post("http://localhost:8080/api/v1/oauth/google", {"token": googleData}, {withCredentials: true});
+            if (res.status === 200){
+                window.location.reload();
+            }
+            
         } catch (error) {
             alert(error);
         }

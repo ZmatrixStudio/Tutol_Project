@@ -55,6 +55,9 @@ public class RefreshToken {
     @Column(nullable = false)
     private Boolean revoked = false;
 
+    @Column(name = "is_banned", nullable = false)
+    private Boolean isBanned = false;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Instant createdAt;

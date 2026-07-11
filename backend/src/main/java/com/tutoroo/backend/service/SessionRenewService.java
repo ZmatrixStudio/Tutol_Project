@@ -37,6 +37,9 @@ public class SessionRenewService {
         } else {
             return ResponseEntity.status(403).body(Map.of());
         }
+
+        if (refreshToken == null || deviceId == null)  return ResponseEntity.status(403).body(Map.of("msgError", "Vui lòng đăng nhập lại!"));
+        
         // CHECK DATABASE
         Optional<Object[]> result = refreshTokenRepository.findValidUserInfoByRefreshToken(deviceId, refreshToken);
 
@@ -46,6 +49,8 @@ public class SessionRenewService {
             String email = (String) data[0];
             Long maTaiKhoan = (Long) data[1];
             Role role = (Role) data[2];
+            Boolean isBanned = (Boolean) data [3];
+            if (isBanned) return ResponseEntity.status(403).body(Map.of("errorMsg", "Error The Band By Admin - Spam ?"));
             String accessTokenNew = jwtService.generateAccessToken(maTaiKhoan, email, role, "SessionNew", deviceId);
             return ResponseEntity.status(200).body(Map.of("accessToken", accessTokenNew));
         } else {

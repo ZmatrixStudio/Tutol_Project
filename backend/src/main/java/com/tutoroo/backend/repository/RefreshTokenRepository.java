@@ -12,19 +12,23 @@ import com.tutoroo.backend.entity.RefreshToken;
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     Optional<RefreshToken> findById(Long id);
-    Optional<RefreshToken> findByIdAndDeviceId(Long id, String deviceId);
     Optional<RefreshToken> findByDeviceId(String deviceId);
     
     // LẤY THÔNG TIN ĐỂ TẠO RA ACCESSTOKEN
     @Query("""
-        SELECT l.email, t.id, t.role
-        FROM RefreshToken r
-        JOIN r.taiKhoan t
-        JOIN LocalAccount l ON l.taiKhoan = t
-        WHERE r.deviceId = :deviceId
-        AND r.tokenHash = :tokenHash
-        AND r.revoked = false
-        AND r.expiryDate > CURRENT_TIMESTAMP
+    SELECT
+        COALESCE(l.email, o.email),
+        t.id,
+        t.role,
+        r.isBanned
+    FROM RefreshToken r
+    JOIN r.taiKhoan t
+    LEFT JOIN LocalAccount l ON l.taiKhoan = t
+    LEFT JOIN Oauth2Account o ON o.taiKhoan = t
+    WHERE r.deviceId = :deviceId
+    AND r.tokenHash = :tokenHash
+    AND r.revoked = false
+    AND r.expiryDate > CURRENT_TIMESTAMP
     """)
     Optional<Object[]> findValidUserInfoByRefreshToken(
             @Param("deviceId") String deviceId,

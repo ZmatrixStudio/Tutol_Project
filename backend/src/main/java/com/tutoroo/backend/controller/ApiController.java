@@ -7,12 +7,14 @@ import com.tutoroo.backend.dto.ForgotDto;
 import com.tutoroo.backend.dto.IdentifierDto;
 import com.tutoroo.backend.dto.IdentifierEmailDto;
 import com.tutoroo.backend.dto.LoginDto;
+import com.tutoroo.backend.dto.OauthDto;
 import com.tutoroo.backend.dto.RegisterDto;
 import com.tutoroo.backend.service.ForgotService;
 import com.tutoroo.backend.service.IdentifierEmailService;
 import com.tutoroo.backend.service.IdentifierService;
 import com.tutoroo.backend.service.LoginService;
 import com.tutoroo.backend.service.LogoutService;
+import com.tutoroo.backend.service.OauthService;
 import com.tutoroo.backend.service.RegisterService;
 import com.tutoroo.backend.service.SessionRenewService;
 
@@ -31,7 +33,9 @@ public class ApiController {
     private final ForgotService forgotService;
     private final LoginService loginService;
     private final SessionRenewService sessionRenewService;
-    public final LogoutService logoutService;
+    private final LogoutService logoutService;
+    private final OauthService oauthService;
+
     
     @PostMapping("/auth/identifier")
     public ResponseEntity<?> identifierEmail( @Valid @RequestBody IdentifierDto dto) {
@@ -54,8 +58,8 @@ public class ApiController {
     } 
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDto dto) throws Exception {
-        return loginService.Login(dto);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDto dto, HttpServletRequest request) throws Exception {
+        return loginService.Login(dto, request);
     }
 
     @PostMapping("/auth/session-renew")
@@ -66,6 +70,11 @@ public class ApiController {
     @PostMapping("/auth/logout")
     public ResponseEntity<?> logout(HttpServletRequest headers){
         return logoutService.Logout(headers);
+    }
+
+    @PostMapping("/oauth/google")
+    public ResponseEntity<?> google(@Valid @RequestBody OauthDto dto, HttpServletRequest request) throws Exception{
+        return oauthService.Google(dto, request);
     }
 
 }

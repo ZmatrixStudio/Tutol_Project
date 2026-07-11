@@ -1,5 +1,7 @@
 package com.tutoroo.backend.service;
 
+import java.time.Instant;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,7 @@ public class LogoutService {
         // CHECK DATABASE
         RefreshToken rt = refreshTokenRepository.findByDeviceId(deviceId).orElseThrow(() -> new RuntimeException("Refresh token not found"));
         rt.setRevoked(true);
+        rt.setExpiryDate(Instant.now());
         refreshTokenRepository.save(rt);
 
         ResponseCookie rtCookie = ResponseCookie.from("_RT", "")
