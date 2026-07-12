@@ -68,9 +68,10 @@ public class OauthService {
             String deviceId = null;
 
             Cookie[] cookies = request.getCookies();
+            System.out.print(cookies);
             if (cookies != null){
                 for (Cookie cookie : cookies){
-                    if ("__DID".equals(cookie.getName())){
+                    if ("_DID".equals(cookie.getName())){
                         deviceId = cookie.getValue();
                     }
                 }
