@@ -12,6 +12,11 @@ export default function NavMobile(){
             icon: "fa-house",
         },
         {
+            path: "/jobs",
+            label: "Công việc",
+            icon: "fa-briefcase",
+        },
+        {
             path: "/history",
             label: "Lịch Sử",
             icon: "fa-clock-rotate-left",
