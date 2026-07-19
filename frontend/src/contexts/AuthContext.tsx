@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (res.status === 200){
           setAccessToken(res.data.accessToken);
         }
+        // await new Promise(resolve => setTimeout(resolve, 100000));
       } catch (error) {
         console.error("Xảy ra lỗi trong quá trình refresh token:", error);
         setAccessToken(null);

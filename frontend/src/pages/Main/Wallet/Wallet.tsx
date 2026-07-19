@@ -241,7 +241,7 @@ export default function WalletPage(){
 
             {/* POPUP XÁC MINH MẬT KHẨU  */}
             {popupVeriPass && (
-                <div id="modal-verify-password" className={`fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupVeriPass ? "block opacity-100" : "hidden opacity-0"}`}>
+                <div id="modal-verify-password" className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupVeriPass ? "block opacity-100" : "hidden opacity-0"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-shield text-[#C97474] mr-2"></i> Xác thực tài khoản</h3>
@@ -272,7 +272,7 @@ export default function WalletPage(){
 
             {/* POPUP VERI OTP */}
             {popupVeriOtp && (
-                <div id="modal-verify-otp" className={`fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupVeriOtp ? "block opacity-100" : "hidden opacity-0"}`}>
+                <div id="modal-verify-otp" className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupVeriOtp ? "block opacity-100" : "hidden opacity-0"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-key text-emerald-600 mr-2"></i> Xác thực mã OTP</h3>
@@ -296,7 +296,7 @@ export default function WalletPage(){
 
             {/* POPUP NẠP TIỀN */}
             {popupDesposit && (
-                <div id="modal-deposit" className={`fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupDesposit ? "block opacity-100" : "hidden opacity-0"}`}>
+                <div id="modal-deposit" className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupDesposit ? "block opacity-100" : "hidden opacity-0"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-arrow-down-long text-[#C97474] mr-2"></i> Nạp tiền vào ví</h3>
@@ -323,7 +323,7 @@ export default function WalletPage(){
             
             {/* POPUP RÚT TIỀN */}
             {popupWithdraw && (
-                <div id="modal-withdraw" className={`fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupWithdraw ? "block opacity-100": "hidden opacity-0"}`}>
+                <div id="modal-withdraw" className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm transition-opacity duration-300 ${popupWithdraw ? "block opacity-100": "hidden opacity-0"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-arrow-up-long text-gray-500 mr-2"></i> Rút tiền về ngân hàng</h3>
@@ -369,7 +369,7 @@ export default function WalletPage(){
 
             {/* POPUP THÊM NGÂN HÀNG */}
             {popupAddBank && (
-                <div id="modal-add-bank" className="fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+                <div id="modal-add-bank" className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-building-columns text-gray-500 mr-2"></i> Liên kết ngân hàng</h3>
@@ -403,7 +403,7 @@ export default function WalletPage(){
             )}
 
             {/* SHOW NGÂN HÀNG */}
-            <div id="modal-bank-details" className="fixed inset-0 z-50 flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+            <div id="modal-bank-details" className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#3D3333]/40 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
                 <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300">
                     <div className="flex items-center justify-between mb-5">
                         <h3 className="font-black text-[#3D3333] text-base"><i className="fa-solid fa-building-columns text-blue-600 mr-2"></i> Chi tiết ngân hàng</h3>
@@ -495,11 +495,11 @@ export default function WalletPage(){
 
             {/* POPUP SHOW CHUYỂN KHOẢN */}
             {popupSepay && (
-                <div id="sepay-modal" className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300 ${popupSepay ? "block" : "hidden"}`}>
+                <div id="sepay-modal" className={`fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300 ${popupSepay ? "block" : "hidden"}`}>
                     <div className="bg-white rounded-3xl p-6 w-[90%] max-w-sm shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-black text-base text-emerald-600"><i className="fa-solid fa-qrcode mr-2"></i> Quét mã QR để nạp tiền</h3>
-                            {/* <!-- <button className="close-modal text-gray-400 hover:text-rose-500 transition" onclick="closeSepayModal()"><i class="fa-solid fa-xmark text-xl"></i></button> --> */}
+                            <button className="close-modal text-gray-400 hover:text-rose-500 transition" onClick={() => setPopupSepay(false)}><i className="fa-solid fa-xmark text-xl"></i></button> 
                         </div>
                         <div className="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-4 flex flex-col items-center justify-center mb-4">
                             <div id="qrBox" className="w-36 h-36 bg-white border border-gray-100 rounded-xl shadow-inner flex flex-col items-center justify-center relative overflow-hidden mb-2">

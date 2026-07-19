@@ -1,8 +1,9 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import { useNavigate} from 'react-router-dom';
 import { loginFacebook } from "./OAuth/Facebook";
 import { loginGoogle } from "./OAuth/Google";
+import api from "../../api/axios";
 
 type AuthState = "login" | "register" | "otp";
 
@@ -48,7 +49,7 @@ export default function IndexAuthentication(){
             const email = formData.get("email") as string;
             const password = formData.get("password") as string;
 
-            const res = await axios.post("http://localhost:8080/api/v1/auth/login", {email, password}, {withCredentials: true});
+            const res = await api.post("/api/v1/auth/login", {email, password}, {withCredentials: true});
             if (res.status === 200){
                 window.location.reload();
             } 
@@ -75,7 +76,7 @@ export default function IndexAuthentication(){
 
             console.log(googleData);
 
-            const res = await axios.post("http://localhost:8080/api/v1/oauth/google", {"token": googleData}, {withCredentials: true});
+            const res = await api.post("/api/v1/oauth/google", {"token": googleData}, {withCredentials: true});
             if (res.status === 200){
                 window.location.reload();
             }
@@ -100,7 +101,7 @@ export default function IndexAuthentication(){
                 return;
             }
 
-            const resForgot = await axios.post("http://localhost:8080/api/v1/auth/forgot", {
+            const resForgot = await api.post("/api/v1/auth/forgot", {
                 "email": emailForgot, 
                 "password": passNew,
                 "NX1DEBUG": NX1Data
@@ -127,7 +128,7 @@ export default function IndexAuthentication(){
         }
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:8080/api/v1/auth/email-identifier", {
+            const response = await api.post("/api/v1/auth/email-identifier", {
                 "email": emailForgot,
                 "otp": otp,
                 "state": sessionStorage.getItem("otpToken"),
@@ -171,7 +172,7 @@ export default function IndexAuthentication(){
         const email = getEmailByPurpose(purpose);
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:8080/api/v1/auth/identifier", {
+            const response = await api.post("/api/v1/auth/identifier", {
                 "email" : email,
                 "purpose": purpose
             });
@@ -197,7 +198,7 @@ export default function IndexAuthentication(){
             otp += input.value;
         }
         try {
-            const response = await axios.post(`http://localhost:8080/api/v1/auth/register`, {
+            const response = await api.post(`/api/v1/auth/register`, {
                 "username" : registerData.fullName,
                 "email" : registerData.email,
                 "password" : registerData.password,

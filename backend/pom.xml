@@ -101,6 +101,12 @@
 			<version>5.2.0</version>
 		</dependency>
 
+		<!-- WEBSOCKET -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
 		<!-- MÃ HÓA BẤT ĐỐI XỨNG  -->
 		<dependency>
 			<groupId>org.mindrot</groupId>
