@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import LoadingScreen from "../components/common/Loading";
-import axios from "axios";
+import api from "../api/axios";
 
 interface AuthContextType {
   accessToken: string | null;
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const checkAuthOnRefresh = async () => {
       try {
-        const res = await axios.post("http://localhost:8080/api/v1/auth/session-renew", {}, {withCredentials: true});
+        const res = await api.post("/api/v1/auth/session-renew", {}, {withCredentials: true});
         if (res.status === 200){
           setAccessToken(res.data.accessToken);
         }
