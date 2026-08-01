@@ -17,11 +17,9 @@ import com.tutoroo.backend.service.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter
-        extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
 
@@ -32,8 +30,7 @@ public class JwtAuthenticationFilter
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authHeader =
-                request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null ||
                 !authHeader.startsWith("Bearer ")) {
@@ -46,12 +43,11 @@ public class JwtAuthenticationFilter
 
         if (jwtService.validateToken(token)) {
 
-            String email =
-                    jwtService.extractUsername(token);
+            Long userId = jwtService.extractUserId(token);
 
             UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(
-                            email,
+                            userId,
                             null,
                             Collections.emptyList()
                     );

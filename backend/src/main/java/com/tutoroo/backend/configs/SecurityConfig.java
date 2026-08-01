@@ -51,10 +51,13 @@ public class SecurityConfig {
                                 "/api/v1/auth/identifier",
                                 "/api/v1/auth/**",
                                 "/api/v1/oauth/*",
-                                
+
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+
+                                // Cho phép Spring xử lý lỗi
+                                "/error"
                         ).permitAll()
 
                         .anyRequest().authenticated()
@@ -73,25 +76,14 @@ public class SecurityConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
+        config.setAllowedOriginPatterns(List.of(
+                "http://127.0.0.1:*",
+                "http://localhost:*",
                 "https://tutoroo.pages.dev"
         ));
 
-        config.setAllowedMethods(List.of(
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE",
-                "OPTIONS"
-        ));
-
-        config.setAllowedHeaders(List.of(
-                "Authorization",
-                "Content-Type"
-        ));
-
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedMethods(List.of("*"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =

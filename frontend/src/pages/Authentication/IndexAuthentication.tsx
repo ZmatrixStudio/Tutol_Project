@@ -12,6 +12,7 @@ export default function IndexAuthentication(){
     const [state, setState] = useState<AuthState>("login");
 
     const [emailForgot, setEmailForgot] = useState("");
+    const [errorLog, setErrorLog] = useState("");
     const [forgotModal, setForgotModal] = useState(false);
     const [forgotStepEmail, setForgotStepEmail] = useState(true);
     const [forgotStepOtp, setforgotStepOtp] = useState(false);
@@ -50,12 +51,17 @@ export default function IndexAuthentication(){
             const password = formData.get("password") as string;
 
             const res = await api.post("/api/v1/auth/login", {email, password}, {withCredentials: true});
+            
             if (res.status === 200){
                 window.location.reload();
-            } 
+            }
         } catch (err: any) {
-            
-            console.log(err.response?.status);
+            if (err.response) {
+                setErrorLog(err.response.data.message);
+            } else {
+                setErrorLog("Không thể kết nối tới server");
+            }
+            setTimeout(() => {setErrorLog("");}, 10000);
         }
     }
 
@@ -327,6 +333,7 @@ export default function IndexAuthentication(){
                                     </div>
                                     <input name="password" type="password" placeholder="••••••••" className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm bg-white smooth-transition input-focus-effect outline-none"/>
                                 </div>
+                                {errorLog && (<p className="mt-2 text-sm text-red-500">{errorLog}</p>)}
                                 <button type="submit" className="w-full py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-slate-800 active:scale-[0.98] smooth-transition shadow-md">
                                     Đăng nhập
                                 </button>
