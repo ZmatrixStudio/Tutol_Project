@@ -599,7 +599,6 @@ export default function IndexAuthentication() {
             </div>
         </div>
 
-        {/* ================= MODAL QUÊN MẬT KHẨU ================= */}
         <div
             className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-end sm:items-center justify-center p-4 z-50 transition-all duration-300 ease-out ${
             forgotModal ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
