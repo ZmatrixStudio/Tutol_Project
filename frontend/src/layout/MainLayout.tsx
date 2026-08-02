@@ -1,5 +1,5 @@
 import Header from "./Header";
-import Footer from './Footer';
+// import Footer from './Footer';
 import NavMobile from './NavMoblie';
 import Chat from './Chat';
 import { Outlet } from "react-router-dom";
@@ -17,7 +17,7 @@ export default function MainLayout(){
                     <Outlet />
                 </main>
                 {/* Footer */}
-                <Footer/>
+                {/* <Footer/> */}
             </div>
             {/* navMobile */}
             <NavMobile/>

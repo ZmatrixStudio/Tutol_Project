@@ -192,6 +192,23 @@ export default function Header(){
                                     <i className="fa-solid fa-arrow-right-from-bracket text-sm w-4"></i> Đăng xuất
                                 </a>
                             </div>
+                            <div className="flex items-center justify-center gap-2 py-2 text-[11px] text-gray-400">
+                                <button
+                                    type="button"
+                                    onClick={() => navigate("/terms")}
+                                    className="hover:text-[#C97474] transition-colors focus:outline-none"
+                                >
+                                    Điều khoản sử dụng
+                                </button>
+                                <span className="text-gray-300">•</span>
+                                <button
+                                    type="button"
+                                    onClick={() => navigate("/privacy")}
+                                    className="hover:text-[#C97474] transition-colors focus:outline-none"
+                                >
+                                    Chính sách bảo mật
+                                </button>
+                            </div>
                         </div>
                     )}
                     </div>
